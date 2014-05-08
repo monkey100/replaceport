@@ -1,0 +1,185 @@
+//reponse_api
+//Page request response data
+/*
+responseApi.categories
+	Basic list of the browsable categories in the interface and is used to reference other data, url locations and menu navigation. This data doesn't change outside a website redesign.
+
+responseApi.tags
+	All tags stored in the database for interface use. Can be cached for quicker access
+
+responseApi.projects
+	List of project relevent to the server request whether browsing by category, searching for a project or simply viewing a project.
+
+responseApi.users
+	List of users accessible depending upon server request. List can be accessed by admin interface. This object will contain the user data in a single entry when they log into and navigate the website.
+
+*/
+
+responseApi
+{
+	categories
+	{
+		0 :
+		{
+			key : categories.key,
+			title : categories.title,
+			order : categories.order,
+			children :
+			{
+				0 :
+				{
+					key : categories.key,
+					title : categories.title,
+					order : categories.order,
+					children :
+					{
+						//etc
+					}
+				}
+			}
+		}
+	},
+	tags
+	{
+		0 :
+		{
+			tags.tag
+		}
+	},
+	projects
+	{
+		0 :
+		{
+			key : projects.key,
+			order : SEARCH_LOGIC,
+			category : categories.key,
+			created : projects.created,
+			modfied : projects.modfied,
+			owner : project.user_id,
+			title : projects.title,
+			summary : projects.summary,
+			image : files.id,
+			thumbnail : files.id,
+			description : projects.description,
+			totaldownloads : downloads.join(project_id),
+			mothlydownloads : downloads.join(project_id),
+			rating : rating.join(project_id),
+			tags : tag.join(project_id),
+			changelogs :
+			{
+				0 :
+				{
+					user : users.username,
+					game_version : changelogs.game_version,
+					project_version : changelogs.project_version,
+					created : changelogs.created,
+					modified : changelogs.modified,
+					comment : changelogs.comment
+				}
+			},
+			dependencies :
+			{
+				0 :
+				{
+					created : dependencies.created,
+					version : changelogs.project_version, //from dependencies.changelog_id
+					game : changelogs.game_version, //from dependencies.changelog_id
+					project : projects.key, //from dependencies.require_id -> changelogs.project_id
+					changelog : changelogs.project_version //from dependencies.require_id
+				}
+			},
+			contributors :
+			{
+				0 :
+				{
+					status : contributor.status,
+					username : users.username,
+					alias : users.alias,
+					created : users.created
+				}
+			},
+			files :
+			{
+				0 :
+				{
+					name : files.name,
+					format : files.format,
+					location : files.location,
+					size : files.size,
+					attributes : files.attributes,
+					version : changelogs.project_version,
+					created : files.created,
+					modified : files.modified,
+				}
+			},
+			comments :
+			{
+				0 :
+				{
+					created : comments.created,
+					alias : users.alias,
+					comment : comments.comment
+				}
+			},
+			watchlists :
+			{
+				0 :
+				{
+					username : users.username,
+					alias : users.alias,
+					created : watchlists.created
+				}
+			},
+			reports :
+			{
+				0 :
+				{
+					username : users.username,
+					status : reports.status,
+					comment : reports.created,
+					created : reports.created,
+				}
+			}
+		}
+	}
+	users
+	{
+		0 :
+		{
+			username : users.username,
+			alias : users.alias,
+			status : users.status,
+			expires : users.expires,
+			created : users.created,
+			projects :
+			{
+				0 :
+				{
+					key : projects.key,
+					title : projects.title,
+					summary : projects.summary,
+					version : projects.version,
+					category : categories.key,
+				}
+			}
+			watchlists :
+			{
+				0 :
+				{
+					project : project.key,
+					owner : project.user_id,
+					created : watchlists.created,
+				}
+			}
+			comments :
+			{
+				0 :
+				{
+					project : project.key,
+					created : comments.created,
+					comment : comments.comment
+				}
+			}
+		}
+	}
+}

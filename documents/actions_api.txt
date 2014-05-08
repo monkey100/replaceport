@@ -1,0 +1,403 @@
+//actions_api
+
+registerRequestApi
+{
+	users
+	{
+		create :
+		{
+			0 :
+			{
+				auth : user.username,
+				username : user.username,
+				password : user.password,
+				email : user.email,
+				alias : user.alias,
+				expires : user.expires
+			}
+		}
+	}
+}
+
+registerResponseApi
+{
+	users
+	{
+		create :
+		{
+			0 :
+			{
+				auth : user.username,
+				username : user.username,
+				password : user.password,
+				email : user.email,
+				alias : user.alias,
+				expires : users.expires,
+				created : users.created,
+				errors :
+				{
+					0 : "Register error message"
+				} //(false if user not created)
+			}
+		}
+	}
+}
+
+loginRequestApi
+{
+	users
+	{
+		login :
+		{
+			0 :
+			{
+				auth : user.username,
+				username : user.username,
+				password : user.password
+			}
+		}
+	}
+}
+
+loginResponseApi
+{
+	users
+	{
+		login :
+		{
+			0 :
+			{
+				auth : user.username,
+				username : users.username,
+				alias : users.alias,
+				status : users.status,
+				expires : users.expires,
+				created : users.created,
+				projects :
+				{
+					0 :
+					{
+						key : projects.key,
+						title : projects.title,
+						summary : projects.summary,
+						version : projects.version,
+						category : categories.key,
+					}
+				}
+				watchlists :
+				{
+					0 :
+					{
+						project : project.key,
+						owner : project.user_id,
+						created : watchlists.created,
+					}
+				}
+				comments :
+				{
+					0 :
+					{
+						project : project.key,
+						created : comments.created,
+						comment : comments.comment
+					}
+				},
+				errors :
+				{
+					0 : "Login error message"
+				} //(false if login success populate above user object data)
+			}
+		}
+	}
+}
+
+wishlistRequestApi
+{
+	wishlists :
+	{
+		create :
+		{
+			0 :
+			{
+				auth : user.username,
+				user : user.username,
+				project : project.key,
+				status : wishlists.status
+			}
+		}
+	}
+}
+
+wishlistResponseApi
+{
+	wishlists :
+	{
+		create :
+		{
+			0 :
+			{
+				auth : user.username,
+				user : user.username,
+				project : project.key,
+				status : wishlists.status,
+				created : wishlists.created,
+				errors :
+				{
+					0 : "Wishlist error message"
+				} //(false if add wishlist success)
+
+			}
+		}
+	}
+}
+
+ratingRequestApi
+{
+	ratings :
+	{
+		create :
+		{
+			0 :
+			{
+				auth : user.username,
+				user : user.username,
+				project : project.key,
+				value : ratings.value
+			}
+		}
+	}
+}
+
+ratingResponseApi
+{
+	ratings :
+	{
+		create :
+		{
+			0 :
+			{
+				auth : user.username,
+				user : user.username,
+				project : project.key,
+				value : ratings.value,
+				created : ratings.created,
+				errors :
+				{
+					0 : "Rating error message"
+				} //(false if add rating success)
+
+			}
+		}
+	}
+}
+
+commentRequestApi
+{
+	comments
+	{
+		create :
+		{
+			0 :
+			{
+				auth : user.username,
+				user : user.username,
+				project : project.key,
+				comment : comments.comment
+			}
+		}
+	}
+}
+
+commentResponseApi
+{
+	comments :
+	{
+		create :
+		{
+			0 :
+			{
+				auth : user.username,
+				user : user.username,
+				project : project.key,
+				comment : comments.comment,
+				created : ratings.created,
+				errors :
+				{
+					0 : "Comment error message"
+				} //(false if add comment success)
+			}
+		}
+	}
+}
+
+reportRequestApi
+{
+	reports
+	{
+		create :
+		{
+			0 :
+			{
+				auth : user.username,
+				user : user.username,
+				project : project.key,
+				comment : reports.comment
+			}
+		}
+	}
+}
+
+reportResponseApi
+{
+	reports :
+	{
+		create :
+		{
+			0 :
+			{
+				auth : user.username,
+				user : user.username,
+				project : project.key,
+				comment : reports.comment,
+				created : reports.created,
+				errors :
+				{
+					0 : "Report error message"
+				} //(false if add report success)
+			}
+		}
+	}
+}
+
+projectRequestApi
+{
+	projects :
+	{
+		create :
+		{
+			0 :
+			{
+				auth : users.username,
+				key : projects.key,
+				category : categories.key,
+				title : projects.title,
+				summary : projects.summary,
+				image : files.id,
+				thumbnail : files.id,
+				description : projects.description,
+				tags :
+				{
+					0 : "tag"
+				},
+				changelogs :
+				{
+					0 :
+					{
+						user : users.username,
+						game_version : changelogs.game_version,
+						project_version : changelogs.project_version,
+						comment : changelogs.comment
+					}
+				},
+				contributors :
+				{
+					0 :
+					{
+						status : contributor.status,
+						username : users.username,
+					}
+				},
+				dependencies :
+				{
+					0 :
+					{
+						version : changelogs.project_version, //from dependencies.changelog_id
+						game : changelogs.game_version, //from dependencies.changelog_id
+						project : projects.key, //from dependencies.require_id -> changelogs.project_id
+						changelog : changelogs.project_version //from dependencies.require_id
+					}
+				},
+				files :
+				{
+					0 :
+					{
+						name : files.name,
+						format : files.format,
+						binary : {binary POST},
+						attributes : files.attributes,
+					}
+				}
+			}
+		}
+	}
+}
+
+projectResponseApi
+{
+	projects :
+	{
+		create :
+		{
+			0 :
+			{
+				auth : users.username,
+				key : projects.key,
+				category : categories.key,
+				title : projects.title,
+				summary : projects.summary,
+				image : files.id,
+				thumbnail : files.id,
+				description : projects.description,
+				tags :
+				{
+					0 : "tag"
+				},
+				changelogs :
+				{
+					0 :
+					{
+						user : users.username,
+						game_version : changelogs.game_version,
+						project_version : changelogs.project_version,
+						comment : changelogs.comment
+					}
+				},
+				contributors :
+				{
+					0 :
+					{
+						status : contributor.status,
+						username : users.username,
+					}
+				},
+				dependencies :
+				{
+					0 :
+					{
+						version : changelogs.project_version, //from dependencies.changelog_id
+						game : changelogs.game_version, //from dependencies.changelog_id
+						project : projects.key, //from dependencies.require_id -> changelogs.project_id
+						changelog : changelogs.project_version //from dependencies.require_id
+					}
+				},
+				files :
+				{
+					0 :
+					{
+						name : files.name,
+						format : files.format,
+						location : files.location,
+						mirror : files.mirror,
+						size : files.size,
+						attributes : files.attributes,
+						version : changelogs.project_version,
+					}
+				},
+				errors :
+				{
+					0 : "Project error message"
+				} //(false if add project success)
+			}
+		}
+	}
+}
