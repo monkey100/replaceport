@@ -1,0 +1,30 @@
+termsofuse
+
+This is where we flesh out the website terms of service. If you are reading this and want to contribute then, do so.
+
+Conditions:
+If you own it before you upload, you own it while it is uploaded, you own it after you delete it.
+You agree to freely distribute(not sell) your upload through the website
+You agree not to promote commercial product or services on the website or inside the upload
+
+If someone uploads a file that breaks your license agreement that dispute will be moderated to the best of the web admin's ability
+The website makes no guarentee at settling disputes between parties, and that is ultimately the resonsibility of the two parties
+The website(or people in capacity of moderator) does not offer any licensing services
+The website(or people in capacity of moderator) does not offer any marketing or commercial services
+If a project has many complaints(reports) against it the uploader's will be notified
+	- it is the uploader's responsibility to be available via email to resolve the issue fairly and in resonable time
+	- admin can remove uploads that their discretion
+	- admin can ban users that their discretion
+
+User agrees not to be hostile to, or engage in actions with the intent to harm, another user
+	- issues arising from offense will be moderated accordingly
+	- moderators will be the sole determiner of whether an action was malicious or not
+
+Files must be related non-exclusivly to KSP.
+	That is, if there is another game or app that uses the same file and can be used by KSP this is OK
+	If the file can't be used in KSP then it must be related to KSP
+
+Website takes no liability for viruses and harm to other computers as a result of downloading files or viewing any other user-generated(or third party) content on the website
+
+
+

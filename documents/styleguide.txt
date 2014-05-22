@@ -1,0 +1,10 @@
+
+This is the current reference point for styles.
+
+Descriptions/Colours:
+
+Deep Blue: #0e2b5b
+Medium Blue: #0f488b
+Light Blue: #14b4f2
+Tan: #f1ed60
+Red: #a50201

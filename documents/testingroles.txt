@@ -1,0 +1,57 @@
+
+
+This document describes the roles which the test cases will assume for the development of the appicaition
+
+The test data and import file will be included in a separate document
+
+
+
+New user:
+
+No data, tests user signup, login, contact and search forms. User tests if the browse and download functionality works as it should
+
+NO DATA
+
+Download user:
+
+User is registered and includes the following data.
+
+Project comment
+Project reporting
+Project watchlists
+Project Downloads
+Search and browse interfaces
+Account recovery routines
+Project creation routines
+
+DATA
+
+
+Owner user:
+
+User has an uploaded project as an owner and test the ability to manage their project. tests the following
+
+Contributor creation/management
+Upload files to new changelog
+Project editing
+Project navigate website to locations where their project is on display
+
+
+
+Contributing user:
+
+This user has no project but are contributing to a project owned by another user. This will test reduced right manegement
+
+Editing project content
+Addng changelog upload
+
+
+
+Admin User:
+
+User has admin privillages to acces the website content. The admin will test all super functionality of the wesite
+
+Report management
+Comment moderation
+User account management - (not in scope)
+

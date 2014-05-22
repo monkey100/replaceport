@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+<channel>
+ <title>Replaceport Watchlist</title>
+ <description>These are the prjects which have been updated on your watchlist</description>
+ <link>domain+users.username</link>
+ <lastBuildDate>datetime</lastBuildDate>
+ <pubDate>datetime</pubDate>
+ <ttl>1800</ttl>
+
+ <item>
+  <title>projects.title</title>
+  <description>projects.summary</description>
+  <link>domain+catogries+projects.key</link>
+  <guid>project.key</guid>
+  <pubDate>projects.modified</pubDate>
+ </item>
+ 
+</channel>
+</rss>

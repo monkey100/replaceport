@@ -1,0 +1,164 @@
+//categories fixture
+
+response
+{
+	categories
+	{
+		0 :
+		{
+			key : "mods",
+			title : "Community Mods",
+			order : 10,
+			children :
+			{
+				0 :
+				{
+					key : "interface",
+					title : "User Interface",
+					order : 10,
+				},
+				1 :
+				{
+					key : "gameplay,
+					title : "Modified Gameplay",
+					order : 20,
+				},
+				2 :
+				{
+					key : "builder",
+					title : "Buider Customization",
+					order : 30,
+				},
+				3 :
+				{
+					key : "tutorials",
+					title : "User Generated Turtorials",
+					order : 40,
+				}
+			}
+		},
+		1 :
+		{
+			key : "files",
+			title : "Custom Files",
+			order : 20,
+			children :
+			{
+				0 :
+				{
+					key : "sounds",
+					title : "Sound Files",
+					order : 10,
+				},
+				1 :
+				{
+					key : "textures",
+					title : "Texture Files",
+					order : 20,
+				},
+				2 :
+				{
+					key : "config",
+					title : "Configuration Files",
+					order : 30,
+				}
+			}
+		},
+		2 :
+		{
+			key : "parts",
+			title : "Custom Parts",
+			order : 30,
+			children :
+			{
+				0 :
+				{
+					key : "propulsion",
+					title : "Propulsion",
+					order : 10,
+				},
+				1 :
+				{
+					key : "fuel",
+					title : "Fuel Tanks",
+					order : 20,
+				},
+				2 :
+				{
+					key : "airplane",
+					title : "Airplane",
+					order : 30,
+				},
+				3 :
+				{
+					key : "structural",
+					title : "Structural",
+					order : 40,
+				},
+				4 :
+				{
+					key : "utilities",
+					title : "Utilities",
+					order : 50,
+				}
+			}
+		},
+		3 :
+		{
+			key : "crafts",
+			title : "Craft Files",
+			order : 40,
+			children :
+			{
+				0 :
+				{
+					key : "vab",
+					title : "Vehicle Assembly Building",
+					order : 10,
+				},
+				1 :
+				{
+					key : "sph",
+					title : "Space Plane Hanger",
+					order : 20,
+				},
+				2 :
+				{
+					key : "subassemblies",
+					title : "Subassemblies",
+					order : 30,
+				}
+			}
+		},
+		4 :
+		{
+			key : "apps",
+			title : "Third Party Apps",
+			order : 50,
+			children :
+			{
+
+			}
+		},
+		5 :
+		{
+			key : "community",
+			title : "Community Websites",
+			order : 60,
+			children :
+			{
+
+			}
+		},
+		6 :
+		{
+			key : "savedgames",
+			title : "Saved Games",
+			order : 70,
+			children :
+			{
+
+			}
+		}
+	}
+}

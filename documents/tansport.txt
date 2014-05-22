@@ -1,0 +1,23 @@
+This is the route mapping document. It describe the transport layer between the client and server.
+
+
+Sitemap
+/
+/about
+/faq
+/contact
+/register
+/search
+/policy
+/conditions
+/submissions
+
+
+Dyanamically loaded pages.
+
+/login
+/search
+/api
+/*catgory/*project
+
+

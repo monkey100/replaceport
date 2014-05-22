@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+<channel>
+ <title>Project Comments</title>
+ <description>These are the latest comments which have been made on your projects</description>
+ <link>domain+/project.key/comments/</link>
+ <lastBuildDate>last.datetime</lastBuildDate>
+ <pubDate>datetime</pubDate>
+ <ttl>1800</ttl>
+
+ <item>
+  <title>projects.title</title>
+  <description>projects.summary</description>
+  <link>domain+latest+projec.key+comment.id</link>
+  <guid>project.key</guid>
+  <pubDate>projects.modified</pubDate>
+ </item>
+ 
+</channel>
+</rss>

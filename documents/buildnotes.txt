@@ -1,0 +1,333 @@
+Server information
+IP: 127.0.0.38
+
+
+
+Interface elements
+
+NAVIGATION ELEMENTS
+
+Corporate Menu Top
+	Standard page top links appearing globally across the website
+-Home: Link to homepage
+-About: Link to about website page
+-FAQ: Lnk to frequently asked question page
+-Contact: Link to contact form and information
+-Register: Link to regitration page
+-Login: Button to display login form
+
+Corporate Menu Bottom
+	Standard page bottom links appearing globally across the website
+-Home: Link to homepage
+-Terms of Use: Link to generic terms of use statement page
+-Privacy Policy: Link to generic terms of use privacy policy page
+-Submission Guidelines: Addition informaion about how to submit to the website
+
+Browse Navigation
+	Primary website browsing navigation which is generated using the Categories model table.
+
+-Mods: Scripted mods
+	-Interface: Mods which change interface appearence
+	-Gameplay: Mods which change gameplay rules
+	-Builder: Mods which change craft construction behaviour
+	-Tutorials: Additional user-generated tutorials
+-Files: Addtional files which enhance gameplay
+	Sound: Sound files/packs
+	Texture: Texture files/packs
+	Config: Custom configuration files
+-Parts: Custom parts to use n the building interface to add to craft files
+	-Propulsion: Engines and control parts that use fuel
+	-Fuel: Fuel containers
+	-Airplane parts: Wings, intakes and everything else belonging to palnes
+	-Structural: Interchangable parts that are used to hold the craft together
+	-Utilities: Everything else such as sciene, rover and base construction usage
+-Crafts: Exchange of user creatd craft files
+	VAB: Vehicle assembly building carft files
+	SPH: Space plane hanger carft files
+	Subassembies: Subassembly carft files
+-Apps: Third party applications to compliment gameplay
+-Community: Websites created by the community
+-Saved Games: Save game files
+
+Homepage panels
+-Most Popular: Summary list of most popular projects
+-Top Rated: Summary list of the top rated projects
+-Lastest: Summary list of the lastest created projects
+
+Profile panels
+-Projects: List of projects the user is a contributer to
+-Watchlists: List of project user is watching
+-Comments: List of comment made on the website
+
+Manage Project
+-create/modify
+-add/update/remove file
+-new version
+-new dependency
+-add/update/remove tag
+-add/update/remove contributor
+	- search conrtibutor
+
+***every upate to project requires a new version number
+
+
+Search Form
+	Keywords
+Search Filters
+	Rating(specific/direction)
+	Downloads(direction)
+	Version(minimum)
+	Categories(soud search inside category)
+	Tag
+
+Browse Filters
+	Keywords
+	Rating(specific/direction)
+	Downloads(direction)
+	Version(minimum)
+	Tag
+
+Mod Info
+	Name
+	Owner/person
+	KSP version
+	Created
+	Updated
+	Tags
+	Total Downloads
+	Monthly Downloads
+	Description
+	Changelog
+	Assets/Files
+	Screenshots
+	Related projects
+	More from author
+-add to watchlist
+-add comment
+-rate project
+-download
+
+
+Mod summary in browse/search
+	Name
+	Owner
+	Downloads
+	Version
+	Rating
+-add to watchlist
+
+
+
+The way I propose this be set up is using a basic relational database and cache each project into a json file on the server. The categories should sit in the database but exist as a front-end fixture, or, joined into the api response on server query. At the front end the json object is picked up by the interface which is built accordingly as the behavioural logic dictates.
+
+This approach will allow the interface to exist separate fron the back-end and the option is always available to go NodeJS/MongoDB sarting at the JSON cache. I have misgivings about being able to implement decent search with MongoDB. I can implement a basic dictionary search feature which builds a dictionary as data is added to the application and do weighted search results with a simple phoneme matching algorithm for misspelling. But, I'm intrigued by Lucene being able to pull results directly out of MySQL.
+
+
+
+
+
+
+Front End API - actions
+
+
+
+INTERFACE ELEMENTS
+
+Register form
+	Standard registration behaviour. We can put the option of OpenID and alternative login authentication. But, we need to be able to track the user to match their activity with the rest of he database so there will have to be a user creation routine whether via the website or an API request.
+	
+Username[text]: Unique username
+Password[password]: Stored with slated encryption if using local login
+Email[text]: Email address of user
+Alias[text]: Display name of user, optional
+
+
+
+Login form
+
+	Standard login behaviour. Like registration we can use third party tools if desired. It's always best to add native beaviour to the application.
+
+Username[text]: Unique username
+Password[password]: Stored with slated encryption if using local login
+Remember Me[checkbox]: Sets session expry to zero if checked
+Reset Password[link]: Account recovery page
+
+
+
+Account Recovery
+
+	Standard account recovery routine. Not required if using alternative login methods. Best to make functionality native anyway
+
+Email[text]: Email address to send recovery code to
+
+
+
+Search
+
+Keywords[text]: Search keywords matching text
+
+
+
+Advanced Search
+
+Keywords[text]: Search keywords matching text
+Rating: Minimum rating threshold for search results
+Downloads: Minimum downloads threshold for search results
+Version: Minimum game version threshold for search results
+Categories[checkboxes]: Tree of category checkboxes to refine search
+Add Tag[text][select][button]: Matching tags to filter search results, type tag and get list of matches, use button to add to tag list
+Remove Tag[checkbox][button]: From Add Tag list as a checkbox to remove tags from search and use button to confirm action
+
+
+
+Search Display
+
+	Search disaply is sorted by Project Name, Project Owner, Project Rating, Project Downloads, Project Modified. Thse option may exist in the Advanced Search form but, it is easier to gather all reults and do all sorting in the interface. It's a good idea to also put a widget on the browse display to add the project to our watchlist.
+
+	The display information in search results are as follows:
+Project Thumbnail
+Project Name
+Project Owner
+Project Version
+Project Downloads
+Project Rating
+Project Summary
+Project Modified
+
+
+
+Browse Filters
+
+	Similar the the search filtering the browse filtering can be done once the data is loaded into the interface for that category.
+
+	These are the filter options.
+Project Name
+Project Owner
+Project Rating
+Project Downloads
+Project Modified
+Game Version
+Tags
+
+
+
+Project Display
+
+	We don't need to break away from convention for the project display page, all we are doing is putting the project database info onto the page. The only thing we need to do is add widets for rating, watchlist, commenting and editing if you are a project contributor.
+
+	Here's what we need to display for the user
+Name
+Version
+Rating
+Downloads
+Category/Breadcrumb
+Tags
+Summary
+Description
+Files/Download Zip
+Contributors
+Comments
+Changelogs
+Dependencies
+Contributors
+Add to watchlist button/Confirm added to watchlist
+Report button/Confirm reported
+Rating select
+
+
+
+Users Profile Interface
+
+	The user's profile interface will deisplay the following lists:
+Projects they are a contributor to
+Projects on their watchlist
+
+	The project on their watchlist will show the name, version number and the date of that version. They will have a checkbox/confirm button option to remove the project from their watchlist. The projects they are a contributor to have the option of creating a new version with the edit menu of:
+
+Project Edit Interface
+
+Add/remove files
+Edit description
+Add tags
+Add changelog(required)
+Add depenedcy for changelog
+Add/remove contributor(if owner)
+View reports on project
+Add comment
+Edit project images/thumb(if owner)
+Edit project title(if owner)
+Edit project summary(if owner)
+Edit project category(if owner)
+
+
+
+admin
+*need to admin the following
+-comments
+-reports
+-ratings
+-projects
+	-files
+	
+ 
+
+RESOURCES
+
+
+
+_______________________________________________________________________________
+
+Need to do a JSON import sript for the categories.
+
+Projects only get a limited number of tags each
+_______________________________________________________________________________
+
+	File locations
+Main directory is uploads
+
+where ever the project belongs that's the dir path to follow
+
+Need a frameowrk dir structure for files.
+/			- root where the versions of the project will exist, for direct linking(master file and versioning variant crated here)
+/release	- old versions of the project availabl to the public
+/builds		- new versions of the project only available to contributors
+/assets 	- addition files like documents to support project
+/images		- images for project
+
+*you can create sub folder in the assets and images directories, not the project root.
+
+All requests to user created files will be routed through a permission script
+
+The changelog: when you make a change the interface forces an upload input for the newet version of the project.
+	project files will follow the scripted naming conventions
+	you choose if it is a build or a release
+		if release then put into releases as well
+			/projectname.zip
+			/release/projectname_version.zip
+		otherwise put them into the builds folder
+			/builds/projectname_version.zip
+
+
+Better search option
+
+http://sphinxsearch.com/about/sphinx/
+http://www.ibm.com/developerworks/library/os-php-sphinxsearch/#list1
+http://www.sanisoft.com/blog/2010/01/11/sphinx-search-engine-and-php-installation-indexing/
+
+
+
+
+
+Requests:
+
+Hompage
+	1. Figure out if user is logged in - session
+	2. Spit out interface, add user fixture into template var user = {}
+	3. Javascript do get request for gui=page for hompage data
+	4. Take off background and add nterface panels
+
+Routing
+POST
+GET['gui']
+	"page" - gets all page data
+	"search" - gets search data

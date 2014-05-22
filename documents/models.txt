@@ -9,6 +9,7 @@ Users
 	-email[VARCHAR 255]
 	-alias[VARCHAR 255]
 	-status[VARCHAR 255]("active/admin/moderator/suspended/removed")
+	-locale[VARCHAR] - default "en"
 	-expires[DATETIME] - session expiry
 	-created[DATETIME]
 	-modified[DATETIME]
@@ -24,21 +25,30 @@ Projects
 	-id[INT 11 AUTO NOT NULL]{Primary Key}
 	-key[VARCHAR 255](Index) (url location key)
 	-category_id[INT 11]{Foreign Key - Categories}
-	-owner_id[INT 11]{Foreign Key - Users}
+	-owner_id[INT 11]{Foreign Key - Users} - id of user in contributor table
 	-image_id[INT 11]{Foreign Key - Files}(display image on project page)
 	-thumb_id[INT 11]{Foreign Key - Files}(display thumbnail for browsing)
 	-title[VARCHAR 255]
 	-summary[VARCHAR 255]
 	-version[FLOAT]
 	-description[TEXT]
+	-comments[BOOL]
+	-rating[FLOAT]
 	-created[DATETIME]
 	-modified[DATETIME]
 Changelogs
 	-id[INT 11 AUTO NOT NULL]{Primary Key}
-	-user_id[INT 11]{Foreign Key - Users}
+	-contributor_id[INT 11]{Foreign Key - Users}
 	-project_id[INT 11]{Foreign Key - Projects}
-	-game_version[FLOAT]
-	-project_version[FLOAT]
+	-public[BOOL] - Only contributors will see non-public changes and file downloads.
+	-game_major[INT]
+	-game_minor[INT]
+	-game_revision[INT]
+	-game_build[INT]
+	-project_major[INT]
+	-project_minor[INT]
+	-project_revision[INT]
+	-project_build[INT]
 	-comment[TEXT]
 	-created[DATETIME]
 	-modified[DATETIME]
@@ -49,11 +59,11 @@ Dependencies
 	-require_id[INT 11]{Foreign Key - Changelogs}
 	-created[DATETIME]
 	-modified[DATETIME]
-Contributers(rename)
+Contributors
 	-id[INT 11 AUTO NOT NULL]{Primary Key}
 	-user_id[INT 11]{Foreign Key - Users}
 	-project_id[INT 11]{Foreign Key - Projects}
-	-status[VARCHAR 255]("owner/developer/manager")
+	-status[VARCHAR 255]("owner/developer/tester/manager")
 	-created[DATETIME]
 	-modified[DATETIME]
 Files
@@ -62,7 +72,7 @@ Files
 	-changelog_id[INT 11]{Foreign Key - Changelogs}
 	-name[VARCHAR 255]
 	-format[VARCHAR 15]
-	-location[VARCHAR 255]
+	-location[VARCHAR 255] ("uploads/{category.path}")
 	-mirror[VARCHAR 255]
 	-size[INT 11]
 	-attributes[VARCHAR 255](json string)
@@ -90,14 +100,14 @@ Watchlists
 	-id[INT 11 AUTO NOT NULL]{Primary Key}
 	-user_id[INT 11]{Foreign Key - Users} - must be logged to create watchlist
 	-project_id[INT 11]{Foreign Key - Projects}
-	-status[BOOLEN]
+	-status[BOOL]
 	-created[DATETIME]
 	-modified[DATETIME]
 Tags
 	-id[INT 11 AUTO NOT NULL]{Primary Key}
 	-project_id[INT 11]{Foreign Key - Projects}
 	-tag[VARCHAR 255]
-	-active[BOOLEAN]
+	-active[BOOL]
 	-created[DATETIME]
 Reports
 	-id[INT 11 AUTO NOT NULL]{Primary Key}
