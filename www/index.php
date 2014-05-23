@@ -83,14 +83,15 @@ class app
 						'root'		=> MW_CONST_STR_URL_DOMAIN,
 						'styles'	=> MW_CONST_STR_URL_DOMAIN.'styles/',
 						'scripts'	=> MW_CONST_STR_URL_DOMAIN.'scripts/',
-						'images'	=> MW_CONST_STR_URL_DOMAIN.'images/'));
+						'images'	=> MW_CONST_STR_URL_DOMAIN.'images/',
+						'uploads'	=> MW_CONST_STR_URL_DOMAIN.'uploads/'));
 
 		//Do routing.
 		switch ($Arr_Location[0])
 		{
 			case 'api': $this->Str_Response = $this->api($Arr_Vars); $this->Str_Protocol = 'json'; break;
 			case 'feed': $this->Str_Response = $this->feed($Arr_Vars); $this->Str_Protocol = 'feed'; break;
-			case 'uploads': $this->Str_Response = $this->download($Arr_Vars); $this->Str_Protocol = 'file'; break;
+			case 'uploads': $this->Str_Response = $this->download($Arr_Vars); $this->Str_Protocol = 'zip'; break;
 			default: $this->Str_Response = $this->page($Arr_Vars); $this->Str_Protocol = 'html'; break;
 		}
 
@@ -101,13 +102,37 @@ class app
 
 	public function respond()
 	{
+		//Kill request if no protocol has been assigned.
+		if (!$this->Str_Protocol)
+		{
+			header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found"); die;
+		}
 
-		//Send headers and data.
-		//send_headers();
+		//Expire page in one hour.
+		header('Expires: '.gmdate('D, d M Y H:i:s', (time() + 60 * 60)).' GMT');
 
-		//output response
+		//Send headers.
+		switch ($this->Str_Protocol)
+		{
+			case 'html': header('Content-Type: text/html; charset=iso-8859-1'); break;
+			case 'feed': header('Content-Type: application/rss+xml; charset=ISO-8859-1'); break;
+			case 'json': header('Content-Type: application/json'); break;
+			case 'zip': header('Content-Type: application/octet-stream');
+						header('Content-Disposition: attachment; filename="'.$Arr_Vars['file'].'.zip"');
+						header('Content-Transfer-Encoding: binary'); break;
+			case 'pdf': header('Content-type: application/pdf'); break;
+			case 'txt': header('Content-Type: text/plain'); break;
+			case 'xml': header('Content-Type: text/xml'); break;
+			case 'css': header('Content-Type: text/css'); break;
+			case 'js': header('Content-Type: text/javascript'); break;
+			case 'jpg': header('Content-Type: image/jpg'); break;
+			case 'jpeg': header('Content-Type: image/jpeg'); break;
+			case 'png': header('Content-Type: image/png'); break;
+			case 'gif': header('Content-Type: image/gif'); break;
+		}
+
+		//Output response.
 		print $this->Str_Response;
-
 	}
 
 
@@ -238,6 +263,7 @@ class app
 	{
 		require_once(MW_CONST_STR_DIR_DOMAIN.'/actions.php');
 		$this->Obj_Actions = new actions();
+		$Str_Response = '';
 
 		//Transact post request data.
 		if (isset($_POST) && $_POST)
@@ -278,15 +304,12 @@ class app
 					case 'page'; $Arr_Response = $this->Obj_Actions->get_page_data($Arr_Request, $this->Obj_Database, $Arr_Vars); break;
 					case 'search'; $Arr_Response = $this->Obj_Actions->get_search_data($Arr_Request, $this->Obj_Database, $Arr_Vars); break;
 				}
+
+				$Str_Response = json_encode($Arr_Response);
 			}
 		}
 
-
-	}
-
-	public function send_headers()
-	{
-		//figure out what we are sending an send off those headers
+		return $Str_Response;
 	}
 }
 	?>

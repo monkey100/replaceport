@@ -8,7 +8,7 @@ Twoshoes.init(
 			init : {
 				method : 'ajax',
 				type : 'GET',
-	        	action : domainUrl+'api/',
+	        	action : domainUrl+'api/?gui=page',
 	        	data : {},
 	        	format : 'json',
 	        	error : function()
@@ -18,11 +18,18 @@ Twoshoes.init(
 	        	success : function(response)
 				{
 					//Get the application state.
-					Twoshoes.helper('bootstrap').buildApiResponseTable(response);
+
+					//Twoshoes.helper('bootstrap').buildApiResponseTable(response);
+					//Set projects data to interface.
+// projects
+// tags
+// users
+// categories
+					Twoshoes.helper('widgets').displayIndexPage(response);
 
 					//Start background tasks.
-					var period = heartbeat;
-					heartbeat = window.setInterval(function(){Twoshoes.backgroundTask(period)}, period);
+					//var period = heartbeat;
+					//heartbeat = window.setInterval(function(){Twoshoes.backgroundTask(period)}, period);
 				}
 			},
 

@@ -89,6 +89,98 @@ return apiData;
 
 				return apiData;
 			}
+		},
+		transaction :
+		{
+			setCategoriesToTable : function(apiData)
+			{
+				//This needs to be st as a accessor variable.
+				if (typeof apiData.categories != 'undefined')
+				{
+
+				}
+			},
+			setTagsToTable : function(apiData)
+			{
+				if (typeof apiData.tags != 'undefined')
+				{
+
+				}
+			},
+			addProjectsToTable : function(apiData)
+			{
+
+			},
+			addUsersToTable : function(apiData)
+			{
+
+			}
+		},
+		widgets : 
+		{
+			displayIndexPage : function(apiData)
+			{
+			 	var widget = Mustache.to_html(jQuery('#index-page').html());
+				jQuery('#main_pane').html(widget);
+
+				Twoshoes.helper('widgets').displayProjectsByDownloaded(apiData);
+				Twoshoes.helper('widgets').displayProjectsByRated(apiData);
+				Twoshoes.helper('widgets').displayProjectsByReleased(apiData);
+			},
+			displayProjectsByDownloaded : function(apiData)
+			{
+				var widget = '';
+				if (typeof apiData.downloaded != 'undefined')
+				{
+					jQuery.each(apiData.downloaded, function(index, project)
+					{
+						widget += Mustache.to_html(jQuery('#catalog_item_brief').html(), project);
+					});
+				}
+				else
+				{
+					//display no project downloaded yet
+				}
+
+				jQuery('#mostpopular').html(widget);
+//*!*add ratings, look at twoshoes api code for invocation
+//Twoshoes.plugin('projectRating').init({target:'div.project_'+key+' span.rating'})
+
+			},
+			displayProjectsByRated : function(apiData)
+			{
+				var widget = '';
+				if (typeof apiData.rated != 'undefined')
+				{
+					jQuery.each(apiData.rated, function(index, project)
+					{
+						widget += Mustache.to_html(jQuery('#catalog_item_brief').html(), project);
+					});
+				}
+				else
+				{
+					//display no project rated yet
+				}
+
+				jQuery('#toprated').html(widget);
+			},
+			displayProjectsByReleased : function(apiData)
+			{
+				var widget = '';
+				if (typeof apiData.released != 'undefined')
+				{
+					jQuery.each(apiData.released, function(index, project)
+					{
+						widget += Mustache.to_html(jQuery('#catalog_item_brief').html(), project);
+					});
+				}
+				else
+				{
+					//display no project released yet
+				}
+
+				jQuery('#latestreleases').html(widget);
+			}
 		}
 	}
 });

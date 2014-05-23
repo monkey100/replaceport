@@ -3,18 +3,35 @@
 
 class Locale_EN
 {
+	//Meta data
+	public $Meta_Title						= 'Replaceport KSP Module Repo';
+	public $Meta_Keywords					= 'Replaceport, Kerbal Space Program, etc';
+	public $Meta_Description				= 'Replaceport: Kerbal Space Program Module Repositry';
+	public $Meta_Copyright					= 'Replaceport 2013';
+
+	//Random markup titles
+	public $MostPopular						= 'Most Popular';
+	public $TopRated						= 'Top Rated';
+	public $LatestReleases					= 'Latest Releases';
+	public $WhatIsReplaceport				= 'What is Replaceport?';
+	public $SearchResults					= 'Search Results';
+	public $ProjectInfo						= 'Project Info';
+	public $ReleaseFiles					= 'Release Files';
+	public $Version							= 'Version';
+	public $Upload							= 'Upload';
+	public $Size							= 'Size';
+	public $Changelog						= 'Changelog';
+	public $Comments						= 'Comments';
+	public $UserInfo						= 'User Info';
+	public $Projects						= 'Projects';
+	public $Watchlist						= 'Watchlist';
+	public $log_in_to_comment				= 'You must be logged in to comment';
+
 	//Headers
 	public $Menu							= 'Menu';
 	public $Account							= 'Account';
 	public $Profile							= 'Profile';
 	public $Notices							= 'Notices';
-	public $Billing							= 'Billing';
-	public $Exporters						= 'Exporters';
-	public $Signatories						= 'Signatories';
-	public $Consignees						= 'Consignees';
-	public $Goods							= 'Goods';
-	public $Certificates					= 'Certificates';
-	public $COO_Request						= 'COO Request';
 	public $Search							= 'Search';
 	public $Terms_and_Conditions			= 'Terms and Conditions';
 	public $Contact							= 'Contact';
@@ -35,21 +52,15 @@ class Locale_EN
 	public $No_Notices						= 'No Notices';
 	public $Dismiss_Notices					= 'Dismiss Notices';
 	public $Record							= 'Record';
-	public $Billing_Summary					= 'Billing Summary';
 	public $Activity						= 'Activity';
 	public $Lastest							= 'Lastest';
 	public $Status							= 'Status';
-	public $Issued							= 'Issued';
-	public $Due								= 'Due';
 	public $Product							= 'Product';
 	public $Country							= 'Country';
-	public $Ref								= 'Ref';
-	public $Number							= 'Number';
 	public $Amount							= 'Amount';
 	public $Created							= 'Created';
 	public $Modified						= 'Modified';
 	public $Date							= 'Date';
-	public $Destination						= 'Destination';
 	public $Recent_Activity					= 'Recent Activity';
 	public $Date_Created					= 'Date Created';
 	public $Last_Modified					= 'Last Modified';
@@ -62,14 +73,9 @@ class Locale_EN
 	public $Register						= 'Register';
 	public $Password_Recovery				= 'Password Recovery';
 	public $User							= 'User';
-	public $Exporter						= 'Exporter';
-	public $Company							= 'Company';
-	public $Office							= 'Office';
 	public $Preferences						= 'Preferences';
-	public $Consignee						= 'Consignee';
 	public $Reference						= 'Reference';
 	public $Details							= 'Details';
-	public $Signatory						= 'Signatory';
 	public $Notice							= 'Notice';
 	public $Administration					= 'Administration';
 
@@ -83,16 +89,13 @@ class Locale_EN
 	public $Last_Name						= 'Last Name';
 	public $Position						= 'Position';
 	public $Phone							= 'Phone';
-	public $Trading_Name					= 'Trading Name';
 	public $Logo							= 'Logo';
 	public $Upload_Logo						= 'Upload Logo';
-	public $Upload_Stamp					= 'Upload Stamp';
 	public $Choose_File						= 'Choose File';
 	public $Address_1						= 'Address 1';
 	public $Address_2						= 'Address 2';
 	public $City							= 'City';
 	public $State							= 'State';
-	public $Buyer							= 'Buyer';
 	public $Type							= 'Type';
 	public $Other							= 'Other';
 	public $New								= 'New';

@@ -331,3 +331,13 @@ POST
 GET['gui']
 	"page" - gets all page data
 	"search" - gets search data
+
+
+
+
+
+Javascript Plugins
+
+Rating Widget: http://wbotelhos.com/raty
+	-needs better images, find svg files for it. 
+	-fix plugin code to use a singleton pattern

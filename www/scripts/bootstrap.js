@@ -37,20 +37,5 @@ jQuery(document).ready(function()
 	});
 
 	Twoshoes.loadScripts(components, domainUrl+themeDir, false);
-	//Twoshoes.request('bootstrap').init({complete:test});
-
-    var template = jQuery('#index-page').html();
-    var data = {};
-    var html = Mustache.to_html(template, data);
-    jQuery('#main_pane').html(html);
-
-/*
-TABLES
-
-projects
-tags
-users
-categories
-*/
-
+	Twoshoes.request('bootstrap').init({});
 });

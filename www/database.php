@@ -9,7 +9,7 @@ class database
 	private $Obj_BBCParser = null;
 
 	//Database query.
-	public $Arr_Query = array(
+	private $Arr_Query = array(
 		'location'		=> 'localhost',
 		'username'		=> 'root',
 		'password'		=> '',
@@ -20,7 +20,8 @@ class database
 		'values'		=> array(),
 		'where'			=> array(),
 		'limit'			=> array(),
-		'order'			=> array());
+		'order'			=> array(),
+		'group'			=> false);
 
 
 	public function __construct()
@@ -78,6 +79,7 @@ class database
 		$Arr_Query['where'] = array();
 		$Arr_Query['limit'] = array();
 		$Arr_Query['order'] = false;
+		$Arr_Query['group'] = false;
 
 		return $Arr_Query;
 	}
@@ -103,6 +105,17 @@ class database
 		}
 
 		return $Arr_IndexedRow;
+	}
+
+	public function mass_index($Arr_DataRows, $Arr_Query=false)
+	{
+		$Arr_IndexedRows = array();
+		foreach ($Arr_DataRows as $Arr_DataRow)
+		{
+			$Arr_IndexedRows[] = $this->index($Arr_DataRow, $Arr_Query);
+		}
+
+		return $Arr_IndexedRows;
 	}
 
 	public function insert($Obj_Connection=false, $Arr_Query=false)
@@ -144,6 +157,12 @@ class database
 		if ($Str_Where = $this->conditions($Arr_Query['where'], 'and', $Arr_Query, $Obj_Connection))
 		{
 			$Str_Where = ' WHERE '.$Str_Where;
+		}
+
+		$Str_Group = '';
+		if ($Arr_Query['group'])
+		{
+			$Str_Group = " GROUP BY `".$Arr_Query['table']."`.`".$Arr_Query['group']."`";
 		}
 
 		$Str_Query = "SELECT * FROM `".$Arr_Query['database']."`.`".$Arr_Query['table']."`".$Str_Where.$this->filter($Arr_Limit).$this->arrange($Str_Order).";";
@@ -216,9 +235,8 @@ class database
 		return $Mix_Results;
 	}
 
-	//Gets a results set of table ranked by field value appearance count
-	//$results = $this->table('projects')->rank('contributors', 'project_id', 'desc');
-	//*!*Requires order() to be set
+	//Gets a results set of table ranked by field value appearance count, order() required
+	//$results = $this->table('downloads')->order('project_id', 'desc')->rank();
 	//*!*This function will have securty vulnerabilities as it stands
 	public function rank($Str_Operator=false, $Int_Threshold=false, $Obj_Connection=false, $Arr_Query=false)
 	{
@@ -423,6 +441,12 @@ FROM
 			$this->Arr_Query['limit']['range'] = ($Int_Offset)? $Int_Offset: false;
 		}
 
+		return $this;
+	}
+	
+	public function group($Str_Field)
+	{
+		$this->Arr_Query['group'] = ($Str_Field)? $Str_Field: false;
 		return $this;
 	}
 
@@ -684,5 +708,6 @@ FROM
 		$Str_Order = ($Str_Order)? " ORDER BY `".$Str_Order['field']."` ".strtoupper($Str_Order['sort']): '';
 		return $Str_Order;
 	}
+	
 }
 

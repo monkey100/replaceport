@@ -128,31 +128,57 @@ class actions
 		}
 	}
 
-
-
-
 	public function get_page_data($Arr_Parameters, $Obj_Database, $Arr_Vars)
 	{
  		//Load helpers object
+ 		$Arr_PageData = array();
  		if (!$this->Obj_Helpers)
  		{
 			require_once(MW_CONST_STR_DIR_DOMAIN.'/helpers.php');
 			$this->Obj_Helpers = new helpers();
 		}
 
+		//Get categories, we don't need to secure them.
+		$Arr_CategoryRows = $Obj_Database->table('categories')->select();
+		$Obj_Database->table('categories');
+		$Arr_PageData['categories'] = $this->Obj_Helpers->build_data_tree($Arr_CategoryRows, 0, $Obj_Database->column('parent_id'), $Obj_Database->column('id'), 'children');
+
+		//Get tags.
+		$Arr_Tags = $Obj_Database->table('tags')->group('tag')->order('created', 'asc')->select();
+		$Arr_PageData['tags'] = $this->Obj_Helpers->mass_secure($Obj_Database->table('tags')->mass_index($Arr_Tags));
+
 		//Get most downloaded projects.
-		$Arr_Vars['downloaded'] = $this->Obj_Helpers->get_projects_by_downloads($Obj_Database, 10);
+		$Arr_PageData['downloaded'] = $this->Obj_Helpers->get_projects_by_downloads($Obj_Database, 10);
 
 		//Get highest rated projects.
-		$Arr_Vars['rated'] = $this->Obj_Helpers->get_projects_by_ratings($Obj_Database, 10);
+		$Arr_PageData['rated'] = $this->Obj_Helpers->get_projects_by_ratings($Obj_Database, 10);
 
 		//Get latest released projects.
-		$Arr_Vars['released'] = $this->Obj_Helpers->get_projects_by_release($Obj_Database, 10);
+		$Arr_PageData['released'] = $this->Obj_Helpers->get_projects_by_release($Obj_Database, 10);
 
-		//Put all the data together into a response object.
-print json_encode($Arr_Vars); exit;
+		//We got projects, now get the information attached to the user.
+		$Arr_PageData['user'] = array();
+		if (isset($Arr_Vars['user']) && isset($Arr_Vars['user']['username']))
+		{
+			//Get the raw data.
+			$Arr_UserLink = array('user_id', 'eq', $Arr_Vars['user']['id']);
+			$Arr_UserProjects = $Obj_Database->table('projects')->where($Arr_UserLink)->order('created', 'desc')->select();
+			$Arr_UserComments = $Obj_Database->table('comments')->where($Arr_UserLink)->order('created', 'desc')->select();
+			$Arr_UserWatchlists = $Obj_Database->table('watchlists')->where($Arr_UserLink)->order('created', 'desc')->select();
+			$Arr_UserRatings = $Obj_Database->table('ratings')->where($Arr_UserLink)->order('created', 'desc')->select();
+			$Arr_UserReports = $Obj_Database->table('reports')->where($Arr_UserLink)->order('created', 'desc')->select();
 
+			//Process data.
+			//using get_data_keys() and add_data_keys() before secure() to get links to projects for user.
+			$Arr_PageData['user']['projects'] = $Arr_UserProjects;
+			$Arr_PageData['user']['comments'] = $Arr_UserComments;
+			$Arr_PageData['user']['watchlists'] = $Arr_UserWatchlists;
+			$Arr_PageData['user']['ratings'] = $Arr_UserRatings;
+			$Arr_PageData['user']['reports'] = $Arr_UserReports;
 
+		}
+
+		return $Arr_PageData;
 	}
 
 	public function get_search_data($Obj_Database)

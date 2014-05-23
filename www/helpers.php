@@ -4,17 +4,59 @@
 class helpers
 {
 	//Pull out sensitive fields.
-	public function secure($Arr_DataSet)
+	public function secure($Arr_DataRow)
 	{
-		foreach ($Arr_DataSet as $Str_Key => $Mix_Value)
+		foreach ($Arr_DataRow as $Str_Key => $Mix_Value)
 		{
 			if ($Str_Key == 'id' || strpos($Str_Key, '_id') !== false)
 			{
-				unset($Arr_DataSet[$Str_Key]);
+				unset($Arr_DataRow[$Str_Key]);
 			}
 		}
 
-		return $Arr_DataSet;
+		return $Arr_DataRow;
+	}
+
+	public function mass_secure($Arr_DataRows)
+	{
+		$Arr_SecuredRows = array();
+		foreach ($Arr_DataRows as $Arr_DataRow)
+		{
+			$Arr_SecuredRows[] = $this->secure($Arr_DataRow);
+		}
+
+		return $Arr_SecuredRows;
+	}
+	
+	//Gets the index keys from the foreign_ids, to be done on projects + users before secure() is called for data linking in front end.
+	public function get_data_keys($Str_Table, $Str_Field, $Arr_ForeignIds, $Obj_Database)
+	{
+		$Arr_Results = $Obj_Database->table($Str_Table)->where(array('id', 'in', $Arr_ForeignIds))->select();
+
+		$Arr_Keys = array();
+		foreach ($Arr_Results as $Arr_Result)
+		{
+			$Arr_Keys[$Arr_Result['id']] = $Arr_Result[$Str_Field];
+		}
+
+		return $Arr_Keys;
+	}
+
+	//Companion function to get_data_keys()
+	public function add_data_keys($Arr_DataRows, $Arr_Keys, $Str_ForeignKey, $Str_NewKey)
+	{
+		foreach ($Arr_DataRows as &$Arr_DataRow)
+		{
+			foreach ($Arr_Keys as $Int_RowId => $Str_Value)
+			{
+				if ($Arr_DataRow['id'] == $Int_RowId)
+				{
+					$Arr_DataRow[$Str_NewKey] = $Str_Value;
+				}
+			}
+		}
+
+		return $Arr_DataRows;
 	}
 
 	public function populate_project_data($Arr_Project, $Obj_Database)
@@ -23,8 +65,7 @@ class helpers
 		$Arr_ProjectLink = array('project_id', 'eq', $Arr_Project[$Obj_Database->column('id')]);
 		$Int_ImageId = $Arr_Project[$Obj_Database->column('image_id')]; //*!*potential bug, check for value
 		$Int_ThumbId = $Arr_Project[$Obj_Database->column('thumb_id')];
-		$Arr_Project = $Obj_Database->index($Arr_Project);
-		$Arr_Project = $this->secure($Arr_Project);
+		$Arr_Project = $this->secure($Obj_Database->index($Arr_Project));
 
 		$Arr_Project['changelogs'] = $Obj_Database->table('changelogs')->where($Arr_ProjectLink)->order('created', 'desc')->select();
 		$Obj_Database->table('changelogs');
@@ -44,8 +85,16 @@ class helpers
 
 		$Arr_Project['contributors'] = $Obj_Database->table('contributors')->where($Arr_ProjectLink)->order('created', 'desc')->select();
 		$Obj_Database->table('contributors');
+		$Str_UserIdField = $Obj_Database->column('user_id');
 		foreach ($Arr_Project['contributors'] as &$Arr_Contributor)
 		{
+			//Get owner
+			if ($Arr_Contributor[$Obj_Database->column('status')] == 'owner')
+			{
+				$Arr_Users = $Obj_Database->table('users')->where(array('id', 'eq', $Arr_Contributor[$Str_UserIdField]))->select();
+				$Arr_Project['owner'] = $Arr_Users[0][$Obj_Database->table('users')->column('alias')];
+			}
+
 			$Arr_Contributor = $Obj_Database->index($Arr_Contributor);
 			$Arr_Contributor = $this->secure($Arr_Contributor);
 		}
@@ -271,4 +320,22 @@ class helpers
 
 	}
 
+	//Basic tree building recursion
+	public function build_data_tree($Arr_DataRows, $Int_Root, $Int_ParentField, $Int_PrimaryField, $Str_ChildrenProperty)
+	{
+		$Arr_Tree = array();
+
+		$Int_RootRow = false;
+		foreach ($Arr_DataRows as $Arr_DataRow)
+		{
+			if ($Arr_DataRow[$Int_ParentField] == $Int_Root)
+			{
+				$Arr_TreeData = $Arr_DataRow;
+				$Arr_TreeData[$Str_ChildrenProperty] = $this->build_data_tree($Arr_DataRows, $Arr_DataRow[$Int_PrimaryField], $Int_ParentField, $Int_PrimaryField, $Str_ChildrenProperty);
+				$Arr_Tree[] = $Arr_TreeData;
+			}
+		}
+
+		return $Arr_Tree;
+	}
 }
