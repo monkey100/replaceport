@@ -92,6 +92,30 @@ return apiData;
 		},
 		transaction :
 		{
+			//Add new projects into an array of deep project data objects for interfce building refernce
+			assembleProjects :function(projectData, assembledProjects)
+			{
+				var projectCount = Twoshoes.count(projectData);
+				jQuery.each(projectData, function(dataIndex, data)
+				{
+					var projectAssebled = false;
+					jQuery.each(assembledProjects, function(projectIndex, project)
+					{
+						if (data.key == project.key)
+						{
+							projectAssebled = true;
+						}
+					});
+
+					if (!projectAssebled)
+					{
+						assembledProjects[projectCount - 1] = data;
+						projectCount++;
+					}
+				});
+
+				return assembledProjects;
+			},
 			setCategoriesToTable : function(apiData)
 			{
 				//This needs to be st as a accessor variable.
@@ -107,79 +131,88 @@ return apiData;
 
 				}
 			},
-			addProjectsToTable : function(apiData)
+			//Adds projects to quick looup table.
+			addProjectsToTable : function(projects)
 			{
+				var addedProjects = [];
+				var projectsAdded = 0;
 
+				jQuery.each(projects, function(index, project)
+				{
+					var results = Twoshoes.table('projects').where(['key', 'eq', project.key]).select();
+
+					if (results == false)
+					{
+						var fields = Twoshoes.table('projects').fields();
+						var values = [project.key, project.title, project.owner, project.version, project.created, project.summary, project.description, project.image, project.thumbnail, project.totaldownloads, project.monthlydownloads, project.rating, project.followers];
+						Twoshoes.table('projects').insert(values, fields);
+						addedProjects[projectsAdded] = project;
+						projectsAdded++;
+					}
+				});
+				
+				return addedProjects;
 			},
 			addUsersToTable : function(apiData)
 			{
 
 			}
 		},
-		widgets : 
+		widgets :
 		{
-			displayIndexPage : function(apiData)
+			displayIndexPage : function()
 			{
+				//Show index frame.
 			 	var widget = Mustache.to_html(jQuery('#index-page').html());
 				jQuery('#main_pane').html(widget);
 
-				Twoshoes.helper('widgets').displayProjectsByDownloaded(apiData);
-				Twoshoes.helper('widgets').displayProjectsByRated(apiData);
-				Twoshoes.helper('widgets').displayProjectsByReleased(apiData);
+				//Dsiplay index widgets.
+				Twoshoes.helper('widgets').displayProjectsByDownloaded(Twoshoes.get('downloaded'));
+				Twoshoes.helper('widgets').displayProjectsByRated(Twoshoes.get('rated'));
+				Twoshoes.helper('widgets').displayProjectsByReleased(Twoshoes.get('released'));
 			},
-			displayProjectsByDownloaded : function(apiData)
+			displayProjectsByDownloaded : function(projects)
 			{
 				var widget = '';
-				if (typeof apiData.downloaded != 'undefined')
+				jQuery.each(projects, function(index, project)
 				{
-					jQuery.each(apiData.downloaded, function(index, project)
-					{
-						widget += Mustache.to_html(jQuery('#catalog_item_brief').html(), project);
-					});
-				}
-				else
-				{
-					//display no project downloaded yet
-				}
+					widget += Mustache.to_html(jQuery('#catalog_item_brief').html(), project);
+				});
 
 				jQuery('#mostpopular').html(widget);
 //*!*add ratings, look at twoshoes api code for invocation
 //Twoshoes.plugin('projectRating').init({target:'div.project_'+key+' span.rating'})
 
 			},
-			displayProjectsByRated : function(apiData)
+			displayProjectsByRated : function(projects)
 			{
 				var widget = '';
-				if (typeof apiData.rated != 'undefined')
+				jQuery.each(projects, function(index, project)
 				{
-					jQuery.each(apiData.rated, function(index, project)
-					{
-						widget += Mustache.to_html(jQuery('#catalog_item_brief').html(), project);
-					});
-				}
-				else
-				{
-					//display no project rated yet
-				}
+					widget += Mustache.to_html(jQuery('#catalog_item_brief').html(), project);
+				});
 
 				jQuery('#toprated').html(widget);
 			},
-			displayProjectsByReleased : function(apiData)
+			displayProjectsByReleased : function(projects)
 			{
 				var widget = '';
-				if (typeof apiData.released != 'undefined')
+				jQuery.each(projects, function(index, project)
 				{
-					jQuery.each(apiData.released, function(index, project)
-					{
-						widget += Mustache.to_html(jQuery('#catalog_item_brief').html(), project);
-					});
-				}
-				else
-				{
-					//display no project released yet
-				}
+					widget += Mustache.to_html(jQuery('#catalog_item_brief').html(), project);
+				});
 
 				jQuery('#latestreleases').html(widget);
+			},
+			displayProjectView : function(project)
+			{
+				//Show index frame.
+			 	var widget = Mustache.to_html(jQuery('#project_description').html(), project);
+				jQuery('#main_pane').html(widget);
+
+			 	var widget = Mustache.to_html(jQuery('#catalog_item_brief').html(), project);
+				jQuery('#item_brief').html(widget);
+
 			}
 		}
 	}

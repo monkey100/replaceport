@@ -13,6 +13,7 @@ var libraries = [
 var components = [
 	'scripts/routes.js',
 	'scripts/requests.js',
+	'scripts/tables.js',
 	'scripts/plugins.js',
 	'scripts/helpers.js'
 ];

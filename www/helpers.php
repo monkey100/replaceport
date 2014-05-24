@@ -128,8 +128,10 @@ class helpers
 
 		$Arr_Project['watchlists'] = $Obj_Database->table('watchlists')->where($Arr_ProjectLink)->order('created', 'desc')->select();
 		$Obj_Database->table('watchlists');
+		$Arr_Project['followers'] = 0;
 		foreach ($Arr_Project['watchlists'] as &$Arr_Watchlist)
 		{
+			$Arr_Project['followers']++;
 			$Arr_Watchlist = $Obj_Database->index($Arr_Watchlist);
 			$Arr_Watchlist = $this->secure($Arr_Watchlist);
 		}

@@ -341,3 +341,7 @@ Javascript Plugins
 Rating Widget: http://wbotelhos.com/raty
 	-needs better images, find svg files for it. 
 	-fix plugin code to use a singleton pattern
+	
+	
+If the user is logged in allow them to rate and bookmark and report, otherwise grey those guys out of the interface
+and disable plugin functionality, best method is to turn them into a <b> element

@@ -19,17 +19,44 @@ Twoshoes.init(
 				{
 					//Get the application state.
 
+					//Set the projects locally.
+					var projects = [];
+					if (typeof response.downloaded != 'undefined')
+					{
+						Twoshoes.set('downloaded', response.downloaded);
+						var addedProjects = Twoshoes.helper('transaction').addProjectsToTable(response.downloaded);
+						projects = Twoshoes.helper('transaction').assembleProjects(response.downloaded, projects);
+					}
+
+					if (typeof response.rated != 'undefined')
+					{
+						Twoshoes.set('rated', response.rated);
+						var addedProjects = Twoshoes.helper('transaction').addProjectsToTable(response.rated);
+						projects = Twoshoes.helper('transaction').assembleProjects(response.rated, projects);
+					}
+
+					if (typeof response.released != 'undefined')
+					{
+						Twoshoes.set('released', response.released);
+						var addedProjects = Twoshoes.helper('transaction').addProjectsToTable(response.released);
+						projects = Twoshoes.helper('transaction').assembleProjects(response.released, projects);
+					}
+
+					//Store project data for viewing.
+					Twoshoes.set('projects', projects);
+
 					//Twoshoes.helper('bootstrap').buildApiResponseTable(response);
 					//Set projects data to interface.
-// projects
 // tags
 // users
 // categories
-					Twoshoes.helper('widgets').displayIndexPage(response);
 
 					//Start background tasks.
 					//var period = heartbeat;
 					//heartbeat = window.setInterval(function(){Twoshoes.backgroundTask(period)}, period);
+
+					//Display homepage, will need to path for offsite url memory.
+					Twoshoes.route('pages').invoke('home');
 				}
 			},
 

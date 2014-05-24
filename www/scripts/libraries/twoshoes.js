@@ -6,6 +6,8 @@ var Twoshoes = {
 
 	//Configuration settings.
 	config 						: {},
+	//Global value accessor.
+	values						: {},
 
 	//*!*I need to test the property defined in the int.config and if it is false then remove all debuggin levels
 	console						: [],
@@ -441,6 +443,31 @@ var Twoshoes = {
 		}
 
 		return this;
+	},
+	
+	//Getter setter added for global data accessors
+	//Gets the value property of Framework.values.name
+	// - name:				Name of variable to get
+	// * return:			Variable set to values property, false if doesn't exist
+	get : function(name)
+	{
+		if (typeof Twoshoes.values[name] != 'undefined')
+		{
+			return Twoshoes.values[name];
+		}
+
+		return null;
+	},
+
+	//Sets the value to property of Framework.values.name
+	// - name:				Name of variable to set
+	// - value:				Value of variable to set
+	// * return:			True if variable is not prviously set, false value in namespace already exists
+	set : function(name, value)
+	{
+		var inNamespace = (typeof Twoshoes.values[name] != 'undefined')? true: false;
+		Twoshoes.values[name] = value;
+		return inNamespace;
 	},
 
 	//Executes all routes that match the location hash value of the window.
@@ -935,6 +962,37 @@ var Twoshoes = {
 		Twoshoes.debug('(Q)table.table', table, Twoshoes.debugTable);
 
 		return this;
+	},
+
+	//Gets the fields of the current table.
+	// * Return:				Table fields definition list if it exist, otherwise
+	fields : function()
+	{
+		if (typeof Twoshoes.config.tables == 'undefined')
+		{
+			//do error
+			return false;
+		}
+
+		if (typeof Twoshoes.query.table == 'undefined' || Twoshoes.query.table == '')
+		{
+			//do error
+			return false;
+		}
+
+		if (typeof Twoshoes.config.tables[Twoshoes.query.table] == 'undefined')
+		{
+			//do error
+			return false;
+		}
+
+		if (typeof Twoshoes.config.tables[Twoshoes.query.table].fields == 'undefined')
+		{
+			//do error
+			return false;
+		}
+
+		return Twoshoes.config.tables[Twoshoes.query.table].fields;
 	},
 
 	//Sets where conditions for the current query being built.
@@ -1777,17 +1835,19 @@ var Twoshoes = {
 			alert('This action is not valid, need error/debug?');
 		}
 
+		if (typeof Twoshoes.config.tables[table].actions == 'undefined')
+		{
+			Twoshoes.config.tables[table].actions = [];
+		}
+
 		//Get size of the current action list.
 		var actionRows = 0;
-		if (Twoshoes.config.tables[table].actions[row] == 'undefined')
+		if (typeof Twoshoes.config.tables[table].actions[row] == 'undefined')
 		{
-			alert('This row has not been defined, need error/debug?');
+			Twoshoes.config.tables[table].actions[row] = [];
 		}
-		else
-		{
-			//this is still fucked, not putting more than one action per row.
-			actionRows = Twoshoes.countTableRowActions(table, row);
-		}
+		
+		actionRows = Twoshoes.countTableRowActions(table, row);
 
 		//If the values are not an object format them into an array.
 		var valuesArray = {};
@@ -1979,7 +2039,7 @@ var Twoshoes = {
 		}
 
 		//Order results.
-		if (Twoshoes.query.order)
+		if ((Twoshoes.isArray(Twoshoes.query.order)) && (Twoshoes.count(Twoshoes.query.order) > 0))
 		{
 			//Validate the field exists.
 			var tableOrderColumn = false;
@@ -2305,7 +2365,7 @@ var Twoshoes = {
 				}
 
 				//If the field has been supplied get the passed value.
-				if (passedField != false)
+				if (passedField !== false)
 				{
 					data[i] = values[passedField];
 				}

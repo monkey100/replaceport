@@ -31,23 +31,19 @@
 
 <script id="catalog_item_brief" type="text/template">
 					<div class="catalog_item_brief project_{{key}}">
-							<h3>{{title}} (v{{version}})</h3>
-<span class="version">{{totaldownloads}}<a class="typcn typcn-download-outline action" title="Download"></a></span>
-<img src="<?php print $theme['uploads']; ?>{{key}}/{{thumbnail}}" class="" alt="" width="64" height="64" />
+<hr />
+							<h4><a href="<?php print $theme['projects']; ?>#projects/{{key}}" title="Details">{{title}} <span class="version">(v{{version}})</span></a></h4>
+<span class="downloads"><span>{{totaldownloads}}</span><a class="typcn typcn-download-outline action" title="Download"></a></span>
+<img src="<?php print $theme['uploads']; ?>{{key}}/{{thumbnail}}" class="shadow" alt="" width="64" height="64" />
 						<div class="meta_data">
-<span class="author"><a class="typcn typcn-user-outline action" title="View"></a>{{owner}}</span>
-<span class="rating"><a class="typcn typcn-star-outline action" title="Rate"></a>{{rating}}</span>
-<span class="downloads"></span>
+<span class="author"><a class="typcn typcn-user-outline invite" title="Author"></a><span>{{owner}}</span></span>
+<span class="report"><a class="typcn typcn-flag-outline warn" title="Report"></a></span>
 						</div>
 						<div class="data_actions">
-							<form name="" id="" class="" method="" action="">
-								<fieldset>
-									<ul>
-<li><a class="typcn typcn-bookmark invite" title="Watch"></a></li>
-<li><a class="typcn typcn-flag-outline warn" title="Report"></a></li>
-									</ul>
-								</fieldset>
-							</form>
+							<ul>
+<li><a class="typcn typcn-bookmark action" title="Watch"></a><span>{{followers}}</span></li>
+<li><a class="typcn typcn-star-outline action" title="Rate"></a><span>{{rating}}</span></li>
+							</ul>
 						</div>
 <span class="summary">{{summary}}</span>
 					</div>
@@ -237,19 +233,15 @@
 			<div id="info_scrn">
 				<div id="info_pane">
 					<h3><?php print $lang['ProjectInfo']; ?></h3>
+					<div id="item_brief">
 <!-- #catalog_item_brief -->
+					</div>
 				</div>
 			</div>
 
 			<div id="dwnl_scrn">
 				<div id="dwnl_pane">
-					<form name="" id="" class="" method="" action="">
-						<fieldset>
-							<ul>
-<li><input type="text" name="" id="" class="" value="Download"><em title="" class="error"></em></li>
-							</ul>
-						</fieldset>
-					</form>
+<span class="downloads"><a class="typcn typcn-download-outline action" title="Download Latest"></a></span>
 				</div>
 			</div>
 
@@ -258,16 +250,14 @@
 				<div id="tabs_pane">
 					<div class="tabs span-6 push-0 pull-0 ">
 						<ul>
-<li><a href="" id="" class="" title="">Description</a></li>
-<li><a href="" id="" class="" title="">Changelog</a></li>
-<li><a href="" id="" class="" title="">Comments</a></li>
+<li><a href="" class="active" title=""><?php print $lang['Description']; ?></a></li>
+<li><a href="" class="" title=""><?php print $lang['Changelog']; ?></a></li>
+<li><a href="" class="" title=""><?php print $lang['Comments']; ?></a></li>
 						</ul>
 					</div>
 					<div class="main">
-<img src="images/logo.png" class="project_full" alt="" width="256" height="256" />
-<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+<img src="<?php print $theme['uploads']; ?>{{key}}/{{image}}" class="project_full shadow" alt="" width="256" height="256" />
+{{description}}
 					</div>
 
 				</div>
@@ -276,6 +266,7 @@
 			<div id="file_scrn">
 				<div id="file_pane">
 					<h3><?php print $lang['ReleaseFiles']; ?></h3>
+					<hr />
 						<table id="">
 							<thead>
 								<tr>
@@ -292,31 +283,7 @@
 <td><form name="" id="" class="" method="" action="">
 	<fieldset>
 		<ul>
-<li><input type="button" name="" id="" class="" value="Download"><em title="" class="error"></em></li>
-		</ul>
-	</fieldset>
-</form></td>
-								</tr>
-								<tr>
-<td>v1.0</td>
-<td>05/09/2014</td>
-<td>250kb</td>
-<td><form name="" id="" class="" method="" action="">
-	<fieldset>
-		<ul>
-<li><input type="button" name="" id="" class="" value="Download"><em title="" class="error"></em></li>
-		</ul>
-	</fieldset>
-</form></td>
-								</tr>
-								<tr>
-<td>v1.0</td>
-<td>05/09/2014</td>
-<td>250kb</td>
-<td><form name="" id="" class="" method="" action="">
-	<fieldset>
-		<ul>
-<li><input type="button" name="" id="" class="" value="Download"><em title="" class="error"></em></li>
+<li><a class="typcn typcn-download-outline action" title="Download"></a></li>
 		</ul>
 	</fieldset>
 </form></td>
@@ -337,13 +304,7 @@
 
 			<div id="dwnl_scrn">
 				<div id="dwnl_pane">
-					<form name="" id="" class="" method="" action="">
-						<fieldset>
-							<ul>
-<li><input type="text" name="" id="" class="" value="Download"><em title="" class="error"></em></li>
-							</ul>
-						</fieldset>
-					</form>
+<span class="downloads"><span>{{totaldownloads}}</span><a class="typcn typcn-download-outline action" title="Download"></a></span>
 				</div>
 			</div>
 
