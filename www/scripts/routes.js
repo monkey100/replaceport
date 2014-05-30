@@ -38,6 +38,54 @@ Twoshoes.init(
 
 					Twoshoes.helper('widgets').displayProjectView(project);
 				}
+			},
+			contact : {
+				path : 'contact', //this regex needs to be precise match not general pattern fit.
+				dispatch : function()
+				{
+					var display = Mustache.to_html(jQuery('#contact_page').html());
+					jQuery('#main_pane').html(display);
+				}
+			},
+			about : {
+				path : 'about', //this regex needs to be precise match not general pattern fit.
+				dispatch : function()
+				{
+					var display = Mustache.to_html(jQuery('#about_page').html());
+					jQuery('#main_pane').html(display);
+				}
+			},
+			faq : {
+				path : 'faq', //this regex needs to be precise match not general pattern fit.
+				dispatch : function()
+				{
+					var display = Mustache.to_html(jQuery('#faq_page').html());
+					jQuery('#main_pane').html(display);
+				}
+			},
+			privacy : {
+				path : 'privacy', //this regex needs to be precise match not general pattern fit.
+				dispatch : function()
+				{
+					var display = Mustache.to_html(jQuery('#privacy_page').html());
+					jQuery('#main_pane').html(display);
+				}
+			},
+			terms : {
+				path : 'terms', //this regex needs to be precise match not general pattern fit.
+				dispatch : function()
+				{
+					var display = Mustache.to_html(jQuery('#terms_page').html());
+					jQuery('#main_pane').html(display);
+				}
+			},
+			guidelines : {
+				path : 'guidelines', //this regex needs to be precise match not general pattern fit.
+				dispatch : function()
+				{
+					var display = Mustache.to_html(jQuery('#guidelines_page').html());
+					jQuery('#main_pane').html(display);
+				}
 			}
 		},
 		menus : {

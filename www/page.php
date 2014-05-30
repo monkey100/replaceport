@@ -108,15 +108,6 @@
 			</div>
 </script>
 
-<script id="general_page" type="text/template">
-			<div id="genr_scrn">
-				<div id="genr_pane">
-					<h3>General Display Page</h3>
-
-				</div>
-			</div>
-</script>
-
 <script id="search_filters" type="text/template">
 <span>Sort:</span>
 							<ul>
@@ -990,6 +981,90 @@
 <li><a href="<?php print $theme['root']; ?>{{key}}" class="category" title="{{title}}">{{brief}}</a>{{& children}}</li>
 </script>
 
+
+<script id="contact_page" type="text/template">
+			<div id="cont_scrn">
+				<div id="cont_pane">
+					<h3>Contact Us</h3>
+<form name="" id="" class="wideform-6" method="" action="">
+	<fieldset>
+		<ul>
+<li class="short"><label for="contact_name">Name</label><input type="text" name="contact_name" id="contact_name" class="long" value="" placeholder="Name"><em title="contact_name" class="error"></em></li>
+<li class="short"><label for="contact_email">Email</label><input type="text" name="contact_email" id="contact_email" class="long" value="" placeholder="Email"><em title="contact_email" class="error"></em></li>
+<li class="long"><label for="contact_body">Message</label><textarea name="contact_body" class="short" id="contact_body" value="" placeholder="Message"></textarea><em title="contact_body" class="error"></em></li>
+		</ul>
+	</fieldset>
+	<fieldset>
+		<ul>
+<li class="short"><a class="typcn typcn-mail action" title="Send Message"></a></li>
+		</ul>
+	</fieldset>
+</form>
+<br class="drop-b" />
+				</div>
+			</div>
+			<div id="comm_scrn">
+				<div id="comm_pane">
+<h3>Community links</h3>
+<p>additional info to getting in touch with modders, etc.</p>
+				</div>
+			</div>
+</script>
+
+<script id="about_page" type="text/template">
+			<div id="genr_scrn">
+				<div id="genr_pane">
+					<h3>About Page</h3>
+
+				</div>
+			</div>
+</script>
+
+<script id="faq_page" type="text/template">
+			<div id="genr_scrn">
+				<div id="genr_pane">
+					<h3>FAQ Page</h3>
+
+				</div>
+			</div>
+</script>
+
+<script id="privacy_page" type="text/template">
+			<div id="genr_scrn">
+				<div id="genr_pane">
+					<h3>Privacy Policy Page</h3>
+
+				</div>
+			</div>
+</script>
+
+<script id="terms_page" type="text/template">
+			<div id="genr_scrn">
+				<div id="genr_pane">
+					<h3>Terms of Use Page</h3>
+
+				</div>
+			</div>
+</script>
+
+<script id="guidelines_page" type="text/template">
+			<div id="genr_scrn">
+				<div id="genr_pane">
+					<h3>Submission Guidelines Page</h3>
+
+				</div>
+			</div>
+</script>
+
+<script id="general_page" type="text/template">
+			<div id="genr_scrn">
+				<div id="genr_pane">
+					<h3>General Display Page</h3>
+
+				</div>
+			</div>
+</script>
+
 <div id="wrapper" class="container">
 
 	<div id="head_scrn">
@@ -1062,13 +1137,13 @@
 		<div id="foot_pane">
 
 			<ul id="foot_menu">
-<li><a href="" id="" class="" title="">About Us</a></li>
-<li><a href="" id="" class="" title="">Privacy Policy</a></li>
-<li><a href="" id="" class="" title="">Terms of Use</a></li>
-<li><a href="" id="" class="" title="">Submission Guidelines</a></li>
+<li><a href="#about" id="" class="" title="">About Us</a></li>
+<li><a href="#privacy" id="" class="" title="">Privacy Policy</a></li>
+<li><a href="#terms" id="" class="" title="">Terms of Use</a></li>
+<li><a href="#guidelines" id="" class="" title="">Submission Guidelines</a></li>
 			</ul>
 
-<a href="" id="copyright" class="" title="">&copy; <?php print $lang['Meta_Copyright']; ?></a>
+<a href="#" id="copyright" class="" title="">&copy; <?php print $lang['Meta_Copyright']; ?></a>
 		</div>
 	</div>
 
