@@ -18,6 +18,7 @@ Categories
 	-parent_id[INT 11]{Local Key - Categories}
 	-key[VARCHAR 255] (url location key)
 	-title[VARCHAR 255]
+	-brief[VARCHAR 255] //short menu text
 	-order[INT 11] //display order in front end
 	-created[DATETIME]
 	-modified[DATETIME]

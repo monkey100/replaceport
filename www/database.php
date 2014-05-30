@@ -471,13 +471,14 @@ FROM
 		return $this;
 	}
 
+	//this is an untested short circuit wrapper.
 	public function query($Bol_Memory=false)
 	{
 		$Mix_Results = '';
 
-		if ($this->Arr_Query['table'])
+		if ($this->Arr_Query['type'])
 		{
-			switch ($this->Arr_Query['table'])
+			switch ($this->Arr_Query['type'])
 			{
 				case 'insert': $Mix_Results = $this->insert($this->Obj_MySQLi, $this->Arr_Query); break;
 				case 'select': $Mix_Results = $this->select($this->Obj_MySQLi, $this->Arr_Query); break;
@@ -487,6 +488,7 @@ FROM
 		}
 
 		//*!*This is being moved straight into the query functions
+		//move this to head of function as a setter directive
 		if (!$Bol_Memory)
 		{
 			$this->Arr_Query = $this->reset($this->Arr_Query);
@@ -665,7 +667,7 @@ FROM
 			}
 		}
 
-		//Assemble each condition statment into a group.
+		//Assemble each condition statement into a group.
 		if (count($Arr_Conditions) > 1)
 		{
 			$Str_Condition .= '('.implode(' '.strtoupper($Str_Group).' ', $Arr_Conditions).')';

@@ -45,11 +45,27 @@ Twoshoes.init(
 					//Store project data for viewing.
 					Twoshoes.set('projects', projects);
 
+					//Set formatted categories.
+					if (typeof response.categories != 'undefined')
+					{
+						Twoshoes.set('categories', response.categories);
+					}
+
+					//Set all tags.
+					if (typeof response.tags != 'undefined')
+					{
+						Twoshoes.set('tags', response.tags);
+					}
+
+					//Set user informtion.
+					if (typeof response.users != 'undefined')
+					{
+						Twoshoes.set('users', response.users);
+					}
+
+
 					//Twoshoes.helper('bootstrap').buildApiResponseTable(response);
 					//Set projects data to interface.
-// tags
-// users
-// categories
 
 					//Start background tasks.
 					//var period = heartbeat;

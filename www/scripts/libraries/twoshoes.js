@@ -221,6 +221,8 @@ var Twoshoes = {
 		//*!*Need to test all the event types because there is somesort of conflict going on with the blur which could mean other events are fucked.
 		//*!*NB: I need to clear out the event registry if that namespace exists already.
 		//refactor variable eventList
+		//*!*Bug with handle property. Event should be set regardless of handle property and tested on the trigger. This doesn't seem to be happening
+		//Not having the handle at ths step drops that element out of the trigger dispatch test.
 		var eventsList = ['click', 'focusin', 'focusout', 'keypress', 'hover', 'keydown', 'keyup', 'mouseleave', 'mousemove', 'mouseout', 'mouseover', 'resize', 'change'];
 		var eventsList = Twoshoes.routeEvents;
 		for (var i = 0, j = eventsList.length; i < j; i++)
@@ -749,14 +751,18 @@ var Twoshoes = {
 								}
 
 								//Call event dispatch function.
-								if (event.data.routes[group][route].subject)
+								if ((typeof event.data.routes[group][route].dispatch != 'undefined')
+								&& (Twoshoes.isFunction(event.data.routes[group][route].dispatch)))
 								{
-									subject = jQuery(event.data.routes[group][route].subject);
-									event.data.routes[group][route].dispatch(event.target, subject);
-								}
-								else
-								{
-									event.data.routes[group][route].dispatch(event.target);
+									if (event.data.routes[group][route].subject)
+									{
+										subject = jQuery(event.data.routes[group][route].subject);
+										event.data.routes[group][route].dispatch(event.target, subject);
+									}
+									else
+									{
+										event.data.routes[group][route].dispatch(event.target);
+									}
 								}
 							}
 						}

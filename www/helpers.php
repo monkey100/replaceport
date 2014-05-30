@@ -59,6 +59,7 @@ class helpers
 		return $Arr_DataRows;
 	}
 
+	//This routine will go through the obvious refactoring and optimisations once a working website is in place.
 	public function populate_project_data($Arr_Project, $Obj_Database)
 	{
 		$Obj_Database->table('projects');
@@ -71,8 +72,16 @@ class helpers
 		$Obj_Database->table('changelogs');
 		foreach ($Arr_Project['changelogs'] as &$Arr_Changelog)
 		{
+			//Get user.
+			$Arr_ChangelogUser = $Obj_Database->table('users')->where(array('id', 'eq', $Arr_Changelog[$Obj_Database->column('contributor_id')]))->limit(1)->select();
+
+			$Obj_Database->table('changelogs');
 			$Arr_Changelog = $Obj_Database->index($Arr_Changelog);
 			$Arr_Changelog = $this->secure($Arr_Changelog);
+
+			$Obj_Database->table('users');
+			$Arr_Changelog['user'] = $Arr_ChangelogUser[0][$Obj_Database->column('username')];
+			$Arr_Changelog['alias'] = $Arr_ChangelogUser[0][$Obj_Database->column('alias')];
 		}
 
 		$Arr_Project['dependencies'] = $Obj_Database->table('dependencies')->where($Arr_ProjectLink)->order('created', 'desc')->select();
@@ -122,8 +131,16 @@ class helpers
 		$Obj_Database->table('comments');
 		foreach ($Arr_Project['comments'] as &$Arr_Comment)
 		{
+			//Get user.
+			$Arr_CommentUser = $Obj_Database->table('users')->where(array('id', 'eq', $Arr_Comment[$Obj_Database->column('user_id')]))->limit(1)->select();
+
+			$Obj_Database->table('comments');
 			$Arr_Comment = $Obj_Database->index($Arr_Comment);
 			$Arr_Comment = $this->secure($Arr_Comment);
+
+			$Obj_Database->table('users');
+			$Arr_Comment['user'] = $Arr_CommentUser[0][$Obj_Database->column('username')];
+			$Arr_Comment['alias'] = $Arr_CommentUser[0][$Obj_Database->column('alias')];
 		}
 
 		$Arr_Project['watchlists'] = $Obj_Database->table('watchlists')->where($Arr_ProjectLink)->order('created', 'desc')->select();

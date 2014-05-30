@@ -163,7 +163,7 @@ return apiData;
 			displayIndexPage : function()
 			{
 				//Show index frame.
-			 	var widget = Mustache.to_html(jQuery('#index-page').html());
+			 	var widget = Mustache.to_html(jQuery('#index_page').html());
 				jQuery('#main_pane').html(widget);
 
 				//Dsiplay index widgets.
@@ -206,12 +206,92 @@ return apiData;
 			},
 			displayProjectView : function(project)
 			{
-				//Show index frame.
-			 	var widget = Mustache.to_html(jQuery('#project_description').html(), project);
+				//Primary display.
+			 	var panels = Mustache.to_html(jQuery('#project_description').html(), project);
+				jQuery('#main_pane').html(panels);
+
+				//Display summary.
+			 	var brief = Mustache.to_html(jQuery('#catalog_item_brief').html(), project);
+				jQuery('#item_brief').html(brief);
+
+				//Tabs list
+				var menu = Twoshoes.helper('project').getProjectTabsList(project);
+			 	var tabs = Mustache.to_html(jQuery('#project_tabs').html(), {'menu':menu});
+				jQuery('#tabs_pane div.tabs').html(tabs);
+
+				//Downloads history
+				var files = Twoshoes.helper('project').getProjectFilesByType(project, 'zip');
+			 	var downloads = Mustache.to_html(jQuery('#project_files').html(), {'files':files});
+				jQuery('#file_pane').html(downloads);
+
+				//Changelogs
+				var changes = Twoshoes.helper('project').getProjectChangelogs(project);
+				var changelogs = Mustache.to_html(jQuery('#project_changelog').html(), {'changes':changes});
+				jQuery('#tabs_pane div.changelog').html(changelogs);
+
+				//Comments
+				var remarks = Twoshoes.helper('project').getProjectComments(project);
+				var comments = Mustache.to_html(jQuery('#project_comments').html(), {'remarks':remarks});
+				jQuery('#tabs_pane div.comments').html(comments);
+			},
+			displayCategoryList : function(categories)
+			{
+				//Not doing menu ordering yet.
+				var menuItems = [];
+				var count = 0;
+				for (var key in categories)
+				{
+					(function()
+					{
+						var item = {
+							key : categories[key][2],
+							title : categories[key][3],
+							brief : categories[key][4],
+							children : ''
+						}
+
+						if (Twoshoes.count(categories[key]['children']) > 0)
+						{
+							item['children'] = Twoshoes.helper('widgets').displayCategoryList(categories[key]['children']);
+						}
+
+						var menuItem = Mustache.render(jQuery('#category_menu_item').html(), item);
+						menuItems[count] = menuItem;
+
+						count++;
+					})(key, count);
+				}
+
+				return '<ul style="display:none;">'+menuItems.join('')+'</ul>';
+			},
+			displayCategoryMenu : function()
+			{
+ 				var menu = Twoshoes.helper('widgets').displayCategoryList(Twoshoes.get('categories'));
+				jQuery('#catg_pane').html(menu);
+				jQuery('#catg_pane > ul').attr('id', 'category_menu').show();
+				Twoshoes.updatePlugins();
+			},
+			displaySearchPage : function()
+			{
+				var widget = Mustache.to_html(jQuery('#search_page').html());
 				jQuery('#main_pane').html(widget);
 
-			 	var widget = Mustache.to_html(jQuery('#catalog_item_brief').html(), project);
-				jQuery('#item_brief').html(widget);
+	 			var filters = Mustache.to_html(jQuery('#search_filters').html(), {});
+	 			jQuery('#filt_pane').html(filters);
+
+	 			var pagination = Mustache.to_html(jQuery('#search_paginagtion').html(), {});
+	 			jQuery('#tpag_pane').html(pagination);
+	 			jQuery('#bpag_pane').html(pagination);
+
+				var projects = Twoshoes.get('projects'); //*!*Temp value for design
+	 			var results = '';
+				jQuery.each(projects, function(index, project)
+				{
+					results += Mustache.to_html(jQuery('#catalog_item').html(), project);
+				});
+
+	 			jQuery('#search_results').html(results);
+
 
 			}
 		}

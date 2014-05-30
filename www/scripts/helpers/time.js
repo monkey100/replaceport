@@ -1,4 +1,4 @@
-//helpers.js
+//time.js
 //They way I want to organise the helper objects is into sub poperties of the property object.
 //EG helpers : {php : {somefunction : function(){}}
 //This doesn't need any deep functionality, that's what plugins are for.
@@ -171,7 +171,7 @@ Twoshoes.init(
 							case 'L': formattedDatetime += Twoshoes.helper('time').isLeapYear(date.getFullYear().toString()); break;
 							case 'o': formattedDatetime += date.getFullYear().toString(); break; //Need formatting?
 							case 'Y': formattedDatetime += date.getFullYear().toString(); break; //Need formatting?
-							case 'y': formattedDatetime += date.getFullYear().toString().substr(0, 2); break;
+							case 'y': formattedDatetime += date.getFullYear().toString().substr(2, 2); break;
 							case 'a': formattedDatetime += Twoshoes.helper('time').getAmPm(date.getHours().toString()); break;
 							case 'A': formattedDatetime += date.getHours(); break;
 							//case 'B': formattedDatetime += Twoshoes.helper('time').getAmPm(date.getHours().toString().toUpperCase()); break;  //Don't understand this value

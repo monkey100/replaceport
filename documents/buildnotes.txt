@@ -125,6 +125,43 @@ This approach will allow the interface to exist separate fron the back-end and t
 
 
 
+Request/Transaction Boostrap
+
+The basic proceedure for the page request is as follows.
+1. Request to server
+2. Asses session and get user data
+3. Route request to page
+4. Build and send page interface markup
+5. Receive interface from server, AJAX for generic data
+6. Receive data and populate interface
+Optimisation(post rollout)
+7. Set background task to query for all data
+8. Receive all project data against session permission
+9. Cache application data in local storage
+10. Set background task interval check for updates
+
+This leaves seach requests for ranking values only, not the data itself
+
+
+Login/Logout Transaction
+1. Request to server
+2. Asses session and get user data
+3. Route request to user login
+4. Build login response
+5. Receive login response
+	a. Display error message
+	b. Send headers for page refesh to capture session
+
+
+Keyword search ranking(no file search to be implmented):
+projects.title
+projects.tags.tags
+projects.summary
+projects.description
+projects.changelogs.comment
+projects.comments
+
+
 
 
 Front End API - actions

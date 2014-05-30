@@ -10,6 +10,11 @@ Twoshoes.init(
 				numberMax : 5,
 				number    : 100
 			}
+		},
+		navigatioMenu : {
+			plugin : 'navPlugin',
+			target : 'ul#category_menu',
+			config : {}
 		}
 	}
 });

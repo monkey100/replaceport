@@ -23,6 +23,7 @@ class categories
 		'parent_id'			=> array('type'=>'INT','default'=>null),
 		'key'				=> array('type'=>'VARCHAR','default'=>''),
 		'title'				=> array('type'=>'VARCHAR','default'=>''),
+		'brief'				=> array('type'=>'VARCHAR','default'=>''),
 		'order'				=> array('type'=>'INT','default'=>null),
 		'created'			=> array('type'=>'DATETIME','default'=>''),
 		'modified'			=> array('type'=>'DATETIME','default'=>''));

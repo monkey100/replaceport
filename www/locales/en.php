@@ -8,6 +8,7 @@ class Locale_EN
 	public $Meta_Keywords					= 'Replaceport, Kerbal Space Program, etc';
 	public $Meta_Description				= 'Replaceport: Kerbal Space Program Module Repositry';
 	public $Meta_Copyright					= 'Replaceport 2013';
+	public $KSP								= 'KSP';
 
 	//Random markup titles
 	public $MostPopular						= 'Most Popular';
@@ -18,6 +19,7 @@ class Locale_EN
 	public $ProjectInfo						= 'Project Info';
 	public $ReleaseFiles					= 'Release Files';
 	public $Version							= 'Version';
+	public $Release							= 'Release';
 	public $Upload							= 'Upload';
 	public $Size							= 'Size';
 	public $Changelog						= 'Changelog';
@@ -33,6 +35,8 @@ class Locale_EN
 	public $Profile							= 'Profile';
 	public $Notices							= 'Notices';
 	public $Search							= 'Search';
+	public $AdvancedSearch					= 'Advanced Search';
+	public $KeywordSearch					= 'Keyword Search';
 	public $Terms_and_Conditions			= 'Terms and Conditions';
 	public $Contact							= 'Contact';
 	public $Features						= 'Features';
