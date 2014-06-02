@@ -96,6 +96,14 @@ Twoshoes.init(
 		},
 
 		app : {
+			contact : {
+				method : 'ajax',
+				type : 'POST',
+	        	action : domainUrl+'contact/',
+	        	data : {},
+	        	format : 'json'
+			},
+
 			//Calculation data handling request.
 			calculateData : {
 				method : 'ajax',

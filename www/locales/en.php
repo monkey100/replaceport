@@ -174,6 +174,11 @@ class Locale_EN
 
 	public $email_user_recovery				= 'Recover user password';
 	public $email_user_registration			= 'User registered';
+	public $email_err_req_name				= 'Name required';
+	public $email_err_req_email				= 'Email required';
+	public $email_err_inv_email				= 'Email address invalid';
+	public $email_err_req_body				= 'Message required';
+	public $email_err_fail_send				= 'Email failed to be sent';
 }
 
 ?>

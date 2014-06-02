@@ -1,16 +1,16 @@
 --test data for website development
 
 --Basic registered user(userame:"oneone",passpord:"111111")
-INSERT INTO `replaceport`.`users` (`id`, `username`, `password`, `email`, `alias`, `status`, `locale`, `expires`, `created`, `modified`) VALUES ('1', 'oneone', '96e79218965eb72c92a549dd5a330112', 'one@one.com', 'OneOne', 'active', 'en', '2015-05-31 04:55:12', '2014-05-10 04:55:25', '2014-05-10 04:55:32');
+INSERT INTO `replaceport`.`users` (`id`, `username`, `password`, `email`, `alias`, `status`, `verify`, `locale`, `expires`, `created`, `modified`) VALUES ('1', 'oneone', '96e79218965eb72c92a549dd5a330112', 'one@one.com', 'OneOne', 'active', NULL, 'en', '2015-05-31 04:55:12', '2014-05-10 04:55:25', '2014-05-10 04:55:32');
 
 --Project owner user(userame:"twotwo",passpord:"222222")
-INSERT INTO `replaceport`.`users` (`id`, `username`, `password`, `email`, `alias`, `status`, `locale`, `expires`, `created`, `modified`) VALUES ('2', 'twotwo', 'e3ceb5881a0a1fdaad01296d7554868d', 'two@two.com', 'TwoTwo', 'active', 'en', '2014-05-31 05:01:06', '2014-05-10 05:01:14', '2014-05-10 05:01:20');
+INSERT INTO `replaceport`.`users` (`id`, `username`, `password`, `email`, `alias`, `status`, `verify`, `locale`, `expires`, `created`, `modified`) VALUES ('2', 'twotwo', 'e3ceb5881a0a1fdaad01296d7554868d', 'two@two.com', 'TwoTwo', 'active', NULL, 'en', '2014-05-31 05:01:06', '2014-05-10 05:01:14', '2014-05-10 05:01:20');
 
 --Project contributor user(userame:"threethree",passpord:"333333")
-INSERT INTO `replaceport`.`users` (`id`, `username`, `password`, `email`, `alias`, `status`, `locale`, `expires`, `created`, `modified`) VALUES ('3', 'threethree', '1a100d2c0dab19c4430e7d73762b3423', 'three@three.com', 'ThreeThree', 'active', 'en', '2014-05-31 05:03:38', '2014-05-10 05:03:44', '2014-05-10 05:03:50');
+INSERT INTO `replaceport`.`users` (`id`, `username`, `password`, `email`, `alias`, `status`, `verify`, `locale`, `expires`, `created`, `modified`) VALUES ('3', 'threethree', '1a100d2c0dab19c4430e7d73762b3423', 'three@three.com', 'ThreeThree', 'active', NULL, 'en', '2014-05-31 05:03:38', '2014-05-10 05:03:44', '2014-05-10 05:03:50');
 
 --Website moderator user(userame:"fourfour",passpord:"444444")
-INSERT INTO `replaceport`.`users` (`id`, `username`, `password`, `email`, `alias`, `status`, `locale`, `expires`, `created`, `modified`) VALUES ('4', 'fourfour', '73882ab1fa529d7273da0db6b49cc4f3', 'four@four.com', 'FourFour', 'moderator', 'en', '2014-05-31 05:06:08', '2014-05-10 05:06:14', '2014-05-10 05:06:19');
+INSERT INTO `replaceport`.`users` (`id`, `username`, `password`, `email`, `alias`, `status`, `verify`, `locale`, `expires`, `created`, `modified`) VALUES ('4', 'fourfour', '73882ab1fa529d7273da0db6b49cc4f3', 'four@four.com', 'FourFour', 'moderator', NULL, 'en', '2014-05-31 05:06:08', '2014-05-10 05:06:14', '2014-05-10 05:06:19');
 
 
 

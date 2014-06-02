@@ -130,6 +130,77 @@ Twoshoes.init(
 						jQuery(target).removeClass('focus').removeClass('typcn-arrow-minimise').addClass('blur').addClass('typcn-arrow-maximise').parentsUntil('tr').parent().next().hide();
 					}
 				}
+			},
+			loginPanel : {
+				event : 'click',
+				target : 'a#login_menu',
+				dispatch : function(target)
+				{
+					//Open up login panel
+					jQuery('#login_pane').slideDown();
+					//Need to attach a way to close the panel when the user cicks out of the login area.
+					//This will be to attach an event on the document object anlook through all the
+					//If the holder of event is not within the document stack then the window should close.
+				}
+			},
+			registerPanel : {
+				event : 'click',
+				target : 'a#register_menu',
+				dispatch : function(target)
+				{
+					//Open up login panel
+					jQuery('#login_pane').slideDown();
+					//Need to attach a way to close the panel when the user cicks out of the login area.
+					//This will be to attach an event on the document object anlook through all the
+					//If the holder of event is not within the document stack then the window should close.
+				}
+			}
+		},
+		actions : {
+			contactSubmit : {
+				event : 'click',
+				target : '#contact_submit',
+				dispatch : function(target)
+				{
+					//Check for errors.
+
+					//Makea request for contact.
+					var form = jQuery(target).parentsUntil('form').parent();
+					var request = {
+						data : {
+							name : jQuery('#contact_name').val(),
+							email : jQuery('#contact_email').val(),
+							body : jQuery('#contact_body').val()
+						},
+						success : function(response)
+						{
+							if (Twoshoes.count(response.error) > 0)
+							{
+								var errors = '';
+								jQuery.each(response.error, function(index, value)
+								{
+									errors += value+'<br />';
+								});
+
+								jQuery('#contact_errors').html(errors);
+							}
+							else
+							{
+								var values = {name:response.name, email:response.email, body:response.body};
+								var display = Mustache.to_html(jQuery('#contact_confirm').html(), values);
+								jQuery('#cont_pane').html(display);
+							}
+						},
+						error : function()
+						{
+							var values = {msg:'fail'};
+							var display = Mustache.to_html(jQuery('#contact_confirm').html(), values);
+							jQuery('#cont_pane').html(display);
+						}
+					};
+
+					Twoshoes.request('app').contact(request);
+				}
 			}
 		}
 	}

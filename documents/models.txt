@@ -9,6 +9,7 @@ Users
 	-email[VARCHAR 255]
 	-alias[VARCHAR 255]
 	-status[VARCHAR 255]("active/admin/moderator/suspended/removed")
+	-verify[VARCHAR 255]
 	-locale[VARCHAR] - default "en"
 	-expires[DATETIME] - session expiry
 	-created[DATETIME]

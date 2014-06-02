@@ -134,7 +134,7 @@ class actions
  		$Arr_PageData = array();
  		if (!$this->Obj_Helpers)
  		{
-			require_once(MW_CONST_STR_DIR_DOMAIN.'/helpers.php');
+			require_once(CONST_STR_DIR_DOMAIN.'/helpers.php');
 			$this->Obj_Helpers = new helpers();
 		}
 

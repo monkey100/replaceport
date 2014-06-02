@@ -26,8 +26,8 @@ class database
 
 	public function __construct()
 	{
-		require_once(MW_CONST_STR_DIR_DOMAIN.'/models.php');
-		require_once(MW_CONST_STR_DIR_DOMAIN.'/libraries/nbbc.php');
+		require_once(CONST_STR_DIR_DOMAIN.'/models.php');
+		require_once(CONST_STR_DIR_DOMAIN.'/libraries/nbbc.php');
 
 		if (!$Obj_Connection = $this->open($this->Arr_Query))
 		{
@@ -59,7 +59,7 @@ class database
 	{
 		if (!in_array($Sr_Include, $this->Arr_Loaded))
 		{
-			require_once(MW_CONST_STR_DIR_DOMAIN.'/'.$Sr_Include);
+			require_once(CONST_STR_DIR_DOMAIN.'/'.$Sr_Include);
 			$this->Arr_Loaded[] = $Sr_Include;
 		}
 		return;
@@ -510,7 +510,7 @@ FROM
 					case 'CHAR': case 'VARCHAR': case 'TINYTEXT': case 'TEXT': case 'MEDIUMTEXT': case 'VARCHAR':
 						$Arr_Values[$i][$j] = strip_tags($Arr_Values[$i][$j]);
 					case 'DATETIME':
-						if (!is_string($Arr_Values[$i][$j]) || !preg_match(MW_REG_SYSTEM_DATETIME, $Arr_Values[$i][$j]))
+						if (!is_string($Arr_Values[$i][$j]) || !preg_match(REG_SYSTEM_DATETIME, $Arr_Values[$i][$j]))
 						{
 							$Arr_Values[$i][$j] = '';
 						}

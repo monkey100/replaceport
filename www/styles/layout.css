@@ -44,7 +44,7 @@
 .wideform-6 em{display:block;clear:both;margin-left:180px;text-align:left;font-family:arial;font-weight:bold;font-style:normal;color:#f15d22;}
 .wideform-6 b{clear:left;display:block;margin-left:180px;color:#22761A;font-weight:normal;font-style:italic;}
 .wideform-6 span.pre{display:block;float:left;}
-.wideform-6 a.action{float:left;margin-top:-54px;margin-left:414px;font-size:6em;text-shadow:2px 2px 2px #CCCCCC;}
+.wideform-6 a.action{float:right;margin-top:-54px;margin-right:84px;font-size:6em;text-shadow:2px 2px 2px #CCCCCC;}
 
 form{}
 form input, form textarea{border-width:1px;border-style:solid;}
@@ -64,8 +64,7 @@ form fieldset.focus legend{margin-top:0px;}
 form fieldset.focus ul{display:block;}
 form fieldset.blur ul{display:none;}
 form fieldset.blur legend{margin-bottom:0;}
-
-
+form span.error{color:red;font-style:italic;}
 
 form legend.multipart:hover{cursor:pointer;}
 form legend.multipart > b{display:block;float:right;width:18px;height:18px;margin:18px;text-indent:-9999px;}
@@ -266,6 +265,7 @@ a#search_button:hover{color:#A50201;}
 }
 #cont_pane input, #cont_pane textarea{border:1px solid #cfcfff;}
 #comm_pane{min-height:18em;border:1px solid #F1F1C3;background-color:#FFFFE8;padding:18px 27px;}
+#cont_pane #contact_errors{float:left;margin-top:-18px;margin-left:184px;}
 
 #filt_pane, #tpag_pane, #bpag_pane, #item_pane, #advn_pane{padding:9px;border:1px solid #cfcfff;background-color:#f6f6ff;}
 #filt_pane, #tpag_pane, #bpag_pane, #item_pane, #advn_pane{

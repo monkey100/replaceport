@@ -279,6 +279,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `email` varchar(255) DEFAULT NULL,
   `alias` varchar(255) DEFAULT NULL,
   `status` varchar(255) NOT NULL DEFAULT 'unverified',
+  `verify` varchar(255) DEFAULT NULL,
   `locale` varchar(255) DEFAULT NULL,
   `expires` datetime NOT NULL DEFAULT 'en',
   `created` datetime DEFAULT NULL,

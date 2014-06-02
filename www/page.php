@@ -981,12 +981,20 @@
 <li><a href="<?php print $theme['root']; ?>{{key}}" class="category" title="{{title}}">{{brief}}</a>{{& children}}</li>
 </script>
 
+<script id="contact_confirm" type="text/template">
+<h3>Contact Messaege Sent</h3>
+	<dl>
+<dt>Name</dt><dd>{{name}}</dd>
+<dt>Email</dt><dd>{{email}}</dd>
+<dt>Messege</dt><dd>{{body}}</dd>
+	</dl>
+</script>
 
 <script id="contact_page" type="text/template">
 			<div id="cont_scrn">
 				<div id="cont_pane">
 					<h3>Contact Us</h3>
-<form name="" id="" class="wideform-6" method="" action="">
+<form name="contact" id="contact_form" class="wideform-6" method="POST" action="<?php print $theme['root']; ?>/contact/">
 	<fieldset>
 		<ul>
 <li class="short"><label for="contact_name">Name</label><input type="text" name="contact_name" id="contact_name" class="long" value="" placeholder="Name"><em title="contact_name" class="error"></em></li>
@@ -996,7 +1004,7 @@
 	</fieldset>
 	<fieldset>
 		<ul>
-<li class="short"><a class="typcn typcn-mail action" title="Send Message"></a></li>
+<li class="short"><a href="#" class="typcn typcn-mail action inert" id="contact_submit" title="Send Message"></a><span class="error" id="contact_errors"></span></li>
 		</ul>
 	</fieldset>
 </form>

@@ -4,6 +4,7 @@
 
 //Keeping global namespace clear.
 bootstrap('http://127.0.0.38/', 'Australia/Sydney');
+
 global $GLB_APP;
 $GLB_APP = new app();
 $GLB_APP->route()->respond();
@@ -12,16 +13,20 @@ exit;
 //Easy global definitions.
 function bootstrap($Str_Url, $Str_Timezone)
 {
-	//dir is correct, url should take the domain name
-//	define('MW_CONST_STR_URL_DOMAIN', str_replace('\\', '/', dirname($_SERVER['SCRIPT_FILENAME']).'/'));
-	define('MW_CONST_STR_URL_DOMAIN', $Str_Url);
-	define('MW_CONST_STR_DIR_DOMAIN', dirname($_SERVER['SCRIPT_FILENAME']));
+	//Server settings, maybey move these to a global scope declaration.
+	define('CONST_STR_ORG_DOMAIN', 'ReplacePort');
+	define('CONST_STR_ORG_EMAIL', 'replaceport@replaceport.com');
 
-	define('MW_REG_URI',				'^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$');
-	define('MW_REG_EMAIL',				"^(?:[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*|\"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])$");
-	define('MW_REG_SYSTEM_DATETIME',	'^([0-9]{4})-([0-9]{2})-([0-9]{2}) ([0-9]{2}):([0-9]{2}):([0-9]{2})$');
-	define('MW_REG_JQUERYUI_DATETIME',	'([0-9]{2})/([0-9]{2})/([0-9]{4})( ([0-9]{2}):([0-9]{2}))*');
-	define('MW_STR_SYSTEM_DATETIME',	'Y-m-d H:i:s');
+	//dir is correct, url should take the domain name
+//	define('CONST_STR_URL_DOMAIN', str_replace('\\', '/', dirname($_SERVER['SCRIPT_FILENAME']).'/'));
+	define('CONST_STR_URL_DOMAIN', $Str_Url);
+	define('CONST_STR_DIR_DOMAIN', dirname($_SERVER['SCRIPT_FILENAME']));
+
+	define('REG_URI',				'^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$');
+	define('REG_EMAIL',				"^(?:[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*|\"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])$");
+	define('REG_SYSTEM_DATETIME',	'^([0-9]{4})-([0-9]{2})-([0-9]{2}) ([0-9]{2}):([0-9]{2}):([0-9]{2})$');
+	define('REG_JQUERYUI_DATETIME',	'([0-9]{2})/([0-9]{2})/([0-9]{4})( ([0-9]{2}):([0-9]{2}))*');
+	define('STR_SYSTEM_DATETIME',	'Y-m-d H:i:s');
 
 	date_default_timezone_set($Str_Timezone);
 }
@@ -49,7 +54,7 @@ class app
 	public function route()
 	{
 		//Connect to database.
-		require_once(MW_CONST_STR_DIR_DOMAIN.'/database.php');
+		require_once(CONST_STR_DIR_DOMAIN.'/database.php');
 		$this->Obj_Database = new database();
 
 		//Initialise.
@@ -65,7 +70,7 @@ class app
 		//Get language.
 		$Arr_Languages = array('en');
 		$Str_Language = ($this->Arr_User && in_array($this->Arr_User['locale'], $Arr_Languages))? $this->Arr_User['locale']: 'en';
-		require_once(MW_CONST_STR_DIR_DOMAIN.'/locales/'.$Str_Language.'.php');
+		require_once(CONST_STR_DIR_DOMAIN.'/locales/'.$Str_Language.'.php');
 		$Str_Locale = 'Locale_'.strtoupper($Str_Language);
 		$this->Obj_Locale = new $Str_Locale();
 
@@ -80,11 +85,11 @@ class app
 					'location'	=> $Arr_Location,
 					'lang'		=> get_object_vars($this->Obj_Locale),
 					'theme'		=> array(
-						'root'		=> MW_CONST_STR_URL_DOMAIN,
-						'styles'	=> MW_CONST_STR_URL_DOMAIN.'styles/',
-						'scripts'	=> MW_CONST_STR_URL_DOMAIN.'scripts/',
-						'images'	=> MW_CONST_STR_URL_DOMAIN.'images/',
-						'uploads'	=> MW_CONST_STR_URL_DOMAIN.'uploads/'));
+						'root'		=> CONST_STR_URL_DOMAIN,
+						'styles'	=> CONST_STR_URL_DOMAIN.'styles/',
+						'scripts'	=> CONST_STR_URL_DOMAIN.'scripts/',
+						'images'	=> CONST_STR_URL_DOMAIN.'images/',
+						'uploads'	=> CONST_STR_URL_DOMAIN.'uploads/'));
 
 		//Do routing.
 		switch ($Arr_Location[0])
@@ -92,6 +97,7 @@ class app
 			case 'api': $this->Str_Response = $this->api($Arr_Vars); $this->Str_Protocol = 'json'; break;
 			case 'feed': $this->Str_Response = $this->feed($Arr_Vars); $this->Str_Protocol = 'feed'; break;
 			case 'uploads': $this->Str_Response = $this->download($Arr_Vars); $this->Str_Protocol = 'zip'; break;
+			case 'contact': $this->Str_Response = $this->contact($Arr_Vars); $this->Str_Protocol = 'json'; break;
 			default: $this->Str_Response = $this->page($Arr_Vars); $this->Str_Protocol = 'html'; break;
 		}
 
@@ -211,7 +217,7 @@ class app
 		//Get execution result.
 		$Str_Build = '';
 		ob_start();
-		include($this->path_request(MW_CONST_STR_DIR_DOMAIN.'/'.$Str_Template.'.php'));
+		include($this->path_request(CONST_STR_DIR_DOMAIN.'/'.$Str_Template.'.php'));
 		$Str_Build = ob_get_contents();
 		ob_end_clean();
 
@@ -261,7 +267,7 @@ class app
 
 	public function api($Arr_Vars)
 	{
-		require_once(MW_CONST_STR_DIR_DOMAIN.'/actions.php');
+		require_once(CONST_STR_DIR_DOMAIN.'/actions.php');
 		$this->Obj_Actions = new actions();
 		$Str_Response = '';
 
@@ -311,5 +317,64 @@ class app
 
 		return $Str_Response;
 	}
+
+	public function contact($Arr_Vars)
+	{
+		//Kill unposted requests.
+		if (!isset($_POST))
+		{
+			header('Location: '.CONST_STR_ORG_DOMAIN.'#contact/');
+			die;
+		}
+
+		require_once(CONST_STR_DIR_DOMAIN.'/mail.php');
+		$Obj_Mail = new Mail();
+		$Str_ContactName = (isset($_POST['name']))? $_POST['name']: '';
+		$Str_ContactEmail = (isset($_POST['email']))? $_POST['email']: '';
+		$Str_ContactBody = (isset($_POST['body']))? $_POST['body']: '';
+
+		//Validate inputs.
+		$Arr_Error = array();
+		if (!$Str_ContactName)
+		{
+			$Arr_Error[] = $Arr_Vars['lang']['email_err_req_name'];
+		}
+
+		if (!$Str_ContactEmail)
+		{
+			$Arr_Error[] = $Arr_Vars['lang']['email_err_req_email'];
+		}
+		elseif (!$Obj_Mail->get_email_address_is_valid($Str_ContactEmail))
+		{
+			$Arr_Error[] = $Arr_Vars['lang']['email_err_inv_email'];
+		}
+
+		if (!$Str_ContactBody)
+		{
+			$Arr_Error[] = $Arr_Vars['lang']['email_err_req_body'];
+		}
+
+		//Process inputs.
+		if (!$Arr_Error)
+		{
+			$Str_ContactBody = $Obj_Mail->format_text_input($Str_ContactBody);
+			$Str_ContactBody = $Obj_Mail->generate_body_output($Str_ContactBody);
+			if (!$Obj_Mail->send_simple_email($Str_ContactName, $Str_ContactEmail, $Str_ContactBody))
+			{
+				$Arr_Error[] = $Arr_Vars['lang']['email_err_fail_send'];
+			}
+		}
+
+		//Respond with confirmation.
+		$Arr_Response = array(
+			'name'	=> $Str_ContactName,
+			'email'	=> $Str_ContactEmail,
+			'body'	=> $Str_ContactBody,
+			'error'	=> $Arr_Error);
+		$Str_Response = json_encode($Arr_Response);
+
+		return $Str_Response;
+	}
 }
-	?>
+
+?>
