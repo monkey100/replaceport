@@ -150,22 +150,22 @@ class watchlists
 class tags
 {
 	public $Arr_Schema = array(
-		'id'			=> array('type'=>'INT','default'=>null),
-		'project_id'	=> array('type'=>'INT','default'=>null),
-		'tag'			=> array('type'=>'VARCHAR','default'=>''),
-		'active'		=> array('type'=>'BOOL','default'=>'1'),
-		'created'		=> array('type'=>'DATETIME','default'=>''));
+		'id'				=> array('type'=>'INT','default'=>null),
+		'project_id'		=> array('type'=>'INT','default'=>null),
+		'tag'				=> array('type'=>'VARCHAR','default'=>''),
+		'active'			=> array('type'=>'BOOL','default'=>'1'),
+		'created'			=> array('type'=>'DATETIME','default'=>''));
 }
 
 class reports
 {
 	public $Arr_Schema = array(
-		'id'			=> array('type'=>'INT','default'=>null),
-		'user_id'		=> array('type'=>'INT','default'=>null),
+		'id'				=> array('type'=>'INT','default'=>null),
+		'user_id'			=> array('type'=>'INT','default'=>null),
 		'project_id'		=> array('type'=>'INT','default'=>null),
-		'comment'		=> array('type'=>'VARCHAR','default'=>''),
-		'status'		=> array('type'=>'VARCHAR','default'=>''),
-		'outcome'		=> array('type'=>'VARCHAR','default'=>''),
-		'created'		=> array('type'=>'DATETIME','default'=>''),
-		'modified'		=> array('type'=>'DATETIME','default'=>''));
+		'comment'			=> array('type'=>'VARCHAR','default'=>''),
+		'status'			=> array('type'=>'VARCHAR','default'=>''),
+		'outcome'			=> array('type'=>'VARCHAR','default'=>''),
+		'created'			=> array('type'=>'DATETIME','default'=>''),
+		'modified'			=> array('type'=>'DATETIME','default'=>''));
 }

@@ -264,6 +264,15 @@ return apiData;
 
 				return '<ul style="display:none;">'+menuItems.join('')+'</ul>';
 			},
+			displayGlobalWidgets : function()
+			{
+ 				var registerForm = Mustache.render(jQuery('#register_widget').html(), {});
+				jQuery('#register_panel').html(registerForm);
+
+ 				var loginForm = Mustache.render(jQuery('#login_widget').html(), {});
+				jQuery('#login_panel').html(loginForm);
+			},
+
 			displayCategoryMenu : function()
 			{
  				var menu = Twoshoes.helper('widgets').displayCategoryList(Twoshoes.get('categories'));

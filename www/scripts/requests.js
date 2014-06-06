@@ -74,10 +74,11 @@ Twoshoes.init(
 					//Display homepage, will need to path for offsite url memory.
 					Twoshoes.route('pages').invoke('home');
 				}
-			},
+			}
+		},
 
-			//API data handling request.
-			apiData : {
+		app : {
+			transact : {
 				method : 'ajax',
 				type : 'POST',
 	        	action : domainUrl+'api/',
@@ -89,53 +90,16 @@ Twoshoes.init(
 				},
 	        	success : function(response)
 				{
-					//*!*Need to check for the success variable to confirm data has been saved. - need to set this in the API routine.
-					Twoshoes.helper('bootstrap').buildApiResponseTable(response);
+
 				}
 			},
-		},
-
-		app : {
 			contact : {
 				method : 'ajax',
 				type : 'POST',
 	        	action : domainUrl+'contact/',
 	        	data : {},
 	        	format : 'json'
-			},
-
-			//Calculation data handling request.
-			calculateData : {
-				method : 'ajax',
-				type : 'POST',
-	        	action : domainUrl+'calculate/',
-	        	data : {},
-	        	format : 'json',
-	        	beforeSend : function()
-	        	{
-					//Add overlay and hide interface.
-		            jQuery('#overlay').fadeIn();
-					jQuery('#wrapper').fadeOut();
-				},
-	        	error : function()
-				{
-					//Remove overlay and display interface.
-		            jQuery('#overlay').fadeOut();
-					jQuery('#wrapper').fadeIn();
-
-	            	alert('Request failed');
-				},
-	        	success : function(response)
-				{
-					//Remove overlay and display interface.
-		            jQuery('#overlay').fadeOut();
-					jQuery('#wrapper').fadeIn();
-
-					//Set results to the interface.
-					Twoshoes.helper('widgets').setCalulationOutputs(response.outputs);
-				}
 			}
-
 		}
 	}
 });

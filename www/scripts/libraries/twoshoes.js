@@ -3289,6 +3289,7 @@ var Twoshoes = {
 //What's happening is we are sending to the dispatch all the events and the loop there is
 //firing the "valid" event(actully a path) in the event list, even though it is not actually valid.
 //Why is the path firing, indeed. Must test I didn't break event handling
+//This does not work with event type routes, needs fixing.
 										var event = jQuery.Event(registeredRoute.type);
 										event.data = {};
 										event.data.type = (typeof registeredRoute.type != 'undefined')? registeredRoute.type: false;

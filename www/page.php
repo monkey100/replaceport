@@ -1019,6 +1019,38 @@
 			</div>
 </script>
 
+
+<script id="register_page" type="text/template">
+			<div id="cont_scrn">
+				<div id="cont_pane">
+					<h3>Register as User</h3>
+					<form name="register" id="register_form" class="wideform-6" method="POST" action="">
+						<fieldset class="input">
+							<ul>
+<li class="short"><label for="register_username">Username</label><input type="text" name="register_username" id="register_username" class="long" value="" placeholder="<?php print $lang['Username']; ?>"><em title="" class="error"></em></li>
+<li class="short"><label for="register_alias">Alias</label><input type="text" name="register_alias" id="register_alias" class="long" value="" placeholder="<?php print $lang['Username']; ?>"><em title="" class="error"></em></li>
+<li class="short"><label for="register_password">Password</label><input type="password" name="register_password" id="register_password" class="long" value="" placeholder="<?php print $lang['Password']; ?>"><em title="" class="error"></em></li>
+<li class="short"><label for="register_email">Email</label><input type="email" name="register_email" id="register_email" class="long" value="" placeholder="<?php print $lang['Email']; ?>"><em title="" class="error"></em></li>
+							</ul>
+						</fieldset>
+						<fieldset class="action">
+							<ul>
+<li class="short"><a href="#" id="register_submit" class="typcn typcn-user-add action inert" title="<?php print $lang['Register']; ?>"></a><span class="error" id="register_errors"></span></li>
+							</ul>
+						</fieldset>
+					</form>
+<br class="drop-b" />
+				</div>
+			</div>
+			<div id="comm_scrn">
+				<div id="comm_pane">
+<h3>Community links</h3>
+<p>additional info to getting in touch with modders, etc.</p>
+				</div>
+			</div>
+
+</script>
+
 <script id="about_page" type="text/template">
 			<div id="genr_scrn">
 				<div id="genr_pane">
@@ -1073,6 +1105,23 @@
 			</div>
 </script>
 
+<script id="login_widget" type="text/template">
+	<form name="login" id="login_form" class="" method="POST" action="<?php print $theme['root']; ?>/api/">
+		<fieldset class="input">
+			<ul>
+<li><input type="text" name="login_username" id="login_username" class="inert" value="" placeholder="<?php print $lang['Username']; ?>"><em title="" class="error"></em></li>
+<li><input type="password" name="login_password" id="login_password" class="inert" value="" placeholder="<?php print $lang['Password']; ?>"><em title="" class="error"></em></li>
+			</ul>
+		</fieldset>
+		<fieldset class="action">
+			<ul>
+<li><a href="#" id="login_reset" class="typcn typcn-delete-outline" title="<?php print $lang['Close']; ?>"></a></li>
+<li><a href="#" id="login_submit" class="typcn typcn-user" title="<?php print $lang['Login']; ?>"></a></li>
+			</ul>
+		</fieldset>
+	</form>
+</script>
+
 <div id="wrapper" class="container">
 
 	<div id="head_scrn">
@@ -1085,8 +1134,16 @@
 <li><a href="<?php print $theme['root']; ?>#about" id="" class="" title="">About</a></li>
 <li><a href="<?php print $theme['root']; ?>#faq" id="" class="" title="">FAQ</a></li>
 <li><a href="<?php print $theme['root']; ?>#contact" id="" class="" title="">Contact</a></li>
-<li><a href="<?php print $theme['root']; ?>#register" id="" class="action" title="">Register</a></li>
-<li><a href="<?php print $theme['root']; ?>#login" id="" class="action" title="">Login</a></li>
+<li><a href="<?php print $theme['root']; ?>#register" id="" class="" title="">Register</a>
+	<div id="register_panel" style="display:none;">
+<!-- #regiser_widget -->
+	</div>
+</li>
+<li><a href="<?php print $theme['root']; ?>#login" id="login_menu" class="action" title="">Login</a>
+	<div id="login_panel" style="display:none;">
+<!-- #login_widget -->
+	</div>
+</li>
 					</ul>
 				</div>
 			</div>

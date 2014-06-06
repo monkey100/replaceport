@@ -82,6 +82,8 @@ class Locale_EN
 	public $Details							= 'Details';
 	public $Notice							= 'Notice';
 	public $Administration					= 'Administration';
+	public $Open							= 'Open';
+	public $Close							= 'Close';
 
 	//Labels
 	public $Username						= 'Username';
@@ -171,6 +173,21 @@ class Locale_EN
 	public $Status_Archived					= 'This account data has been archived and can no longer be modified';
 	public $Status_Disabled 				= 'This account data has been disabled';
 	public $User_Registered					= 'User Registered';
+
+
+	//Server side error messages.
+	public $auth_err_mat_permission			= 'Authorisation action denied for admin level';
+
+	public $user_login_err_data				= 'User data does not exist';
+	public $user_login_err_conflict			= 'User logged in under different name';//potential security hole
+	public $user_login_err_exists			= 'Username does not exist';
+	public $user_login_err_logged			= 'User already logged in';
+	public $user_login_err_password			= 'Password incorrect';
+	public $user_err_req_username			= 'Username does not exist';
+	public $user_err_req_password			= 'Password does not exist';
+	public $user_err_inv_username			= 'Username invalid, must be chars only';
+	public $user_err_tak_username			= 'Username already taken';
+	public $user_err_inv_password			= 'Password invalid, must be range 7 - 20?';
 
 	public $email_user_recovery				= 'Recover user password';
 	public $email_user_registration			= 'User registered';

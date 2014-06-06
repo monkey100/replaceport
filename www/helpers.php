@@ -339,6 +339,33 @@ class helpers
 
 	}
 
+	public function get_projects_by_user($Obj_Database, $Int_UserId)
+	{
+		$Arr_Projects = array();
+		$Arr_UserLink = array('user_id', 'eq', $Int_UserId);
+		$Mix_Results = $Obj_Database->table('contributors')->where($Arr_UserLink)->order('created', 'asc')->select();
+
+		if (isset($Mix_Results))
+		{
+			$Arr_Ids = array();
+			for ($i = 0; $i < count($Mix_Results); $i++)
+			{
+				$Arr_Ids[$i] = $Mix_Results[$i][2];
+			}
+
+			$Arr_Projects = $Obj_Database->table('projects')
+										->where(array('id', 'in', $Arr_Ids))
+										->select();
+		}
+
+		foreach ($Arr_Projects as &$Arr_Project)
+		{
+			$Arr_Project = $this->populate_project_data($Arr_Project, $Obj_Database);
+		}
+
+		return $Arr_Projects;
+	}
+
 	//Basic tree building recursion
 	public function build_data_tree($Arr_DataRows, $Int_Root, $Int_ParentField, $Int_PrimaryField, $Str_ChildrenProperty)
 	{

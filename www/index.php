@@ -98,6 +98,7 @@ class app
 			case 'feed': $this->Str_Response = $this->feed($Arr_Vars); $this->Str_Protocol = 'feed'; break;
 			case 'uploads': $this->Str_Response = $this->download($Arr_Vars); $this->Str_Protocol = 'zip'; break;
 			case 'contact': $this->Str_Response = $this->contact($Arr_Vars); $this->Str_Protocol = 'json'; break;
+			case 'logout': $this->Str_Response = $this->logout($Arr_Vars); $this->Str_Protocol = 'html'; break;
 			default: $this->Str_Response = $this->page($Arr_Vars); $this->Str_Protocol = 'html'; break;
 		}
 
@@ -175,20 +176,20 @@ class app
 		return $Arr_ViewPath;
 	}
 
-	public function get_user($Arr_User)
+	public function get_user($Arr_Session)
 	{
 		//User can be any array with a userame index.
-		if ($Arr_User || isset($Arr_User['username']))
+		if ($Arr_Session || isset($Arr_Session['username']))
 		{
 			$Arr_Results = $this->Obj_Database
 								->table('users')
-								->where(array('username', 'eq', $Arr_User['username']))
+								->where(array('username', 'eq', $Arr_Session['username']))
 								->limit(1)
 								->select();
 
 			if (isset($Arr_Results[0]))
 			{
-				return $Arr_Results[0];
+				return $this->Obj_Database->table('users')->index($Arr_Results[0]);
 			}
 		}
 
@@ -254,12 +255,20 @@ class app
 		//Registr successful download
 	}
 
+	//Simple recursion to pull out all tags from an api transaction.
 	public function clean_request($Arr_Vars)
 	{
 		$Arr_Request = array();
 		foreach ($Arr_Vars as $Str_Key => $Mix_Value)
 		{
-			$Arr_Request[$Str_Key] = strip_tags($Mix_Value);
+			if (!is_array($Mix_Value))
+			{
+				$Arr_Request[$Str_Key] = strip_tags($Mix_Value);
+			}
+			else
+			{
+				$Arr_Request[$Str_Key] = $this->clean_request($Mix_Value);
+			}
 		}
 
 		return $Arr_Request;
@@ -296,6 +305,9 @@ class app
 					break;
 				}
 			}
+
+			$Str_Response = json_encode($Arr_Request);
+
 		}
 		//Fetch call request data.
 		elseif (isset($_GET) && $_GET)
@@ -359,6 +371,7 @@ class app
 		{
 			$Str_ContactBody = $Obj_Mail->format_text_input($Str_ContactBody);
 			$Str_ContactBody = $Obj_Mail->generate_body_output($Str_ContactBody);
+//*!*Tis function needs to be turned on for production.
 			if (!$Obj_Mail->send_simple_email($Str_ContactName, $Str_ContactEmail, $Str_ContactBody))
 			{
 				$Arr_Error[] = $Arr_Vars['lang']['email_err_fail_send'];
@@ -374,6 +387,13 @@ class app
 		$Str_Response = json_encode($Arr_Response);
 
 		return $Str_Response;
+	}
+	
+	public function logout()
+	{
+		$this->destroy_sesion();
+		header('Location: '.CONST_STR_URL_DOMAIN);
+		die;
 	}
 }
 

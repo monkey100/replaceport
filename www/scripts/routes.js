@@ -10,6 +10,7 @@ Twoshoes.init(
 				dispatch : function()
 				{
 					Twoshoes.helper('widgets').displayIndexPage();
+					Twoshoes.helper('widgets').displayGlobalWidgets();
 					Twoshoes.helper('widgets').displayCategoryMenu();
 				}
 			},
@@ -39,12 +40,22 @@ Twoshoes.init(
 					Twoshoes.helper('widgets').displayProjectView(project);
 				}
 			},
+			register : {
+				path : 'register',
+				dispatch : function(target)
+				{
+					var display = Mustache.to_html(jQuery('#register_page').html());
+					jQuery('#main_pane').html(display);
+					jQuery('#register_username').focus();
+				}
+			},
 			contact : {
 				path : 'contact', //this regex needs to be precise match not general pattern fit.
 				dispatch : function()
 				{
 					var display = Mustache.to_html(jQuery('#contact_page').html());
 					jQuery('#main_pane').html(display);
+					jQuery('#contact_name').focus();
 				}
 			},
 			about : {
@@ -136,25 +147,95 @@ Twoshoes.init(
 				target : 'a#login_menu',
 				dispatch : function(target)
 				{
-					//Open up login panel
-					jQuery('#login_pane').slideDown();
-					//Need to attach a way to close the panel when the user cicks out of the login area.
-					//This will be to attach an event on the document object anlook through all the
-					//If the holder of event is not within the document stack then the window should close.
+					//Twoshoes.route('menus').invoke('registerReset');
+					jQuery(target).addClass('focus');
+					jQuery('#login_panel').slideDown();
+
+					//Set global event listener for licks off this panel to close.
 				}
 			},
-			registerPanel : {
+			loginReset : {
 				event : 'click',
-				target : 'a#register_menu',
+				target : 'a#login_reset',
 				dispatch : function(target)
 				{
-					//Open up login panel
-					jQuery('#login_pane').slideDown();
-					//Need to attach a way to close the panel when the user cicks out of the login area.
-					//This will be to attach an event on the document object anlook through all the
-					//If the holder of event is not within the document stack then the window should close.
+					jQuery('#login_username').val('');
+					jQuery('#login_password').val('');
+					jQuery('#login_panel').slideUp();
+					jQuery('a#login_menu').removeClass('focus');
+
+					//Set global event listener for licks off this panel to close.
+				}
+			},
+			loginSubmit : {
+				event : 'click',
+				target : '#login_submit',
+				dispatch : function(target)
+				{
+					var form = jQuery(target).parentsUntil('form').parent();
+					var apiData =
+					{
+						users : {
+							login : {
+								0 :
+								{
+									auth : jQuery(form).find('#login_username').val(),
+									username : jQuery(form).find('#login_username').val(),
+									password : jQuery(form).find('#login_password').val()
+								}
+							}
+						}
+					};
+					var data = JSON.stringify(apiData);
+					var config = {
+						data : apiData,
+						success : function(response)
+						{
+							if ((typeof response == 'undefined') || (!response))
+							{
+								//fail message
+							}
+							else
+							{
+								if (typeof response.users.login[0]['errors'] == 'undefined')
+								{
+									//Set path to user account and refesh for cookies.
+									window.location.replace(domainUrl+'#user/'+jQuery(form).find('#login_username').val());
+									location.reload(true);
+								}
+								else
+								{
+									//display errors
+								}
+							}
+						}
+					};
+
+					Twoshoes.request('app').transact(config);
+				}
+			},
+			registerReset : {
+				event : 'click',
+				target : 'a#register_reset',
+				dispatch : function(target)
+				{
+					jQuery('#register_username').val('');
+					jQuery('#register_password').val('');
+					jQuery('#register_email').val('');
+					jQuery('#register_panel').slideUp();
+					jQuery('a#register_menu').removeClass('focus');
+				}
+			},
+			registerSubmit : {
+				event : 'click',
+				target : 'a#register_submit',
+				dispatch : function(target)
+				{
+					var config = {};
+					Twoshoes.request('app').transact(config);
 				}
 			}
+
 		},
 		actions : {
 			contactSubmit : {

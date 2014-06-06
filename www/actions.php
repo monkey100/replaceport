@@ -40,10 +40,27 @@ class actions
 	{
 		foreach ($Arr_Datasets as $Int_Key => &$Arr_Action)
 		{
+			//Check data exists.
+			if ((!isset($Arr_Action)) || (!$Arr_Action))
+			{
+				$Arr_Action = array();
+				$Arr_Action['error'][] = $Arr_Vars['lang']['user_login_err_data'];
+			}
+
+			if (!isset($Arr_Action['username']) || !$Arr_Action['username'])
+			{
+				$Arr_Action['error'][] = $Arr_Vars['lang']['user_err_req_username'];
+			}
+
+			if (!isset($Arr_Action['password']) || !$Arr_Action['password'])
+			{
+				$Arr_Action['error'][] = $Arr_Vars['lang']['user_err_req_password'];
+			}
+
 			//Authorise login
 			if ($Arr_Action['auth'] != $Arr_Action['username'])
 			{
-				$Arr_Action['error'] = $Arr_Vars['lang']['error_authorisation_match'];
+				$Arr_Action['error'][] = $Arr_Vars['lang']['error_authorisation_match'];
 			}
 
 			//Check for user in database.
@@ -52,16 +69,32 @@ class actions
 									->limit(1)
 									->select();
 
-			//Check session for existing login.
-			if (isset($Arr_Vars['session']['username']))
+			$Obj_Database->table('users');
+			if (!$Arr_User)
 			{
-				if ($Arr_Vars['session']['username'] != $Arr_User['username'])
+				$Arr_Action['error'][] = $Arr_Vars['lang']['user_login_err_exists'];
+			}
+			else
+			{
+				//Check session for existing login.
+				if (isset($Arr_Vars['session']['username']))
 				{
-					$Arr_Action['error'] = $Arr_Vars['lang']['error_different_loggedin'];
+					if ($Arr_Vars['session']['username'] != $Arr_User[0][$Obj_Database->column('username')])
+					{
+						$Arr_Action['error'][] = $Arr_Vars['lang']['user_login_err_conflict'];
+					}
+					else
+					{
+						$Arr_Action['error'][] = $Arr_Vars['lang']['user_login_err_logged'];
+					}
 				}
+				//Otherwise check for password
 				else
 				{
-					$Arr_Action['error'] = $Arr_Vars['lang']['error_already_loggedin'];
+					if (md5($Arr_Action['password']) != $Arr_User[0][$Obj_Database->column('password')])
+					{
+						$Arr_Action['error'][] = $Arr_Vars['lang']['user_login_err_password'];
+					}
 				}
 			}
 
@@ -72,12 +105,16 @@ class actions
 				$_SESSION['expires'] = $Arr_Action['expires'];
 
 				//Add response API action.
-				$Arr_Action['alias'] = $Arr_User[0]['alias'];
-				$Arr_Action['status'] = $Arr_User[0]['status'];
-				$Arr_Action['expires'] = $Arr_User[0]['expires'];
-				$Arr_Action['created'] = $Arr_User[0]['created'];
+				$Arr_Action['alias'] = $Arr_User[0][$Obj_Database->column('alias')];
+				$Arr_Action['status'] = $Arr_User[0][$Obj_Database->column('status')];
+				$Arr_Action['expires'] = $Arr_User[0][$Obj_Database->column('expires')];
+				$Arr_Action['created'] = $Arr_User[0][$Obj_Database->column('created')];
 			}
+
+			unset($Arr_Action['password']);
 		}
+
+		return $Arr_Datasets;
 	}
 
 	public function select_users($Arr_Datasets, $Obj_Database, $Arr_Vars)
@@ -123,7 +160,7 @@ class actions
 			}
 			else
 			{
-				
+
 			}
 		}
 	}
@@ -158,24 +195,26 @@ class actions
 
 		//We got projects, now get the information attached to the user.
 		$Arr_PageData['user'] = array();
-		if (isset($Arr_Vars['user']) && isset($Arr_Vars['user']['username']))
+		if (isset($Arr_Vars['user']))
 		{
 			//Get the raw data.
+			$Arr_PageData['user'] = $Arr_Vars['user'];
+			unset($Arr_PageData['user']['id']);
+			unset($Arr_PageData['user']['password']);
+
 			$Arr_UserLink = array('user_id', 'eq', $Arr_Vars['user']['id']);
-			$Arr_UserProjects = $Obj_Database->table('projects')->where($Arr_UserLink)->order('created', 'desc')->select();
+			$Arr_UserProjects = $this->Obj_Helpers->get_projects_by_user($Obj_Database, $Arr_Vars['user']['id']);
 			$Arr_UserComments = $Obj_Database->table('comments')->where($Arr_UserLink)->order('created', 'desc')->select();
 			$Arr_UserWatchlists = $Obj_Database->table('watchlists')->where($Arr_UserLink)->order('created', 'desc')->select();
 			$Arr_UserRatings = $Obj_Database->table('ratings')->where($Arr_UserLink)->order('created', 'desc')->select();
 			$Arr_UserReports = $Obj_Database->table('reports')->where($Arr_UserLink)->order('created', 'desc')->select();
 
 			//Process data.
-			//using get_data_keys() and add_data_keys() before secure() to get links to projects for user.
 			$Arr_PageData['user']['projects'] = $Arr_UserProjects;
-			$Arr_PageData['user']['comments'] = $Arr_UserComments;
-			$Arr_PageData['user']['watchlists'] = $Arr_UserWatchlists;
-			$Arr_PageData['user']['ratings'] = $Arr_UserRatings;
-			$Arr_PageData['user']['reports'] = $Arr_UserReports;
-
+			$Arr_PageData['user']['comments'] = $this->Obj_Helpers->mass_secure($Obj_Database->table('comments')->mass_index($Arr_UserProjects));
+			$Arr_PageData['user']['watchlists'] = $this->Obj_Helpers->mass_secure($Obj_Database->table('watchlists')->mass_index($Arr_UserWatchlists));
+			$Arr_PageData['user']['ratings'] = $this->Obj_Helpers->mass_secure($Obj_Database->table('ratings')->mass_index($Arr_UserRatings));
+			$Arr_PageData['user']['reports'] = $this->Obj_Helpers->mass_secure($Obj_Database->table('reports')->mass_index($Arr_UserReports));
 		}
 
 		return $Arr_PageData;
