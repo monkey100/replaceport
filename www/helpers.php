@@ -93,19 +93,23 @@ class helpers
 		}
 
 		$Arr_Project['contributors'] = $Obj_Database->table('contributors')->where($Arr_ProjectLink)->order('created', 'desc')->select();
-		$Obj_Database->table('contributors');
 		$Str_UserIdField = $Obj_Database->column('user_id');
 		foreach ($Arr_Project['contributors'] as &$Arr_Contributor)
 		{
 			//Get owner
-			if ($Arr_Contributor[$Obj_Database->column('status')] == 'owner')
+			$Arr_Users = $Obj_Database->table('users')->where(array('id', 'eq', $Arr_Contributor[$Str_UserIdField]))->select();
+			if ($Arr_Contributor[$Obj_Database->table('contributors')->column('status')] == 'owner')
 			{
-				$Arr_Users = $Obj_Database->table('users')->where(array('id', 'eq', $Arr_Contributor[$Str_UserIdField]))->select();
+				//*!*This is wrong, debug for correct user in where condition
 				$Arr_Project['owner'] = $Arr_Users[0][$Obj_Database->table('users')->column('alias')];
+				$Arr_Project['user'] = $Arr_Users[0][$Obj_Database->table('users')->column('username')];
 			}
 
+			$Obj_Database->table('contributors');
 			$Arr_Contributor = $Obj_Database->index($Arr_Contributor);
 			$Arr_Contributor = $this->secure($Arr_Contributor);
+			$Arr_Contributor['user'] = $Arr_Users[0][$Obj_Database->table('users')->column('username')];
+			$Arr_Contributor['alias'] = $Arr_Users[0][$Obj_Database->table('users')->column('alias')];
 		}
 
 		$Arr_Project['files'] = $Obj_Database->table('files')->where($Arr_ProjectLink)->order('created', 'desc')->select();
@@ -314,11 +318,6 @@ class helpers
 		return $Arr_Projects;
 	}
 
-	public function get_projects_by_wishlists($Obj_Database, $Int_Records)
-	{
-
-	}
-
 	public function get_projects_by_dependencies($Obj_Database, $Int_Records)
 	{
 
@@ -339,18 +338,47 @@ class helpers
 
 	}
 
-	public function get_projects_by_user($Obj_Database, $Int_UserId)
+	public function get_projects_by_watchlists($Obj_Database, $Int_UserId)
 	{
 		$Arr_Projects = array();
 		$Arr_UserLink = array('user_id', 'eq', $Int_UserId);
-		$Mix_Results = $Obj_Database->table('contributors')->where($Arr_UserLink)->order('created', 'asc')->select();
+		$Mix_Results = $Obj_Database->table('watchlists')->where($Arr_UserLink)->order('created', 'asc')->select();
+		$Obj_Database->table('watchlists');
 
 		if (isset($Mix_Results))
 		{
 			$Arr_Ids = array();
 			for ($i = 0; $i < count($Mix_Results); $i++)
 			{
-				$Arr_Ids[$i] = $Mix_Results[$i][2];
+				$Arr_Ids[$i] = $Mix_Results[$i][$Obj_Database->column('project_id')];
+			}
+
+			$Arr_Projects = $Obj_Database->table('projects')
+										->where(array('id', 'in', $Arr_Ids))
+										->select();
+		}
+
+		foreach ($Arr_Projects as &$Arr_Project)
+		{
+			$Arr_Project = $this->populate_project_data($Arr_Project, $Obj_Database);
+		}
+
+		return $Arr_Projects;
+	}
+
+	public function get_projects_by_user($Obj_Database, $Int_UserId)
+	{
+		$Arr_Projects = array();
+		$Arr_UserLink = array('user_id', 'eq', $Int_UserId);
+		$Mix_Results = $Obj_Database->table('contributors')->where($Arr_UserLink)->order('created', 'asc')->select();
+		$Obj_Database->table('contributors');
+
+		if (isset($Mix_Results))
+		{
+			$Arr_Ids = array();
+			for ($i = 0; $i < count($Mix_Results); $i++)
+			{
+				$Arr_Ids[$i] = $Mix_Results[$i][$Obj_Database->column('project_id')];
 			}
 
 			$Arr_Projects = $Obj_Database->table('projects')

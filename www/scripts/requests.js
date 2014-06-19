@@ -58,9 +58,9 @@ Twoshoes.init(
 					}
 
 					//Set user informtion.
-					if (typeof response.users != 'undefined')
+					if (typeof response.user != 'undefined')
 					{
-						Twoshoes.set('users', response.users);
+						Twoshoes.set('user', response.user);
 					}
 
 

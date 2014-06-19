@@ -27,7 +27,7 @@
 .wideform-6 input{float:left;display:block;}
 .wideform-6 label{float:left;display:block;width:162px;margin-bottom:12px;margin-right:18px;text-align:right;font-weight:normal;}
 .wideform-6 li.icon label{width:127px;}
-.wideform-6 label:hover{cursor:pointer;color:#ccc4bc;}
+.wideform-6 label:hover{cursor:pointer;color:#AAAAFF;}
 .wideform-6 label.chk, li.icon label.chk{float:right;width:342px;text-align:left;}
 .wideform-6 input.chk{margin-left:180px;padding-right:9px;}
 .wideform-6 li.icon input.chk{margin-left:145px;}
@@ -52,7 +52,7 @@ form input{height:18px;}
 form label{line-height:24px;}
 form label:hover{cursor:pointer;}
 form legend{font-family:century	;font-weight:bold;font-size:16px;line-height:52px;text-indent:18px;}
-form input, form textarea{padding:4px;}
+form input, form textarea{padding:4px;border:1px solid #CFCFFF}
 form input.bttn{height:36px;width:90px;border:none;font-size:18px;}
 form input.finish{}
 form input.bttn:hover{}
@@ -187,12 +187,14 @@ ul.hmenu-l b, ul.hmenu-r b{display:block;float:left;width:auto;padding:9px 17px 
 #tabs_pane{margin-right:0px;margin-left:0px;}
 #file_scrn{float:left;clear:left;width:288px;margin-right:18px;margin-left:0px;}
 #file_pane{margin-right:0px;margin-left:0px;}
-#user_scrn{float:left;width:288px;margin-right:18px;margin-bottom:18px;margin-left:0px;}
-#user_pane{height:10.5em;margin-right:0px;margin-left:0px;}
+#user_scrn{float:left;width:288px;margin-right:18px;margin-bottom:36px;margin-left:0px;}
+#user_pane{margin-right:0px;margin-left:0px;}
 #actn_scrn{float:right;clear:right;width:612px;margin-right:0px;margin-left:18px;}
-#actn_pane{height:36em;margin-right:0px;margin-left:0px;}
+#actn_pane{min-height:12em;margin-right:0px;margin-left:0px;}
+#proj_scrn{float:left;clear:left;width:288px;margin-right:18px;margin-bottom:36px;margin-left:0px;}
+#proj_pane{margin-right:0px;margin-left:0px;}
 #wtch_scrn{float:left;clear:left;width:288px;margin-right:18px;margin-left:0px;}
-#wtch_pane{height:12em;margin-right:0px;margin-left:0px;}
+#wtch_pane{margin-right:0px;margin-left:0px;}
 #rprt_scrn{float:left;clear:left;width:288px;margin-right:18px;margin-left:0px;}
 #rprt_pane{height:36em;margin-right:0px;margin-left:0px;}
 #head_scrn{float:left;width:936px;margin-right:0px;margin-bottom:36px;margin-left:0px;}
@@ -504,16 +506,43 @@ img.project_full{float:left;margin:9px;}
 #tabs_pane div.changelog td.icon a.focus{background-color:transparent;}
 
 #main_pane h3{margin:0;margin-bottom:12px;padding:0;font-size:1.25em}
-#user_pane table.profile{margin:18px;}
-#proj_pane table.projects{margin:18px;}
-#wtch_pane table.watchlist{margin:18px;}
-#rprt_pane table.reports{margin:18px;}
+#user_pane table.profile{margin:0 18px 18px;}
+#proj_pane table.projects{}
+#wtch_pane table.watchlist{}
+#rprt_pane table.reports{}
+#user_pane a, #proj_pane a, #wtch_pane a, #rprt_pane a{font-size:2em;}
 
+#user_pane, #wtch_pane, #proj_pane, #actn_pane{padding:9px;border:1px solid #cfcfff;background-color:#f6f6ff;}
+#user_pane, #wtch_pane, #proj_pane, #actn_pane{
+  -moz-box-shadow:    0px 1px 1px 0px #dcdcdc;
+  -webkit-box-shadow: 0px 1px 1px 0px #dcdcdc;
+  box-shadow:         0px 1px 1px 0px #dcdcdc;
+}
+#user_pane h3, #wtch_pane h3, #proj_pane h3, #actn_pane h3{text-align:center;}
 
+#proj_pane table, #wtch_pane table{border:border-collapse;border-width:1px;border-style:solid;border-color:#ddf #fff #fff #ddf;}
+#proj_pane th, #proj_pane td, #wtch_pane th, #wtch_pane td{padding:0 3px;border-width:1px;border-style:solid;border-color:#fff #ddf #ddf #fff;line-height:2em;vertical-align:middle;}
+#proj_pane span, #wtch_pane span, #proj_pane a{font-size:2em;}
+#proj_pane span:hover, #wtch_pane span:hover{cursor:default;}
+#proj_pane span.owner, #wtch_pane span.owner{color:#6f6;}
+#proj_pane span.contributor, #wtch_pane span.contributor{color:#ccc;}
+
+#actn_pane{padding:9px 0;}
 #actn_pane div.tabs{float:left;}
 #actn_pane div.tabs ul{float:left;margin:0;margin-bottom:18px;}
 #actn_pane div.tabs ul li{display:block;float:left;}
-#actn_pane div.tabs ul li a{display:block;padding:9px;18px;border:1px solid #ccc;text-decoration:none;}
+#actn_pane div.tabs ul li a{display:block;padding:9px 18px;border:1px solid #ccc;text-decoration:none;}
+#actn_pane div.tabs ul li a.focus{color:#00f;}
+#actn_pane div.tabs ul li a.focus:hover{cursor:default;}
+
+#actn_pane div.list{clear:both;padding:0 9px;}
+#actn_pane div.list table{border:border-collapse;border-width:1px;border-style:solid;border-color:#ddf #fff #fff #ddf;}
+#actn_pane div.list th, #actn_pane div.list td{padding:0.5em 1em;border-width:1px;border-style:solid;border-color:#fff #ddf #ddf #fff;vertical-align:middle;line-height:1.5em;}
+#actn_pane div.list th{line-height:2em;}
+#actn_pane div.list td a{font-size:2em;}
+#actn_pane div.list td a.text{font-size:1em;}
+#actn_pane div.list th.icon, #actn_pane div.list td.icon{width:27px;}
+#actn_pane div.list td.comment{padding:18px;}
 
 #actn_pane div.main{clear:both;}
 #rprt_pane ul{margin:0;}
@@ -521,6 +550,8 @@ img.project_full{float:left;margin:9px;}
 #rprt_pane textarea{width:198px;}
 #rprt_pane input{width:90px;}
 
+#actn_pane #project_change div.tabs{float:right;margin-right:18px;font-size:2em;}
+#actn_pane #project_change div.tabs a{border:none;}
 
 div.catalog_item_brief .typcn:before, #file_pane .typcn:before{font-size:2em;}
 div.catalog_item .typcn:before{font-size:2.5em;}
@@ -579,3 +610,4 @@ img.shadow {
 #login_panel a#login_reset:hover{color:#f00;}
 #login_panel a#login_submit{margin-top:-12px;margin-left:6px;font-size:4em;color:#66FF66;}
 #login_panel a#login_submit:hover{color:#0c0;}
+

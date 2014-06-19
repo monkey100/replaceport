@@ -234,6 +234,48 @@ return apiData;
 				var comments = Mustache.to_html(jQuery('#project_comments').html(), {'remarks':remarks});
 				jQuery('#tabs_pane div.comments').html(comments);
 			},
+			displayProjectEdit : function(project)
+			{
+				//Interface.
+				var updatePanel = Mustache.to_html(jQuery('#change_panel').html(), project);
+				jQuery('#actn_pane').html(updatePanel);
+				if (Twoshoes.count(project) > 0)
+				{
+					var title = Mustache.to_html(jQuery('#change_title_update').html());
+				}
+				else
+				{
+					var title = Mustache.to_html(jQuery('#change_title_add').html());
+				}
+
+				jQuery('#actn_pane h3').html(title);
+
+				//Navigation.
+				var tabsPanel = Mustache.to_html(jQuery('#change_tabs').html(), project);
+				jQuery('#actn_pane div.tabs').html(tabsPanel);
+
+				//Description.
+				var descriptionPanel = Mustache.to_html(jQuery('#change_description').html(), project);
+				jQuery('#actn_pane div.description').html(descriptionPanel);
+
+				//Changes.
+				var updateUploads = Mustache.to_html(jQuery('#change_uploads').html(), project);
+				jQuery('#actn_pane div.uploads').html(updateUploads);
+
+				var changes = Twoshoes.helper('project').getProjectChangelogs(project);
+				var changelogs = Mustache.to_html(jQuery('#project_changelog').html(), {'changes':changes});
+				jQuery('#actn_pane div.uploads .list').html(changelogs);
+
+				//Contributors.
+				var updateContributors = Mustache.to_html(jQuery('#change_contributors').html(), project);
+				jQuery('#actn_pane div.contributors').html(updateContributors);
+
+				var contributors = Twoshoes.helper('project').getProjectContributors(project, false);
+
+				var contributorList = Mustache.to_html(jQuery('#project_contributors').html(), {'contributors':contributors});
+				jQuery('#actn_pane div.contributors .list').html(contributorList);
+
+			},
 			displayCategoryList : function(categories)
 			{
 				//Not doing menu ordering yet.
@@ -266,11 +308,18 @@ return apiData;
 			},
 			displayGlobalWidgets : function()
 			{
- 				var registerForm = Mustache.render(jQuery('#register_widget').html(), {});
-				jQuery('#register_panel').html(registerForm);
-
- 				var loginForm = Mustache.render(jQuery('#login_widget').html(), {});
-				jQuery('#login_panel').html(loginForm);
+				if (Twoshoes.isObject(Twoshoes.get('user')))
+				{
+					var logout = Mustache.render(jQuery('#logout_widget').html(), {});
+					var listItem = jQuery('#login_menu').parent().html(logout);
+					var profile = Mustache.render(jQuery('#profile_widget').html(), {user:Twoshoes.get('user').username});
+					var listItem = jQuery('#account_menu').parent().html(profile);
+				}
+				else
+				{
+	 				var loginForm = Mustache.render(jQuery('#login_widget').html(), {});
+					jQuery('#login_panel').html(loginForm);
+				}
 			},
 
 			displayCategoryMenu : function()
@@ -300,8 +349,6 @@ return apiData;
 				});
 
 	 			jQuery('#search_results').html(results);
-
-
 			}
 		}
 	}

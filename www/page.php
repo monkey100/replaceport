@@ -258,13 +258,13 @@
 <th>Notes</th>
 		</tr>
 	</thead>
-{{#changes}}
 	<tbody>
+{{#changes}}
 		<tr>
 <td>{{release}}</td>
 <td>{{date}}</td>
 <td>{{version}}</td>
-<td><a href="<?php print $theme['root']; ?>users/{{user}}" title="<?php print $lang['View_Profile']; ?>">{{alias}}</a></td>
+<td><a href="<?php print $theme['root']; ?>users/{{user}}" title="<?php print $lang['View_Profile']; ?>" class="text">{{alias}}</a></td>
 <td class="icon"><a class="typcn typcn-arrow-maximise action changelog blur" title="View Notes"></a></td>
 		</tr>
 		<tr style="display:none;">
@@ -274,6 +274,30 @@
 	</tbody>
 </table>
 </script>
+
+<script id="project_contributors" type="text/template">
+<table id="" class="">
+	<thead>
+		<tr>
+<th>User</th>
+<th>Status</th>
+<th>Date</th>
+<th class="icon"></th>
+		</tr>
+	</thead>
+	<tbody>
+{{#contributors}}
+		<tr>
+<td><a class="typcn typcn-edit edit action" title="Edit"></a> <a href="<?php print $theme['root']; ?>users/{{user}}" title="<?php print $lang['View_Profile']; ?>" class="text">{{alias}}</a></td>
+<td>{{status}}</td>
+<td>{{created}}</td>
+<td class="icon"><a class="typcn typcn-backspace warn delete" title="Remove"></a></td>
+		</tr>
+{{/contributors}}
+	</tbody>
+</table>
+</script>
+
 
 <script id="project_comments" type="text/template">
 {{#remarks}}
@@ -563,19 +587,164 @@
 			</div>
 </script>
 
+<script id="watchlists_list" type="text/template">
+					<table class="watchlist">
+						<tbody>
+{{#projects}}
+							<tr>
+<td width="27px"><span class="typcn typcn-user-outline owner"></span></td>
+<td><a href="#projects/{{key}}" id="" class="typcn typcn-export-outline action" title="<?php print $lang['View']; ?>"></a> {{version}}</td>
+<th>{{title}}</th>
+<th width="27px"><a href="" id="" class="typcn typcn-backspace warn delete" title="<?php print $lang['Delete']; ?>"></a></th>
+							</tr>
+{{/projects}}
+						</tbody>
+					</table>
+</script>
+
+<script id="projects_list" type="text/template">
+					<table class="projects">
+						<tbody>
+{{#projects}}
+							<tr>
+<td width="27px"><span class="typcn typcn-user-outline {{permission}}"></span></td>
+<td><a href="#projects/{{key}}" id="" class="typcn typcn-export-outline action" title="<?php print $lang['View']; ?>"></a> {{version}}</td>
+<th>{{title}}</th>
+<th width="27px"><a href="#profile/{{user}}/update/{{key}}" id="" class="typcn typcn-edit action edit" title="<?php print $lang['Edit']; ?>"></a></th>
+							</tr>
+{{/projects}}
+						</tbody>
+					</table>
+</script>
+
+<script id="change_tabs" type="text/template">
+					<ul>
+<li><a href="" id="change_tabs_description" class="typcn typcn-business-card inert action changetab focus" title=""></a></li>
+<li><a href="" id="change_tabs_uploads" class="typcn typcn-upload-outline inert action changetab blur" title=""></a></li>
+<li><a href="" id="change_tabs_contributors" class="typcn typcn-group-outline inert action changetab blur" title=""></a></li>
+					</ul>
+</script>
+
+<script id="change_description" type="text/template">
+					<form name="change_description" id="change_description_form" class="wideform-6" method="POST" action="">
+						<fieldset class="input">
+							<ul>
+<li class="short"><label for="change_description_title"><?php print $lang['Title']; ?></label><input type="text" name="change_description_title" id="change_description_title" class="long" value="{{title}}" placeholder="<?php print $lang['Title']; ?>"><em title="" class="error"></em></li>
+<li class="long"><label for="change_description_summary"><?php print $lang['Summary']; ?></label><textarea name="change_description_summary" id="change_description_summary" class="short" placeholder="<?php print $lang['Summary']; ?>">{{summary}}</textarea><em title="" class="error"></em></li>
+<li class="vlong"><label for="change_description_description"><?php print $lang['Description']; ?></label><textarea name="change_description_description" id="change_description_description" class="long" placeholder="<?php print $lang['Description']; ?>">{{description}}</textarea><em title="" class="error"></em></li>
+							</ul>
+						</fieldset>
+						<fieldset class="action">
+							<ul>
+<li class="short"><a href="#" id="change_description_submit" class="typcn typcn-cross action inert" title="<?php print $lang['Save']; ?>"></a><span class="error" id="change_errors"></span></li>
+							</ul>
+						</fieldset>
+					</form>
+</script>
+
+<script id="change_uploads" type="text/template">
+<div class="list"></div>
+					<form name="change_uploads" id="change_uploads_form" class="wideform-6" method="POST" action="">
+						<fieldset class="input">
+							<ul>
+<li class="short"><label for="change_uploads_release"><?php print $lang['Release']; ?></label><input type="text" name="change_uploads_release" id="change_uploads_release" class="long" value="{{release}}" placeholder="<?php print $lang['Release']; ?>"><em title="" class="error"></em></li>
+<li class="short"><label for="change_uploads_date"><?php print $lang['Date']; ?></label><input type="text" name="change_uploads_date" id="change_uploads_date" class="long" value="{{date}}" placeholder="<?php print $lang['Date']; ?>"><em title="" class="error"></em></li>
+<li class="short"><label for="change_uploads_game"><?php print $lang['Game']; ?></label><input type="text" name="change_uploads_game" id="change_uploads_game" class="long" value="{{game}}" placeholder="<?php print $lang['Game']; ?>"><em title="" class="error"></em></li>
+<li class="vlong"><label for="change_uploads_notes"><?php print $lang['Notes']; ?></label><textarea name="change_uploads_notes" id="change_uploads_notes" class="long" placeholder="<?php print $lang['Notes']; ?>">{{notes}}</textarea><em title="" class="error"></em></li>
+							</ul>
+						</fieldset>
+						<fieldset class="action">
+							<ul>
+<li class="short"><a href="#" id="change_uploads_submit" class="typcn typcn-cross action inert" title="<?php print $lang['Save']; ?>"></a><span class="error" id="change_errors"></span></li>
+							</ul>
+						</fieldset>
+					</form>
+</script>
+
+<script id="change_contributors" type="text/template">
+<div class="list"></div>
+					<form name="change_contributors" id="change_contributors_form" class="wideform-6" method="POST" action="">
+						<fieldset class="input">
+							<ul>
+<li class="short"><label for="change_contributors_"><?php print $lang['User']; ?></label><input type="text" name="change_contributors_" id="change_contributors_" class="long" value="{{User}}" placeholder="<?php print $lang['User']; ?>"><em title="" class="error"></em></li>
+<li class="short"><label for="change_contributors_"><?php print $lang['Status']; ?></label><input type="text" name="change_contributors_" id="change_contributors_" class="long" value="{{status}}" placeholder="<?php print $lang['Status']; ?>"><em title="" class="error"></em></li>
+							</ul>
+						</fieldset>
+						<fieldset class="action">
+							<ul>
+<li class="short"><a href="#" id="change_contributors_submit" class="typcn typcn-cross action inert" title="<?php print $lang['Save']; ?>"></a><span class="error" id="change_errors"></span></li>
+							</ul>
+						</fieldset>
+					</form>
+</script>
+
+<script id="change_title_add" type="text/template">
+<?php print $lang['Add_Project']; ?>
+</script>
+
+<script id="change_title_update" type="text/template">
+<?php print $lang['Update_Project']; ?>
+</script>
+
+<script id="change_panel" type="text/template">
+					<h3 class="hang-2"><!-- #change_title_add/change_title_update --></h3>
+					<div id="project_change">
+						<div class="tabs">
+	<!-- #change_tabs -->
+						</div>
+						<div class="description">
+	<!-- #change_description -->
+						</div>
+						<div class="uploads" style="display:none;">
+	<!-- #change_uploads -->
+						</div>
+						<div class="contributors" style="display:none;">
+	<!-- #change_contributors -->
+						</div>
+					</div>
+<br class="drop-b" />
+</script>
+
+<script id="profile_panel" type="text/template">
+					<h3 class="hang-2"><?php print $lang['Edit_Profile']; ?></h3>
+					<form name="profile" id="register_form" class="wideform-6" method="POST" action="">
+						<fieldset class="input">
+							<ul>
+<li class="short"><label for="profile_username">Username</label><input type="text" name="profile_username" id="profile_username" class="long" value="{{username}}" placeholder="<?php print $lang['Username']; ?>"><em title="" class="error"></em></li>
+<li class="short"><label for="profile_alias">Alias</label><input type="text" name="profile_alias" id="profile_alias" class="long" value="{{alias}}" placeholder="<?php print $lang['Alias']; ?>"><em title="" class="error"></em></li>
+<li class="short"><label for="profile_password">Password</label><input type="password" name="profile_password" id="profile_password" class="long" value="" placeholder="<?php print $lang['Password']; ?>"><em title="" class="error"></em></li>
+<li class="short"><label for="profile_email">Email</label><input type="email" name="profile_email" id="profile_email" class="long" value="{{email}}" placeholder="<?php print $lang['Email']; ?>"><em title="" class="error"></em></li>
+							</ul>
+						</fieldset>
+						<fieldset class="action">
+							<ul>
+<li class="short"><a href="#" id="profile_submit" class="typcn typcn-cross action inert" title="<?php print $lang['Save']; ?>"></a><span class="error" id="profile_errors"></span></li>
+							</ul>
+						</fieldset>
+					</form>
+<br class="drop-b" />
+</script>
+
 <script id="profile_page" type="text/template">
 			<div id="user_scrn">
 				<div id="user_pane">
 					<h3><?php print $lang['UserInfo']; ?></h3>
+					<div class="control text-r pane-h">
+<a href="#profile/{{username}}/edit/" id="" class="typcn typcn-edit action edit" title="<?php print $lang['Edit']; ?>"></a>
+					</div>
 					<table class="profile">
 						<tbody>
 							<tr>
 <th><?php print $lang['Username']; ?>:</th>
-<td>usernaem</td>
+<td>{{username}}</td>
 							</tr>
 							<tr>
-<th><?php print $lang['Email']; ?>;</th>
-<td>emailaddress</td>
+<th><?php print $lang['Alias']; ?>:</th>
+<td>{{alias}}</td>
+							</tr>
+							<tr>
+<th><?php print $lang['Email']; ?>:</th>
+<td>{{email}}</td>
 							</tr>
 						</tbody>
 					</table>
@@ -584,121 +753,31 @@
 
 			<div id="actn_scrn">
 				<div id="actn_pane">
-
-					<div class="catalog_item_brief screen-l span-3 push-0">
-							<h3>Project Title</h3>
-<span class="version">v1.0</span>
-<img src="<?php print $theme['images']; ?>logo.png" class="" alt="" width="64" height="64" />
-						<div class="meta_data">
-<span class="author">Author Name</span>
-<span class="rating">* * * * *</span>
-<span class="downloads">10 000</span>
-						</div>
-						<div class="data_actions">
-							<form name="" id="" class="" method="" action="">
-								<fieldset>
-								<legend></legend>
-									<ul>
-<li><input type="button" name="" id="" class="" value="Update" placeholder=""><em title="" class="error"></em></li>
-									</ul>
-								</fieldset>
-							</form>
-						</div>
-<span class="summary">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</span>
-					</div>
-
-					<div class="versions screen-l span-3 pull-0">
-						<table id="">
-							<thead>
-								<tr>
-<td>Version</td>
-<td>Upload</td>
-<td colspan="2">Size</td>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-<td>v1.0</td>
-<td>05/09/2014</td>
-<td>250kb</td>
-								</tr>
-								<tr>
-<td>v1.0</td>
-<td>05/09/2014</td>
-<td>250kb</td>
-								</tr>
-								<tr>
-<td>v1.0</td>
-<td>05/09/2014</td>
-<td>250kb</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-
-					<div class="tabs span-6 push-0 pull-0 ">
-						<ul>
-<li><a href="" id="" class="" title=""><?php print $lang['Description']; ?></a></li>
-<li><a href="" id="" class="" title=""><?php print $lang['Changelog']; ?></a></li>
-<li><a href="" id="" class="" title=""><?php print $lang['Comments']; ?></a></li>
-						</ul>
-					</div>
-					<div class="main">
-<img src="<?php print $theme['images']; ?>logo.png" class="project_full" alt="" width="256" height="256" />
-<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-					</div>
+<!-- #profile_panel -->
+<!-- #change_panel -->
+<!-- #change_tabs -->
 				</div>
 			</div>
 
-			<div id="proj_scrn" class="screen-l span-3 push-0 drop-l press-1">
-				<div id="proj_pane" class="pane-0 stretch-7">
+			<div id="proj_scrn">
+				<div id="proj_pane">
 					<h3><?php print $lang['Projects']; ?></h3>
-					<table class="projects">
-						<tbody>
-							<tr>
-<th>Project title</th>
-<td>permission</td>
-<td>version</td>
-							</tr>
-							<tr>
-<th>Project title</th>
-<td>permission</td>
-<td>version</td>
-							</tr>
-							<tr>
-<th>Project title</th>
-<td>permission</td>
-<td>version</td>
-							</tr>
-						</tbody>
-					</table>
+					<div class="control text-r pane-h">
+<a href="#profile/{{username}}/add/" id="" class="typcn typcn-folder-add action" title="<?php print $lang['New']; ?>"></a>
+					</div>
+					<div id="projects">
+<!-- #projects_list -->
+					</div>
 				</div>
 			</div>
 
 			<div id="wtch_scrn">
 				<div id="wtch_pane">
 					<h3><?php print $lang['Watchlist']; ?></h3>
-					<table class="watchlist">
-						<tbody>
-							<tr>
-<th>Project name</th>
-<td>version</td>
-<td>modified</td>
-							</tr>
-							<tr>
-<th>Project name</th>
-<td>version</td>
-<td>modified</td>
-							</tr>
-							<tr>
-<th>Project name</th>
-<td>version</td>
-<td>modified</td>
-							</tr>
-						</tbody>
-					</table>
+					<div id="watchlists">
+<!-- #watchlists_list -->
+<?php print $lang['Empty']; ?>
+					</div>
 				</div>
 			</div>
 </script>
@@ -1028,7 +1107,7 @@
 						<fieldset class="input">
 							<ul>
 <li class="short"><label for="register_username">Username</label><input type="text" name="register_username" id="register_username" class="long" value="" placeholder="<?php print $lang['Username']; ?>"><em title="" class="error"></em></li>
-<li class="short"><label for="register_alias">Alias</label><input type="text" name="register_alias" id="register_alias" class="long" value="" placeholder="<?php print $lang['Username']; ?>"><em title="" class="error"></em></li>
+<li class="short"><label for="register_alias">Alias</label><input type="text" name="register_alias" id="register_alias" class="long" value="" placeholder="<?php print $lang['Alias']; ?>"><em title="" class="error"></em></li>
 <li class="short"><label for="register_password">Password</label><input type="password" name="register_password" id="register_password" class="long" value="" placeholder="<?php print $lang['Password']; ?>"><em title="" class="error"></em></li>
 <li class="short"><label for="register_email">Email</label><input type="email" name="register_email" id="register_email" class="long" value="" placeholder="<?php print $lang['Email']; ?>"><em title="" class="error"></em></li>
 							</ul>
@@ -1122,24 +1201,27 @@
 	</form>
 </script>
 
-<div id="wrapper" class="container">
+<script id="logout_widget" type="text/template">
+<a href="<?php print $theme['root']; ?>logout" id="login_menu" class="action" title="<?php print $lang['Logout']; ?>"><?php print $lang['Logout']; ?></a>
+</script>
 
+<script id="profile_widget" type="text/template">
+<a href="<?php print $theme['root']; ?>#profile/{{user}}" id="account_menu" title="<?php print $lang['Profile']; ?>"><?php print $lang['Profile']; ?></a>
+</script>
+
+<div id="wrapper" class="container">
 	<div id="head_scrn">
 		<div id="head_pane">
 
 			<div id="tnav_scrn">
 				<div id="tnav_pane">
 					<ul>
-<li><a href="<?php print $theme['root']; ?>#" id="" class="" title="">Home</a></li>
-<li><a href="<?php print $theme['root']; ?>#about" id="" class="" title="">About</a></li>
-<li><a href="<?php print $theme['root']; ?>#faq" id="" class="" title="">FAQ</a></li>
-<li><a href="<?php print $theme['root']; ?>#contact" id="" class="" title="">Contact</a></li>
-<li><a href="<?php print $theme['root']; ?>#register" id="" class="" title="">Register</a>
-	<div id="register_panel" style="display:none;">
-<!-- #regiser_widget -->
-	</div>
-</li>
-<li><a href="<?php print $theme['root']; ?>#login" id="login_menu" class="action" title="">Login</a>
+<li><a href="<?php print $theme['root']; ?>#" id="" class="" title=""><?php print $lang['Home']; ?></a></li>
+<li><a href="<?php print $theme['root']; ?>#about" id="" class="" title=""><?php print $lang['About']; ?></a></li>
+<li><a href="<?php print $theme['root']; ?>#faq" id="" class="" title=""><?php print $lang['FAQ']; ?></a></li>
+<li><a href="<?php print $theme['root']; ?>#contact" id="" class="" title=""><?php print $lang['Contact']; ?></a></li>
+<li><a href="<?php print $theme['root']; ?>#register" id="account_menu" class="" title=""><?php print $lang['Register']; ?></a></li>
+<li><a href="<?php print $theme['root']; ?>#login" id="login_menu" class="action" title=""><?php print $lang['Login']; ?></a>
 	<div id="login_panel" style="display:none;">
 <!-- #login_widget -->
 	</div>

@@ -30,6 +30,7 @@ class Locale_EN
 	public $log_in_to_comment				= 'You must be logged in to comment';
 
 	//Headers
+	public $Home							= 'Home';
 	public $Menu							= 'Menu';
 	public $Account							= 'Account';
 	public $Profile							= 'Profile';
@@ -39,6 +40,8 @@ class Locale_EN
 	public $KeywordSearch					= 'Keyword Search';
 	public $Terms_and_Conditions			= 'Terms and Conditions';
 	public $Contact							= 'Contact';
+	public $FAQ								= 'FAQ';
+	public $About							= 'About';
 	public $Features						= 'Features';
 	public $Logout							= 'Logout';
 	public $Main							= 'Main';
@@ -71,6 +74,8 @@ class Locale_EN
 	public $Records_Search					= 'Records Search';
 	public $Access_Denied					= 'Access Denied';
 	public $Data_Locked						= 'Data Locked';
+	public $Add_Project						= 'Add Project';
+	public $Update_Project					= 'Update Project';
 
 	//Legends
 	public $Login							= 'Login';
@@ -84,13 +89,17 @@ class Locale_EN
 	public $Administration					= 'Administration';
 	public $Open							= 'Open';
 	public $Close							= 'Close';
+	public $Delete							= 'Delete';
 
 	//Labels
 	public $Username						= 'Username';
 	public $Password						= 'Password';
 	public $Name							= 'Name';
+	public $Alias							= 'Alias';
 	public $Email							= 'Email';
 	public $Title							= 'Title';
+	public $Summary							= 'Summary';
+	public $Description						= 'Description';
 	public $First_Name						= 'First Name';
 	public $Last_Name						= 'Last Name';
 	public $Position						= 'Position';
@@ -106,8 +115,6 @@ class Locale_EN
 	public $Other							= 'Other';
 	public $New								= 'New';
 	public $API_Key							= 'API Key';
-	public $Origin							= 'Origin';
-	public $Description						= 'Description';
 	public $List_Select						= 'List Select';
 	public $Notify							= 'Notify';
 	public $Registered						= 'Registered';
@@ -134,11 +141,14 @@ class Locale_EN
 	public $Complete						= 'Complete';
 	public $Next							= 'Next';
 	public $Finish							= 'Finish';
+	public $Game							= 'Game';
+	public $Notes							= 'Notes';
 
 	//Values
 	public $Yes								= 'Yes';
 	public $No								= 'No';
 	public $None							= 'None';
+	public $Empty							= 'Empty';
 	public $Staff							= 'Staff';
 	public $Locked							= 'Locked';
 	public $Unlocked						= 'Unlocked';

@@ -74,33 +74,10 @@ Twoshoes.init(
 					})(i);
 				}
 
-				//Normalise changlelog version.
-				var normaliseProjectVersion = (function(changelog)
-				{
-					if (changelog.project_major == null)
-					{
-						changelog.project_major = '0';
-					}
-					if (changelog.project_minor == null)
-					{
-						changelog.project_minor = '0';
-					}
-					if (changelog.project_revision == null)
-					{
-						changelog.project_revision = '0';
-					}
-					if (changelog.project_build == null)
-					{
-						changelog.project_build = '0';
-					}
-
-					return changelog;
-				});
-
 				//Get matching game version
 				jQuery.each(changelogs, function(key, changelog)
 				{
-					var normalisedChangelog = normaliseProjectVersion(changelog);
+					var normalisedChangelog = Twoshoes.helper('project').normaliseProjectVersion(changelog);
 
 					if ((projectRelease[0] == normalisedChangelog.project_major)
 					&& (projectRelease[1] == normalisedChangelog.project_minor)
@@ -184,6 +161,160 @@ Twoshoes.init(
 				});
 
 				return comments;
+			},
+			getLastestProjectVersion : function(project, format)
+			{
+				//Need to normalise version before, prior to tests.
+				var version = {project_major:0,project_minor:0,project_revision:0,project_build:0};
+				jQuery.each(project.changelogs, function(index, data)
+				{
+					data = Twoshoes.helper('project').normaliseProjectVersion(data);
+					if (data.project_major > version.project_major)
+					{
+						version = {
+							project_major:data.project_major,
+							project_minor:data.project_minor,
+							project_revision:data.project_revision,
+							project_build:data.project_build
+						};
+					}
+					else if ((data.project_major == version.project_major)
+					&& (data.project_minor > version.project_minor))
+					{
+						version = {
+							project_major:data.project_major,
+							project_minor:data.project_minor,
+							project_revision:data.project_revision,
+							project_build:data.project_build
+						};
+					}
+					else if ((data.project_major == version.project_major)
+					&& (data.project_minor > version.project_minor)
+					&& (data.project_revision > version.project_revision))
+					{
+						version = {
+							project_major:data.project_major,
+							project_minor:data.project_minor,
+							project_revision:data.project_revision,
+							project_build:data.project_build
+						};
+					}
+					else if ((data.project_major == version.project_major)
+					&& (data.project_minor > version.project_minor)
+					&& (data.project_revision > version.project_revision)
+					&& (data.project_build > version.project_build))
+					{
+						version = {
+							project_major:data.project_major,
+							project_minor:data.project_minor,
+							project_revision:data.project_revision,
+							project_build:data.project_build
+						};
+					}
+				});
+
+				if (format)
+				{
+					return Twoshoes.helper('project').formatProjectVersion(version);
+				}
+
+				return version;
+			},
+			normaliseProjectVersion : function(changelog)
+			{
+				if (changelog.project_major == null)
+				{
+					changelog.project_major = '0';
+				}
+				if (changelog.project_minor == null)
+				{
+					changelog.project_minor = '0';
+				}
+				if (changelog.project_revision == null)
+				{
+					changelog.project_revision = '0';
+				}
+				if (changelog.project_build == null)
+				{
+					changelog.project_build = '0';
+				}
+
+				return changelog;
+			},
+			normaliseGameVersion : function(changelog)
+			{
+				if (changelog.game_major == null)
+				{
+					changelog.game_major = '0';
+				}
+				if (changelog.game_minor == null)
+				{
+					changelog.game_minor = '0';
+				}
+				if (changelog.game_revision == null)
+				{
+					changelog.game_revision = '0';
+				}
+				if (changelog.game_build == null)
+				{
+					changelog.game_build = '0';
+				}
+
+				return changelog;
+			},
+			formatProjectVersion : function(changelog)
+			{
+				var version = changelog.project_major+'.'+changelog.project_minor;
+				if (changelog.project_revision != '0')
+				{
+					version += '.'+changelog.project_revision;
+				}
+				if (changelog.project_build != '0')
+				{
+					version += '.'+changelog.project_build;
+				}
+
+				return version;
+			},
+			formatGameVersion : function(changelog)
+			{
+				var version = changelog.game_major+'.'+changelog.game_minor;
+				if (changelog.game_revision != '0')
+				{
+					version += '.'+changelog.game_revision;
+				}
+				if (changelog.game_build != '0')
+				{
+					version += '.'+changelog.game_build;
+				}
+
+				return version;
+			},
+			getProjectContributors : function(project, status)
+			{
+				//Get owning contributor.
+				var contributors = [];
+				var count = 0;
+				if ((typeof project.contributors != 'undefined')
+				&& Twoshoes.count(project.contributors) > 0)
+				{
+					jQuery.each(project.contributors, function(index, contributor)
+					{
+						if ((status == false) || (contributor.status == status))
+						{
+							contributors[count] = {
+								user : contributor.user,
+								alias : contributor.alias,
+								status : contributor.status,
+								created : Twoshoes.helper('time').formatDate('d M y', contributor.created)
+							};
+
+							count++;
+						}
+					});
+				}
+
+				return contributors;
 			}
 		}
 	}

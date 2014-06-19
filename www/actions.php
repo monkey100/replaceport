@@ -102,13 +102,14 @@ class actions
 			{
 				//Set login session.
 				$_SESSION['username'] = $Arr_Action['username'];
-				$_SESSION['expires'] = $Arr_Action['expires'];
+				$_SESSION['status'] = $Arr_User[0][$Obj_Database->column('status')];
+				$_SESSION['expires'] = $Arr_User[0][$Obj_Database->column('expires')];
 
 				//Add response API action.
-				$Arr_Action['alias'] = $Arr_User[0][$Obj_Database->column('alias')];
-				$Arr_Action['status'] = $Arr_User[0][$Obj_Database->column('status')];
-				$Arr_Action['expires'] = $Arr_User[0][$Obj_Database->column('expires')];
-				$Arr_Action['created'] = $Arr_User[0][$Obj_Database->column('created')];
+// 				$Arr_Action['alias'] = $Arr_User[0][$Obj_Database->column('alias')];
+// 				$Arr_Action['status'] = $Arr_User[0][$Obj_Database->column('status')];
+// 				$Arr_Action['expires'] = $Arr_User[0][$Obj_Database->column('expires')];
+// 				$Arr_Action['created'] = $Arr_User[0][$Obj_Database->column('created')];
 			}
 
 			unset($Arr_Action['password']);
@@ -195,7 +196,7 @@ class actions
 
 		//We got projects, now get the information attached to the user.
 		$Arr_PageData['user'] = array();
-		if (isset($Arr_Vars['user']))
+		if (isset($Arr_Vars['user']) && $Arr_Vars['user'])
 		{
 			//Get the raw data.
 			$Arr_PageData['user'] = $Arr_Vars['user'];
@@ -204,15 +205,16 @@ class actions
 
 			$Arr_UserLink = array('user_id', 'eq', $Arr_Vars['user']['id']);
 			$Arr_UserProjects = $this->Obj_Helpers->get_projects_by_user($Obj_Database, $Arr_Vars['user']['id']);
+			$Arr_UserWatchlists = $this->Obj_Helpers->get_projects_by_watchlists($Obj_Database, $Arr_Vars['user']['id']);
 			$Arr_UserComments = $Obj_Database->table('comments')->where($Arr_UserLink)->order('created', 'desc')->select();
-			$Arr_UserWatchlists = $Obj_Database->table('watchlists')->where($Arr_UserLink)->order('created', 'desc')->select();
 			$Arr_UserRatings = $Obj_Database->table('ratings')->where($Arr_UserLink)->order('created', 'desc')->select();
 			$Arr_UserReports = $Obj_Database->table('reports')->where($Arr_UserLink)->order('created', 'desc')->select();
 
 			//Process data.
 			$Arr_PageData['user']['projects'] = $Arr_UserProjects;
+			$Arr_PageData['user']['watchlists'] = $Arr_UserWatchlists;
+			//*!*These need to be fixed.
 			$Arr_PageData['user']['comments'] = $this->Obj_Helpers->mass_secure($Obj_Database->table('comments')->mass_index($Arr_UserProjects));
-			$Arr_PageData['user']['watchlists'] = $this->Obj_Helpers->mass_secure($Obj_Database->table('watchlists')->mass_index($Arr_UserWatchlists));
 			$Arr_PageData['user']['ratings'] = $this->Obj_Helpers->mass_secure($Obj_Database->table('ratings')->mass_index($Arr_UserRatings));
 			$Arr_PageData['user']['reports'] = $this->Obj_Helpers->mass_secure($Obj_Database->table('reports')->mass_index($Arr_UserReports));
 		}

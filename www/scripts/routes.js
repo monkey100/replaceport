@@ -22,7 +22,7 @@ Twoshoes.init(
 				}
 			},
 			project : {
-				path : 'projects/',  //this regex needs to be precise match not general pattern fit.
+				path : 'projects',  //this regex needs to be precise match not general pattern fit.
 				dispatch : function()
 				{
 					//get project
@@ -40,9 +40,112 @@ Twoshoes.init(
 					Twoshoes.helper('widgets').displayProjectView(project);
 				}
 			},
+			profile : {
+				path : 'profile',
+				dispatch : function()
+				{
+					var user = Twoshoes.get('user');
+					var profile = {
+						username : user.username,
+						alias : user.alias,
+						email : user.email
+					}
+
+					var display = Mustache.to_html(jQuery('#profile_page').html(), profile);
+					jQuery('#main_pane').html(display);
+
+					var projects = [];
+					if (typeof user.projects != 'undefined')
+					{
+						jQuery.each(user.projects, function(index, project)
+						{
+							projects[index] = {
+								user : user.username,
+								key : project.key,
+								title : project.title,
+								permission : (project.owner == user.alias)? 'owner': 'contributor',
+								version : Twoshoes.helper('project').getLastestProjectVersion(project, true)
+							}
+						});
+					}
+
+					if (Twoshoes.count(projects) > 0)
+					{
+						var projectsList = Mustache.to_html(jQuery('#projects_list').html(), {projects:projects});
+						jQuery('#projects').html(projectsList);
+					}
+
+					var watchlists = [];
+					if (typeof user.watchlists != 'undefined')
+					{
+						jQuery.each(user.watchlists, function(index, project)
+						{
+							watchlists[index] = {
+								user : project.user,
+								key : project.key,
+								title : project.title,
+								version : Twoshoes.helper('project').getLastestProjectVersion(project, true)
+							}
+						});
+					}
+
+					if (Twoshoes.count(watchlists) > 0)
+					{
+						var watchlistsList = Mustache.to_html(jQuery('#watchlists_list').html(), {projects:watchlists});
+						jQuery('#watchlists').html(watchlistsList);
+					}
+				}
+			},
+			profileEdit : {
+				path : 'profile/([^/]+)/edit/',
+				dispatch : function()
+				{
+					//Edit profile.
+					//check for permissions on save
+
+					var user = Twoshoes.get('user');
+					var profile = {
+						username : user.username,
+						email : user.email,
+						alias : user.alias
+					}
+
+					var profileForm = Mustache.to_html(jQuery('#profile_panel').html(), profile);
+					jQuery('#actn_pane').html(profileForm);
+				}
+			},
+			profileAdd : {
+				path : 'profile/([^/]+)/add/',
+				dispatch : function()
+				{
+					var project = {};
+					Twoshoes.helper('widgets').displayProjectEdit(project);
+				}
+			},
+			profileUpdate : {
+				path : 'profile/([^/]+)/update/',
+				dispatch : function()
+				{
+					var name = Twoshoes.node(4);
+					var user = Twoshoes.get('user');
+					var project = {};
+					if (typeof user.projects != 'undefined')
+					{
+						jQuery.each(user.projects, function(index, value)
+						{
+							if (value.key == name)
+							{
+								project = value;
+							}
+						});
+					}
+
+					Twoshoes.helper('widgets').displayProjectEdit(project);
+				}
+			},
 			register : {
 				path : 'register',
-				dispatch : function(target)
+				dispatch : function()
 				{
 					var display = Mustache.to_html(jQuery('#register_page').html());
 					jQuery('#main_pane').html(display);
@@ -200,7 +303,7 @@ Twoshoes.init(
 								if (typeof response.users.login[0]['errors'] == 'undefined')
 								{
 									//Set path to user account and refesh for cookies.
-									window.location.replace(domainUrl+'#user/'+jQuery(form).find('#login_username').val());
+									window.location.replace(domainUrl+'#profile/'+jQuery(form).find('#login_username').val());
 									location.reload(true);
 								}
 								else
@@ -214,18 +317,6 @@ Twoshoes.init(
 					Twoshoes.request('app').transact(config);
 				}
 			},
-			registerReset : {
-				event : 'click',
-				target : 'a#register_reset',
-				dispatch : function(target)
-				{
-					jQuery('#register_username').val('');
-					jQuery('#register_password').val('');
-					jQuery('#register_email').val('');
-					jQuery('#register_panel').slideUp();
-					jQuery('a#register_menu').removeClass('focus');
-				}
-			},
 			registerSubmit : {
 				event : 'click',
 				target : 'a#register_submit',
@@ -234,8 +325,30 @@ Twoshoes.init(
 					var config = {};
 					Twoshoes.request('app').transact(config);
 				}
+			},
+			changeTabs : {
+				event : 'click',
+				target : 'a.changetab',
+				handle : '.blur',
+				dispatch : function(target)
+				{
+ 					var id = jQuery(target).attr('id')
+ 					var name = id.replace('change_tabs_', '');
+ 					jQuery(target).parentsUntil('div.tabs').find('a.focus').removeClass('focus').addClass('blur');
+ 					jQuery(target).removeClass('blur').addClass('focus');
+					jQuery.each(jQuery('#project_change > div'), function(key, element)
+ 					{
+ 						if (jQuery(element).hasClass(name))
+ 						{
+ 							jQuery(element).show();
+ 						}
+ 						else if (!jQuery(element).hasClass('tabs'))
+ 						{
+ 							jQuery(element).hide();
+ 						}
+ 					});
+				}
 			}
-
 		},
 		actions : {
 			contactSubmit : {
