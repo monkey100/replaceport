@@ -166,7 +166,7 @@ return apiData;
 			 	var widget = Mustache.to_html(jQuery('#index_page').html());
 				jQuery('#main_pane').html(widget);
 
-				//Dsiplay index widgets.
+				//Display index widgets.
 				Twoshoes.helper('widgets').displayProjectsByDownloaded(Twoshoes.get('downloaded'));
 				Twoshoes.helper('widgets').displayProjectsByRated(Twoshoes.get('rated'));
 				Twoshoes.helper('widgets').displayProjectsByReleased(Twoshoes.get('released'));

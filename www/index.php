@@ -302,6 +302,17 @@ class app
 								case 'delete': $Arr_Datasets = $this->Obj_Actions->delete_users($Arr_Datasets, $this->Obj_Database, $Arr_Vars); break;
 							}
 						}
+					case 'watchlists':
+						foreach ($Arr_Actions as $Str_Directive => &$Arr_Datasets)
+						{
+							switch ($Str_Directive)
+							{
+								case 'select': $Arr_Datasets = $this->Obj_Actions->select_watchlists($Arr_Datasets, $this->Obj_Database, $Arr_Vars); break;
+								case 'create': $Arr_Datasets = $this->Obj_Actions->create_watchlists($Arr_Datasets, $this->Obj_Database, $Arr_Vars); break;
+								case 'update': $Arr_Datasets = $this->Obj_Actions->update_watchlists($Arr_Datasets, $this->Obj_Database, $Arr_Vars); break;
+								case 'delete': $Arr_Datasets = $this->Obj_Actions->delete_watchlists($Arr_Datasets, $this->Obj_Database, $Arr_Vars); break;
+							}
+						}
 					break;
 				}
 			}

@@ -59,6 +59,23 @@ class helpers
 		return $Arr_DataRows;
 	}
 
+	public function get_project_ids($Arr_Keys, $Obj_Database)
+	{
+		$Arr_ProjectIds = array();
+
+		//Get project ids from keys.
+		$Arr_Where = array('key', 'in', $Arr_Keys);
+		$Arr_Projects = $Obj_Database->table('projects')->where($Arr_Where)->select();
+
+		$Obj_Database->table('projects');
+		foreach ($Arr_Projects as $Arr_Project)
+		{
+			$Arr_ProjectIds[$Arr_Project[$Obj_Database->column('key')]] = $Arr_Project[$Obj_Database->column('id')];
+		}
+
+		return $Arr_ProjectIds;
+	}
+
 	//This routine will go through the obvious refactoring and optimisations once a working website is in place.
 	public function populate_project_data($Arr_Project, $Obj_Database)
 	{

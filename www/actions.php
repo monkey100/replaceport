@@ -138,7 +138,7 @@ class actions
 		foreach ($Arr_Datasets as $Int_Key => &$Arr_Action)
 		{
 			//Need to check the post
-			//Check the session, 
+			//Check the session,
 				//if user is logged in and admin creat users
 				//otherwise they can't have a session yet, only can make one user
 				//if they have a sessio do error
@@ -164,6 +164,59 @@ class actions
 
 			}
 		}
+	}
+
+	public function select_watchlists($Arr_Datasets, $Obj_Database, $Arr_Vars)
+	{
+
+	}
+
+	public function create_watchlists($Arr_Datasets, $Obj_Database, $Arr_Vars)
+	{
+		//Get project ids from keys.
+ 		if (!$this->Obj_Helpers)
+ 		{
+			require_once(CONST_STR_DIR_DOMAIN.'/helpers.php');
+			$this->Obj_Helpers = new helpers();
+		}
+
+		$Arr_Keys = array();
+		foreach ($Arr_Datasets as $Int_Key => $Arr_Action)
+		{
+			$Arr_Keys[] = $Arr_Action['project'];
+		}
+
+		$Arr_ProjectIds = $this->Obj_Helpers->get_project_ids($Arr_Keys, $Obj_Database);
+
+		//Set authority to admin to create users.
+		foreach ($Arr_Datasets as $Int_Key => &$Arr_Action)
+		{
+			//*!*No need to get authority until we start doing admin control over user accounts.
+			if (true || $this->get_authority($Arr_Action['auth'], $Obj_Database))
+			{
+				$Arr_Watchlist = array(
+					'user_id' => $Arr_Vars['user']['id'],
+					'project_id' => $Arr_ProjectIds[$Arr_Action['project']],
+					'status'=> 1);
+				$Obj_Database->table('watchlists')->data(array($Arr_Watchlist))->insert();
+			}
+			else
+			{
+				$Arr_Action['error'] = array('You do not have permission to create watchlist');
+			}
+		}
+
+		return $Arr_Datasets;
+	}
+
+	public function update_watchlists($Arr_Datasets, $Obj_Database, $Arr_Vars)
+	{
+
+	}
+
+	public function delete_watchlists($Arr_Datasets, $Obj_Database, $Arr_Vars)
+	{
+
 	}
 
 	public function get_page_data($Arr_Parameters, $Obj_Database, $Arr_Vars)
@@ -211,12 +264,43 @@ class actions
 			$Arr_UserReports = $Obj_Database->table('reports')->where($Arr_UserLink)->order('created', 'desc')->select();
 
 			//Process data.
+			$Arr_Results = array();
+// 			foreach($Arr_UserWatchlists as &$Arr_UserWatchlist)
+// 			{
+// 				$Arr_WatchlistWhere = array('project_id', 'eq', $Arr_UserRating[$Obj_Database->table('watchlists')->column('project_id')]);
+// 				$Arr_Results = $Obj_Database->table('projects')->where($Arr_WatchlistWhere)->limit(1)->select();
+// 				$Arr_UserRating['project'] = $Arr_Results[$Obj_Database->table('projects')->column('project_id')];
+// 			}
+
+			$Arr_UserRatings = $Obj_Database->table('ratings')->mass_index($Arr_UserRatings);
+			foreach($Arr_UserRatings as &$Arr_UserRating)
+			{
+				$Arr_RatingWhere = array('id', 'eq', $Arr_UserRating['project_id']);
+				$Arr_Results = $Obj_Database->table('projects')->where($Arr_RatingWhere)->limit(1)->select();
+				$Arr_UserRating['key'] = $Arr_Results[0][$Obj_Database->table('projects')->column('key')];
+			}
+
+			$Arr_UserComments = $Obj_Database->table('comments')->mass_index($Arr_UserComments);
+			foreach($Arr_UserComments as &$Arr_UserComment)
+			{
+				$Arr_CommentWhere = array('id', 'eq', $Arr_UserComment['project_id']);
+				$Arr_Results = $Obj_Database->table('projects')->where($Arr_CommentWhere)->limit(1)->select();
+				$Arr_UserComment['key'] = $Arr_Results[0][$Obj_Database->table('projects')->column('key')];
+			}
+
+			$Arr_UserReports = $Obj_Database->table('reports')->mass_index($Arr_UserReports);
+			foreach($Arr_UserReports as &$Arr_UserReport)
+			{
+				$Arr_ReportWhere = array('id', 'eq', $Arr_UserReport['project_id']);
+				$Arr_Results = $Obj_Database->table('projects')->where($Arr_RatingWhere)->limit(1)->select();
+				$Arr_UserReport['key'] = $Arr_Results[0][$Obj_Database->table('projects')->column('key')];
+			}
+
 			$Arr_PageData['user']['projects'] = $Arr_UserProjects;
 			$Arr_PageData['user']['watchlists'] = $Arr_UserWatchlists;
-			//*!*These need to be fixed.
-			$Arr_PageData['user']['comments'] = $this->Obj_Helpers->mass_secure($Obj_Database->table('comments')->mass_index($Arr_UserProjects));
-			$Arr_PageData['user']['ratings'] = $this->Obj_Helpers->mass_secure($Obj_Database->table('ratings')->mass_index($Arr_UserRatings));
-			$Arr_PageData['user']['reports'] = $this->Obj_Helpers->mass_secure($Obj_Database->table('reports')->mass_index($Arr_UserReports));
+			$Arr_PageData['user']['comments'] = $this->Obj_Helpers->mass_secure($Arr_UserComments);
+			$Arr_PageData['user']['ratings'] = $this->Obj_Helpers->mass_secure($Arr_UserRatings);
+			$Arr_PageData['user']['reports'] = $this->Obj_Helpers->mass_secure($Arr_UserReports);
 		}
 
 		return $Arr_PageData;

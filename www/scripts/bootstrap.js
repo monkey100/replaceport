@@ -16,6 +16,7 @@ var components = [
 	'scripts/tables.js',
 	'scripts/plugins.js',
 	'scripts/helpers.js',
+	'scripts/helpers/dom.js',
 	'scripts/helpers/time.js',
 	'scripts/helpers/project.js'
 ];

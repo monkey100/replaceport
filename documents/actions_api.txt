@@ -111,9 +111,9 @@ loginResponseApi
 	}
 }
 
-wishlistRequestApi
+watchlistRequestApi
 {
-	wishlists :
+	watchlists :
 	{
 		create :
 		{
@@ -122,15 +122,15 @@ wishlistRequestApi
 				auth : user.username,
 				user : user.username,
 				project : project.key,
-				status : wishlists.status
+				status : watchlists.status
 			}
 		}
 	}
 }
 
-wishlistResponseApi
+watchlistResponseApi
 {
-	wishlists :
+	watchlists :
 	{
 		create :
 		{
@@ -139,12 +139,12 @@ wishlistResponseApi
 				auth : user.username,
 				user : user.username,
 				project : project.key,
-				status : wishlists.status,
-				created : wishlists.created,
+				status : watchlists.status,
+				created : watchlists.created,
 				errors :
 				{
-					0 : "Wishlist error message"
-				} //(false if add wishlist success)
+					0 : "watchlist error message"
+				} //(false if add watchlist success)
 
 			}
 		}

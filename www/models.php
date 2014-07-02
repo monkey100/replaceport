@@ -11,9 +11,9 @@ class users
 		'alias'				=> array('type'=>'VARCHAR','default'=>''),
 		'status'			=> array('type'=>'VARCHAR','default'=>'unverified'),
 		'locale'			=> array('type'=>'VARCHAR','default'=>'en'),
-		'expires'			=> array('type'=>'DATETIME','default'=>''),
-		'created'			=> array('type'=>'DATETIME','default'=>''),
-		'modified'			=> array('type'=>'DATETIME','default'=>''));
+		'expires'			=> array('type'=>'DATETIME','default'=>null),
+		'created'			=> array('type'=>'DATETIME','default'=>null),
+		'modified'			=> array('type'=>'DATETIME','default'=>null));
 }
 
 class categories
@@ -25,8 +25,8 @@ class categories
 		'title'				=> array('type'=>'VARCHAR','default'=>''),
 		'brief'				=> array('type'=>'VARCHAR','default'=>''),
 		'order'				=> array('type'=>'INT','default'=>null),
-		'created'			=> array('type'=>'DATETIME','default'=>''),
-		'modified'			=> array('type'=>'DATETIME','default'=>''));
+		'created'			=> array('type'=>'DATETIME','default'=>null),
+		'modified'			=> array('type'=>'DATETIME','default'=>null));
 }
 
 class projects
@@ -44,8 +44,8 @@ class projects
 		'description'		=> array('type'=>'TEXT','default'=>''),
 		'comments'			=> array('type'=>'BOOL','default'=>'1'),
 		'rating'			=> array('type'=>'FLOAT','default'=>'0'),
-		'created'			=> array('type'=>'DATETIME','default'=>''),
-		'modified'			=> array('type'=>'DATETIME','default'=>''));
+		'created'			=> array('type'=>'DATETIME','default'=>null),
+		'modified'			=> array('type'=>'DATETIME','default'=>null));
 }
 
 class changelogs
@@ -64,8 +64,8 @@ class changelogs
 		'project_revision'	=> array('type'=>'INT','default'=>null),
 		'project_build'		=> array('type'=>'INT','default'=>null),
 		'comment'			=> array('type'=>'TEXT','default'=>''),
-		'created'			=> array('type'=>'DATETIME','default'=>''),
-		'modified'			=> array('type'=>'DATETIME','default'=>''));
+		'created'			=> array('type'=>'DATETIME','default'=>null),
+		'modified'			=> array('type'=>'DATETIME','default'=>null));
 }
 
 class dependencies
@@ -75,8 +75,8 @@ class dependencies
 		'project_id'		=> array('type'=>'INT','default'=>null),
 		'changelog_id'		=> array('type'=>'INT','default'=>null),
 		'require_id'		=> array('type'=>'INT','default'=>null),
-		'created'			=> array('type'=>'DATETIME','default'=>''),
-		'modified'			=> array('type'=>'DATETIME','default'=>''));
+		'created'			=> array('type'=>'DATETIME','default'=>null),
+		'modified'			=> array('type'=>'DATETIME','default'=>null));
 }
 
 class contributors
@@ -86,8 +86,8 @@ class contributors
 		'user_id'			=> array('type'=>'INT','default'=>null),
 		'project_id'		=> array('type'=>'INT','default'=>null),
 		'status'			=> array('type'=>'VARCHAR','default'=>''),
-		'created'			=> array('type'=>'DATETIME','default'=>''),
-		'modified'			=> array('type'=>'DATETIME','default'=>''));
+		'created'			=> array('type'=>'DATETIME','default'=>null),
+		'modified'			=> array('type'=>'DATETIME','default'=>null));
 }
 
 class files
@@ -102,8 +102,8 @@ class files
 		'mirror'			=> array('type'=>'VARCHAR','default'=>''),
 		'size'				=> array('type'=>'INT','default'=>null),
 		'attributes'		=> array('type'=>'VARCHAR','default'=>''),
-		'created'			=> array('type'=>'DATETIME','default'=>''),
-		'modified'			=> array('type'=>'DATETIME','default'=>''));
+		'created'			=> array('type'=>'DATETIME','default'=>null),
+		'modified'			=> array('type'=>'DATETIME','default'=>null));
 }
 
 class comments
@@ -113,8 +113,8 @@ class comments
 		'project_id'		=> array('type'=>'INT','default'=>null),
 		'user_id'			=> array('type'=>'INT','default'=>null),
 		'comment'			=> array('type'=>'TEXT','default'=>''),
-		'created'			=> array('type'=>'DATETIME','default'=>''),
-		'modified'			=> array('type'=>'DATETIME','default'=>''));
+		'created'			=> array('type'=>'DATETIME','default'=>null),
+		'modified'			=> array('type'=>'DATETIME','default'=>null));
 }
 
 class downloads
@@ -123,7 +123,7 @@ class downloads
 		'id'				=> array('type'=>'INT','default'=>null),
 		'project_id'		=> array('type'=>'INT','default'=>null),
 		'file_id'			=> array('type'=>'INT','default'=>null),
-		'created'			=> array('type'=>'DATETIME','default'=>''));
+		'created'			=> array('type'=>'DATETIME','default'=>null));
 }
 
 class ratings
@@ -133,7 +133,7 @@ class ratings
 		'user_id'			=> array('type'=>'INT','default'=>null),
 		'project_id'		=> array('type'=>'INT','default'=>null),
 		'value'				=> array('type'=>'INT','default'=>null),
-		'created'			=> array('type'=>'DATETIME','default'=>''));
+		'created'			=> array('type'=>'DATETIME','default'=>null));
 }
 
 class watchlists
@@ -143,8 +143,8 @@ class watchlists
 		'user_id'			=> array('type'=>'INT','default'=>null),
 		'project_id'		=> array('type'=>'INT','default'=>null),
 		'status'			=> array('type'=>'BOOL','default'=>'1'),
-		'created'			=> array('type'=>'DATETIME','default'=>''),
-		'modified'			=> array('type'=>'DATETIME','default'=>''));
+		'created'			=> array('type'=>'DATETIME','default'=>null),
+		'modified'			=> array('type'=>'DATETIME','default'=>null));
 }
 
 class tags
@@ -154,7 +154,7 @@ class tags
 		'project_id'		=> array('type'=>'INT','default'=>null),
 		'tag'				=> array('type'=>'VARCHAR','default'=>''),
 		'active'			=> array('type'=>'BOOL','default'=>'1'),
-		'created'			=> array('type'=>'DATETIME','default'=>''));
+		'created'			=> array('type'=>'DATETIME','default'=>null));
 }
 
 class reports
@@ -166,6 +166,6 @@ class reports
 		'comment'			=> array('type'=>'VARCHAR','default'=>''),
 		'status'			=> array('type'=>'VARCHAR','default'=>''),
 		'outcome'			=> array('type'=>'VARCHAR','default'=>''),
-		'created'			=> array('type'=>'DATETIME','default'=>''),
-		'modified'			=> array('type'=>'DATETIME','default'=>''));
+		'created'			=> array('type'=>'DATETIME','default'=>null),
+		'modified'			=> array('type'=>'DATETIME','default'=>null));
 }

@@ -557,7 +557,6 @@ div.catalog_item_brief .typcn:before, #file_pane .typcn:before{font-size:2em;}
 div.catalog_item .typcn:before{font-size:2.5em;}
 .typcn{text-shadow: 1px 1px 1px #ccc;text-decoration:none;}
 .typcn:hover{cursor:pointer;}
-a.disabled{color:#d8d8d8;}
 a.warn{color:#f99;}
 a.invite{color:#6f6;}
 a.action{color:#aaf;}
@@ -566,7 +565,8 @@ a.warn:hover{color:#f00;}
 a.invite:hover{color:#0c0;}
 a.action:hover{color:#00f;}
 a.control:hover{color:#00f;}
-a.disabled:hover{cursor:default;}
+a.disabled{color:#d8d8d8;}
+a.disabled:hover{cursor:default;color:#d8d8d8;}
 
 .shadow {
   -moz-box-shadow:    1px 1px 3px 1px #D8D8D8;

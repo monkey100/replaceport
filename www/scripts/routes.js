@@ -27,7 +27,7 @@ Twoshoes.init(
 				{
 					//get project
 					var projectKey = Twoshoes.node(2);
-					var projectData = Twoshoes.get('projects'); //this could be problematic
+					var projectData = Twoshoes.get('projects'); //this could be problematic(if this project does not exist)
 					var project = {};
 					jQuery.each(projectData, function(index, data)
 					{
@@ -199,6 +199,13 @@ Twoshoes.init(
 				{
 					var display = Mustache.to_html(jQuery('#guidelines_page').html());
 					jQuery('#main_pane').html(display);
+				}
+			},
+			initialise : {
+				path : '',
+				dispatch : function(target)
+				{
+					Twoshoes.helper('project').setProjectInteractions();
 				}
 			}
 		},
@@ -394,6 +401,108 @@ Twoshoes.init(
 					};
 
 					Twoshoes.request('app').contact(request);
+				}
+			},
+			watchProject :
+			{
+				event : 'click',
+				target : '.watchlist_action',
+				dispatch : function(target)
+				{
+					if (jQuery(target).hasClass('action'))
+					{
+						var user = Twoshoes.get('user');
+						var key = Twoshoes.helper('project').getKey(target);
+						var request = {
+							data : {
+								watchlists :
+								{
+									create :
+									{
+										0 :
+										{
+											auth : user.username,
+											user : user.username,
+											project : key,
+											status : 1
+										}
+									}
+								}
+							},
+							error : function()
+							{
+								alert('Request failed');
+							},
+							success : function(response)
+							{
+								//Get response watchlist error or successfully updated user.
+								var error = '';
+								var key = '';
+
+								if ((typeof response.watchlists != 'undefined')
+								&& (typeof response.watchlists.create != 'undefined'))
+								{
+									//There should only be one project.
+									jQuery.each(response.watchlists.create, function(index, value)
+									{
+										key = value.project;
+										if (typeof value.error != 'undefined')
+										{
+											//*!*there can be more than one error, so take first.
+											error = value.error;
+										}
+									});
+								}
+
+								//If there is an error alert user and update interface
+								if (error != '')
+								{
+									jQuery(target).addClass('action').removeClass('disabled');
+									var display = jQuery(target).parent().find('.watchlist_value');
+									var watchers = parseInt(jQuery(display).html()) - 1;
+									jQuery(display).html(watchers);
+								}
+								else
+								{
+									//this is borked, the project data already exists in the interface.
+alert(key);
+									var project = Twoshoes.helper('project').getProject(key);
+									var user = Twoshoes.get('user');
+									watchlistCount = Twoshoes.count(user.watchlists);
+									user.watchlists[watchlistCount] = project;
+									Twoshoes.set('user', user);
+								}
+
+								//Normalise interface.
+								Twoshoes.route('pages').invoke('initialise');
+							}
+						};
+
+						//Update interface and make request.
+						jQuery(target).addClass('disabled').removeClass('action');
+						var display = jQuery(target).parent().find('.watchlist_value');
+						var watchers = parseInt(jQuery(display).html()) + 1;
+						jQuery(display).html(watchers);
+						Twoshoes.request('app').transact(request);
+					}
+				}
+			},
+			rateProject :
+			{
+				event : 'click',
+				target : '.rating_action',
+				dispatch : function(target)
+				{
+
+				}
+			},
+			downloadProject :
+			{
+				event : 'click',
+				target : '.report_action',
+				dispatch : function(target)
+				{
+
 				}
 			}
 		}

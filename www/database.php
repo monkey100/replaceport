@@ -133,7 +133,7 @@ class database
 		$Arr_Values = $this->strip($Arr_Schema, $Arr_Values);
 		$Arr_Values = $this->clean($Arr_Schema, $Arr_Values);
 
-		$Str_Query = "INSERT INTO `".$Arr_Query['database']."`.`".$Arr_Query['table']."` (".$this->fields($Arr_Query).") VALUES (".$this->values($Arr_Query).");";
+		$Str_Query = "INSERT INTO `".$Arr_Query['database']."`.`".$Arr_Query['table']."` ".$this->fields($Arr_Query)." VALUES ".$this->values($Arr_Query).";";
 		$Mix_Results = $Obj_Connection->query($Str_Query);
 		$Arr_Query = $this->reset($Arr_Query);
 
@@ -327,28 +327,59 @@ FROM
 
 		foreach($Arr_Query['schema'] as $Str_Key => $Arr_Definition)
 		{
-			$Str_Fields .= '`'.$Str_Key.'`,';
+			if ($Str_Key != 'id')
+			{
+				$Str_Fields .= '`'.$Str_Key.'`,';
+			}
 		}
 
-		$Str_Fields = substr(0, $Str_Fields, count($Str_Fields) - 1);
+		$Str_Fields = substr($Str_Fields, 0, strlen($Str_Fields) - 1);
 		$Str_Fields .= ')';
 		return $Str_Fields;
 	}
 
+	//*!*Quick hack to only dothe first row
+	//add mulit-row formatting later
 	public function values($Arr_Query)
 	{
-		$Str_Values = '(';
+		$Str_Values = '';
+		$Arr_Fields = array_keys($Arr_Query['schema']);
 
 		for ($i = 0; $i < count($Arr_Query['values']); $i++)
 		{
+			$Str_Values .= '(';
+
 			for ($j = 0; $j < count($Arr_Query['values'][$i]); $j++)
 			{
-				$Str_Values = $Arr_Values[$i][$j].',';
+				if ($Arr_Query['values'][$i][$j] === null)
+				{
+					//Datetime with id removed
+					if (($Arr_Query['schema'][$Arr_Fields[$j + 1]]['type']) == 'DATETIME')
+					{
+						$Str_Values .= "'".date(STR_SYSTEM_DATETIME, $_SERVER['REQUEST_TIME'])."',";
+					}
+					else
+					{
+						$Str_Values .= 'NULL,';
+					}
+				}
+				elseif (is_string($Arr_Query['values'][$i][$j]))
+				{
+					$Str_Values .= "'".$Arr_Query['values'][$i][$j]."',";
+				}
+				else
+				{
+					$Str_Values .= $Arr_Query['values'][$i][$j].',';
+				}
 			}
+
+			$Str_Values = substr($Str_Values, 0, strlen($Str_Values) - 1);
+			$Str_Values .= '),';
 		}
 
-		$Str_Values = substr(0, $Str_Values, count($Str_Values) - 1);
-		$Str_Values = ')';
+		$Str_Values = substr($Str_Values, 0, strlen($Str_Values) - 1);
+
+		return $Str_Values;
 	}
 
 	//Get column name or position .
@@ -497,6 +528,49 @@ FROM
 		return $Mix_Results;
 	}
 
+	//Ses data values to the query array
+	public function data($Arr_Values, $Bol_Merge=false)
+	{
+		$Arr_Data = array();
+		$Int_Count = 0;
+		foreach ($Arr_Values as $Arr_DataRow)
+		{
+			$Arr_Columns = array_keys($Arr_DataRow);
+			$Arr_Row = array();
+			foreach ($this->Arr_Query['schema'] as $Str_Field => $Arr_Details)
+			{
+				if ($Str_Field != 'id')
+				{
+					if (in_array($Str_Field, $Arr_Columns))
+					{
+						$Arr_Row[] = $Arr_DataRow[$Str_Field];
+					}
+					else
+					{
+						$Arr_Row[] = $Arr_Details['default'];
+					}
+				}
+			}
+
+			$Arr_Data[$Int_Count] = $Arr_Row;
+			$Int_Count++;
+		}
+
+		if ($Bol_Merge)
+		{
+			foreach ($Arr_Data as $Arr_Row)
+			{
+				$this->Arr_Query['values'][] = $Arr_Row;
+			}
+		}
+		else
+		{
+			$this->Arr_Query['values'] = $Arr_Data;
+		}
+
+		return $this;
+	}
+
 	//Pull out potentially malicious data.
 	public function strip($Arr_Schema, $Arr_Values)
 	{
@@ -543,6 +617,7 @@ FROM
 						$Arr_Values[$i][$j] = "'".$Arr_Values[$i][$j]."'";
 
 					//Set defaults and null values.
+					//*!*Currently being set in the data() function but should be checked hereas well.
 				}
 			}
 		}

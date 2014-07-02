@@ -73,6 +73,7 @@ Twoshoes.init(
 
 					//Display homepage, will need to path for offsite url memory.
 					Twoshoes.route('pages').invoke('home');
+					Twoshoes.route('pages').invoke('initialise');
 				}
 			}
 		},

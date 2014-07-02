@@ -8,6 +8,121 @@ Twoshoes.init(
 {
 	helpers : {
 		project : {
+			//This gets the key of the project from an element within the display item.
+			getKey : function(item)
+			{
+				var key = '';
+				var parents = jQuery(item).parents();
+				jQuery.each(parents, function(index, value)
+				{
+					var match = Twoshoes.helper('dom').matchClass(value, 'project_');
+					if (match != '')
+					{
+						key = match.replace('project_', '');
+					}
+				});
+
+				if (key != '')
+				{
+					return key;
+				}
+
+				return false;
+			},
+			getProject : function(key)
+			{
+				var match = {};
+				var projects = Twoshoes.get('projects');
+				jQuery.each(projects, function(index, project)
+				{
+					if ((typeof project.key != 'undefined') && (project.key == key))
+					{
+						match = project;
+					}
+				});
+
+				if (Twoshoes.count(match) > 0)
+				{
+					return match;
+				}
+
+				return false;
+			},
+			getUserProjectWatchlist : function(key)
+			{
+				var watchlist = {};
+				var user = Twoshoes.get('user');
+				if (Twoshoes.count(user) > 0)
+				{
+					if (Twoshoes.count(user.watchlists) > 0)
+					{
+						jQuery.each(user.watchlists, function(index, value)
+						{
+							if (value.key == key)
+							{
+								watchlist = value;
+							}
+						});
+					}
+				}
+
+				if (Twoshoes.count(watchlist) > 0)
+				{
+					return watchlist;
+				}
+
+				return false;
+			},
+			getUserProjectRating : function(key)
+			{
+				var rating = {};
+				var user = Twoshoes.get('user');
+				if (Twoshoes.count(user) > 0)
+				{
+					if (Twoshoes.count(user.ratings) > 0)
+					{
+						jQuery.each(user.ratings, function(index, value)
+						{
+							if (value.key == key)
+							{
+								rating = value;
+							}
+						});
+					}
+				}
+
+				if (Twoshoes.count(rating) > 0)
+				{
+					return rating;
+				}
+
+				return false;
+			},
+			getUserProjectReport : function(key)
+			{
+				var report = {};
+				var user = Twoshoes.get('user');
+				if (Twoshoes.count(user) > 0)
+				{
+					if (Twoshoes.count(user.reports) > 0)
+					{
+						jQuery.each(user.reports, function(index, value)
+						{
+							if (value.key == key)
+							{
+								report = value;
+							}
+						});
+					}
+				}
+
+				if (Twoshoes.count(report) > 0)
+				{
+					return report;
+				}
+
+				return false;
+			},
 			getProjectFileVersion : function(filename, key)
 			{
 				var version = [];
@@ -315,6 +430,60 @@ Twoshoes.init(
 				}
 
 				return contributors;
+			},
+			setProjectInteractions : function()
+			{
+				var setActions = (function(display)
+				{
+ 					var key = Twoshoes.helper('dom').matchClass(jQuery(display), 'project_').replace('project_', '');
+
+					//Bookmarks
+					if (Twoshoes.count(Twoshoes.get('user')) == 0)
+					{
+						//*!*All attributes need to go into a languages elements
+						jQuery(display).find('.watchlist_action').removeClass('action').addClass('disabled').attr('title', 'Login to watch this project');
+					}
+					else if (Twoshoes.helper('project').getUserProjectWatchlist(key) != false)
+					{
+						//*!*This will be swapped out for a remove button.
+						jQuery(display).find('.watchlist_action').removeClass('action').addClass('disabled');
+					}
+
+					//Ratings
+					if (Twoshoes.count(Twoshoes.get('user')) == 0)
+					{
+						//*!*All attributes need to go into a languages elements
+						jQuery(display).find('.rating_action').removeClass('action').addClass('disabled').attr('title', 'Login to rate this project');
+					}
+					else if (Twoshoes.helper('project').getUserProjectRating(key) != false)
+					{
+						jQuery(display).find('.rating_action').removeClass('action').addClass('disabled');
+					}
+
+					//Reports
+					if (Twoshoes.count(Twoshoes.get('user')) == 0)
+					{
+						//*!*All attributes need to go into a languages elements
+						jQuery(display).find('.report_action').removeClass('action').addClass('disabled').attr('title', 'Login to report this project');
+					}
+					else if (Twoshoes.helper('project').getUserProjectReport(key) != false)
+					{
+						jQuery(display).find('.report_action').removeClass('action').addClass('disabled');
+					}
+				});
+
+				//If the user is logged in get data
+				var projectFull = jQuery('div.catalog_item');
+				jQuery.each(projectFull, function(index, display)
+				{
+					setActions(display);
+				});
+
+				var prjectBrief = jQuery('div.catalog_item_brief');
+				jQuery.each(prjectBrief, function(index, display)
+				{
+					setActions(display);
+				});
 			}
 		}
 	}

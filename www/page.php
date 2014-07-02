@@ -37,12 +37,12 @@
 <img src="<?php print $theme['uploads']; ?>{{key}}/{{thumbnail}}" class="shadow" alt="" width="64" height="64" />
 						<div class="meta_data">
 <span class="author"><a class="typcn typcn-user-outline invite" title="Author"></a><span>{{owner}}</span></span>
-<span class="report"><a class="typcn typcn-flag-outline warn" title="Report"></a></span>
+<span class="report"><a class="typcn typcn-flag-outline warn report_action" title="Report"></a></span>
 						</div>
 						<div class="data_actions">
 							<ul>
-<li><a class="typcn typcn-bookmark action" title="Watch"></a><span>{{followers}}</span></li>
-<li><a class="typcn typcn-star-outline action" title="Rate"></a><span>{{rating}}</span></li>
+<li><a class="typcn typcn-bookmark action watchlist_action" title="Watch"></a><span class="watchlist_value">{{followers}}</span></li>
+<li><a class="typcn typcn-star-outline action rating_action" title="Rate"></a><span class="rating_value">{{rating}}</span></li>
 							</ul>
 						</div>
 <span class="summary">{{summary}}</span>
@@ -57,12 +57,12 @@
 <img src="<?php print $theme['uploads']; ?>{{key}}/{{thumbnail}}" class="shadow" alt="" width="192" height="192" />
 						<div class="meta_data">
 <span class="author"><a class="typcn typcn-user-outline invite" title="Author"></a><span>{{owner}}</span></span>
-<span class="report"><a class="typcn typcn-flag-outline warn" title="Report"></a></span>
+<span class="report"><a class="typcn typcn-flag-outline warn report_action" title="Report"></a></span>
 						</div>
 						<div class="data_actions">
 							<ul>
-<li><a class="typcn typcn-bookmark action" title="Watch"></a><span>{{followers}}</span></li>
-<li><a class="typcn typcn-star-outline action" title="Rate"></a><span>{{rating}}</span></li>
+<li><a class="typcn typcn-bookmark action watchlist_action" title="Watch"></a><span class="watchlist_value">{{followers}}</span></li>
+<li><a class="typcn typcn-star-outline action rating_action" title="Rate"></a><span class="rating_value">{{rating}}</span></li>
 							</ul>
 						</div>
 <span class="summary">{{summary}}</span>

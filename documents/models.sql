@@ -20,7 +20,7 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 --
 
 CREATE TABLE IF NOT EXISTS `categories` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `parent_id` int(11) DEFAULT NULL,
   `key` varchar(255) DEFAULT NULL,
   `title` varchar(255) DEFAULT NULL,
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS `categories` (
 --
 
 CREATE TABLE IF NOT EXISTS `changelogs` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `project_id` int(11) DEFAULT NULL,
   `contributor_id` int(11) DEFAULT NULL,
   `public` BOOL NOT NULL DEFAULT '1',
@@ -72,7 +72,7 @@ CREATE TABLE IF NOT EXISTS `changelogs` (
 --
 
 CREATE TABLE IF NOT EXISTS `comments` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `project_id` int(11) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   `comment` text,
@@ -93,7 +93,7 @@ CREATE TABLE IF NOT EXISTS `comments` (
 --
 
 CREATE TABLE IF NOT EXISTS `contributors` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
   `project_id` int(11) DEFAULT NULL,
   `status` varchar(255) DEFAULT NULL,
@@ -114,7 +114,7 @@ CREATE TABLE IF NOT EXISTS `contributors` (
 --
 
 CREATE TABLE IF NOT EXISTS `dependencies` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `project_id` int(11) DEFAULT NULL,
   `changelog_id` int(11) DEFAULT NULL,
   `require_id` int(11) DEFAULT NULL,
@@ -135,7 +135,7 @@ CREATE TABLE IF NOT EXISTS `dependencies` (
 --
 
 CREATE TABLE IF NOT EXISTS `downloads` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `project_id` int(11) DEFAULT NULL,
   `file_id` int(11) DEFAULT NULL,
   `created` datetime DEFAULT NULL,
@@ -154,7 +154,7 @@ CREATE TABLE IF NOT EXISTS `downloads` (
 --
 
 CREATE TABLE IF NOT EXISTS `files` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `project_id` int(11) DEFAULT NULL,
   `changelog_id` int(11) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
@@ -180,7 +180,7 @@ CREATE TABLE IF NOT EXISTS `files` (
 --
 
 CREATE TABLE IF NOT EXISTS `projects` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `key` varchar(255) NOT NULL,
   `category_id` int(11) DEFAULT NULL,
   `owner_id` int(11) DEFAULT NULL,
@@ -210,7 +210,7 @@ CREATE TABLE IF NOT EXISTS `projects` (
 --
 
 CREATE TABLE IF NOT EXISTS `ratings` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
   `project_id` int(11) DEFAULT NULL,
   `value` int(11) DEFAULT NULL,
@@ -230,7 +230,7 @@ CREATE TABLE IF NOT EXISTS `ratings` (
 --
 
 CREATE TABLE IF NOT EXISTS `reports` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
   `project_id` int(11) DEFAULT NULL,
   `comment` varchar(255) DEFAULT NULL,
@@ -253,7 +253,7 @@ CREATE TABLE IF NOT EXISTS `reports` (
 --
 
 CREATE TABLE IF NOT EXISTS `tags` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `project_id` int(11) DEFAULT NULL,
   `tag` varchar(255) DEFAULT NULL,
   `active` BOOL NOT NULL DEFAULT '1',
@@ -273,7 +273,7 @@ CREATE TABLE IF NOT EXISTS `tags` (
 --
 
 CREATE TABLE IF NOT EXISTS `users` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(255) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
@@ -300,7 +300,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 CREATE TABLE IF NOT EXISTS `watchlists` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
   `project_id` int(11) DEFAULT NULL,
   `status` BOOL NOT NULL DEFAULT '1',
